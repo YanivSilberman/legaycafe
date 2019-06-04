@@ -1,0 +1,36 @@
+type Subscription {
+  messageCreated: Message
+  userIsTyping: User
+}
+
+type Mutation {
+  createUser(email: String! password: String! firstName: String!, lastName: String!, avatar: String): String
+  loginUser(email: String! password: String!): String
+  createMessage(text: String!, userId: ID!): Message
+  toggleUserTyping(_id: ID!, isTyping: Boolean!): Boolean
+}
+
+type Query {
+  users: [User!]!
+  messages: [Message!]!
+  User: User!
+  usersTyping: [User!]
+}
+
+type Message {
+  _id: ID!
+  text: String
+  user: ID!
+  createdAt: String!
+}
+
+type User {
+  _id: ID!
+  email: String!
+  password: String!
+  firstName: String!
+  lastName: String!
+  avatar: String
+  messages: [ID!]
+  isTyping: Boolean
+}
