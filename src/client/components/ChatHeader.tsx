@@ -1,10 +1,11 @@
 import * as React from 'react';
-
+import { withApollo } from 'react-apollo';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles(theme => ({
   chatHeader: {
@@ -18,13 +19,21 @@ const useStyles = makeStyles(theme => ({
   avatar: {
     marginRight: 20,
     display: 'inline-block'
+  },
+  button: {
+    float: 'right'
   }
 }));
 
 const ChatHeader: React.FunctionComponent<{
   users: array;
-}> = ({ users }) => {
+}> = ({ users, client }) => {
   const classes = useStyles();
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    client.resetStore();
+  }
 
   return (
     <Container className={classes.chatHeader}>
@@ -36,8 +45,11 @@ const ChatHeader: React.FunctionComponent<{
           src={user.avatar}
         />
       ))}
+      <Button className={classes.button} onClick={logout}>
+        Sign Out
+      </Button>
     </Container>
   );
 };
 
-export default ChatHeader;
+export default withApollo(ChatHeader);

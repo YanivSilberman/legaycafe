@@ -5,8 +5,6 @@ export default gql`
     loginUser(
       email: $email,
       password: $password
-    ) {
-      _id
-    }
+    )
   }
 `;

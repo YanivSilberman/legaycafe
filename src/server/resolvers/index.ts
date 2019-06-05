@@ -62,8 +62,12 @@ const resolvers: IResolvers = {
       return [];
     },
 
-    async User(_: void, args: void) {
-      return false; // await User.findOne({ _id: "5cf6ec83b1a69127db902aca" });
+    async User(_: void, args: void, context: any) {
+      if (context.currentUser) {
+        return await User.findOne({ _id: context.currentUser.sub });
+      } else {
+        return null
+      }
     },
   },
 };

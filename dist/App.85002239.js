@@ -44913,7 +44913,7 @@ var authLink = apollo_link_context_1.setContext(function (_, _a) {
   var token = localStorage.getItem('token');
   return {
     headers: __assign({}, headers, {
-      authorization: token ? "Bearer " + token : ""
+      authorization: token ? token : ""
     })
   };
 });
@@ -61153,7 +61153,1644 @@ Object.defineProperty(exports, "default", {
 var _Avatar = _interopRequireDefault(require("./Avatar"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./Avatar":"../../../node_modules/@material-ui/core/esm/Avatar/Avatar.js"}],"../components/ChatHeader.tsx":[function(require,module,exports) {
+},{"./Avatar":"../../../node_modules/@material-ui/core/esm/Avatar/Avatar.js"}],"../../../node_modules/@material-ui/core/esm/NoSsr/NoSsr.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
+
+var _react = _interopRequireDefault(require("react"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _utils = require("@material-ui/utils");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var useEnhancedEffect = typeof window !== 'undefined' && "development" !== 'test' ? _react.default.useLayoutEffect : _react.default.useEffect;
+/**
+ * NoSsr purposely removes components from the subject of Server Side Rendering (SSR).
+ *
+ * This component can be useful in a variety of situations:
+ * - Escape hatch for broken dependencies not supporting SSR.
+ * - Improve the time-to-first paint on the client by only rendering above the fold.
+ * - Reduce the rendering time on the server.
+ * - Under too heavy server load, you can turn on service degradation.
+ */
+
+function NoSsr(props) {
+  var children = props.children,
+      _props$defer = props.defer,
+      defer = _props$defer === void 0 ? false : _props$defer,
+      _props$fallback = props.fallback,
+      fallback = _props$fallback === void 0 ? null : _props$fallback;
+
+  var _React$useState = _react.default.useState(false),
+      _React$useState2 = (0, _slicedToArray2.default)(_React$useState, 2),
+      mountedState = _React$useState2[0],
+      setMountedState = _React$useState2[1];
+
+  useEnhancedEffect(function () {
+    if (!defer) {
+      setMountedState(true);
+    }
+  }, [defer]);
+
+  _react.default.useEffect(function () {
+    if (defer) {
+      setMountedState(true);
+    }
+  }, [defer]); // We need the Fragment here to force react-docgen to recognise NoSsr as a component.
+
+
+  return _react.default.createElement(_react.default.Fragment, null, mountedState ? children : fallback);
+}
+
+"development" !== "production" ? NoSsr.propTypes = {
+  /**
+   * You can wrap a node.
+   */
+  children: _propTypes.default.node.isRequired,
+
+  /**
+   * If `true`, the component will not only prevent server-side rendering.
+   * It will also defer the rendering of the children into a different screen frame.
+   */
+  defer: _propTypes.default.bool,
+
+  /**
+   * The fallback content to display.
+   */
+  fallback: _propTypes.default.node
+} : void 0;
+
+if ("development" !== 'production') {
+  // eslint-disable-next-line
+  NoSsr['propTypes' + ''] = (0, _utils.exactProp)(NoSsr.propTypes);
+}
+
+var _default = NoSsr;
+exports.default = _default;
+},{"@babel/runtime/helpers/slicedToArray":"../../../node_modules/@babel/runtime/helpers/slicedToArray.js","react":"../../../node_modules/react/index.js","prop-types":"../../../node_modules/prop-types/index.js","@material-ui/utils":"../../../node_modules/@material-ui/utils/esm/index.js"}],"../../../node_modules/@material-ui/core/esm/NoSsr/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function () {
+    return _NoSsr.default;
+  }
+});
+
+var _NoSsr = _interopRequireDefault(require("./NoSsr"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+},{"./NoSsr":"../../../node_modules/@material-ui/core/esm/NoSsr/NoSsr.js"}],"../../../node_modules/@material-ui/core/esm/utils/focusVisible.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.prepare = prepare;
+exports.teardown = teardown;
+exports.isFocusVisible = isFocusVisible;
+exports.handleBlurVisible = handleBlurVisible;
+exports.useIsFocusVisible = useIsFocusVisible;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _reactDom = _interopRequireDefault(require("react-dom"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// based on https://github.com/WICG/focus-visible/blob/v4.1.5/src/focus-visible.js
+var hadKeyboardEvent = true;
+var hadFocusVisibleRecently = false;
+var hadFocusVisibleRecentlyTimeout = null;
+var inputTypesWhitelist = {
+  text: true,
+  search: true,
+  url: true,
+  tel: true,
+  email: true,
+  password: true,
+  number: true,
+  date: true,
+  month: true,
+  week: true,
+  time: true,
+  datetime: true,
+  'datetime-local': true
+};
+/**
+ * Computes whether the given element should automatically trigger the
+ * `focus-visible` class being added, i.e. whether it should always match
+ * `:focus-visible` when focused.
+ * @param {Element} node
+ * @return {boolean}
+ */
+
+function focusTriggersKeyboardModality(node) {
+  var type = node.type,
+      tagName = node.tagName;
+
+  if (tagName === 'INPUT' && inputTypesWhitelist[type] && !node.readOnly) {
+    return true;
+  }
+
+  if (tagName === 'TEXTAREA' && !node.readOnly) {
+    return true;
+  }
+
+  if (node.isContentEditable) {
+    return true;
+  }
+
+  return false;
+}
+
+function handleKeyDown() {
+  hadKeyboardEvent = true;
+}
+/**
+ * If at any point a user clicks with a pointing device, ensure that we change
+ * the modality away from keyboard.
+ * This avoids the situation where a user presses a key on an already focused
+ * element, and then clicks on a different element, focusing it with a
+ * pointing device, while we still think we're in keyboard modality.
+ * @param {Event} e
+ */
+
+
+function handlePointerDown() {
+  hadKeyboardEvent = false;
+}
+
+function handleVisibilityChange() {
+  if (this.visibilityState === 'hidden') {
+    // If the tab becomes active again, the browser will handle calling focus
+    // on the element (Safari actually calls it twice).
+    // If this tab change caused a blur on an element with focus-visible,
+    // re-apply the class when the user switches back to the tab.
+    if (hadFocusVisibleRecently) {
+      hadKeyboardEvent = true;
+    }
+  }
+}
+
+function prepare(ownerDocument) {
+  ownerDocument.addEventListener('keydown', handleKeyDown, true);
+  ownerDocument.addEventListener('mousedown', handlePointerDown, true);
+  ownerDocument.addEventListener('pointerdown', handlePointerDown, true);
+  ownerDocument.addEventListener('touchstart', handlePointerDown, true);
+  ownerDocument.addEventListener('visibilitychange', handleVisibilityChange, true);
+}
+
+function teardown(ownerDocument) {
+  ownerDocument.removeEventListener('keydown', handleKeyDown, true);
+  ownerDocument.removeEventListener('mousedown', handlePointerDown, true);
+  ownerDocument.removeEventListener('pointerdown', handlePointerDown, true);
+  ownerDocument.removeEventListener('touchstart', handlePointerDown, true);
+  ownerDocument.removeEventListener('visibilitychange', handleVisibilityChange, true);
+}
+
+function isFocusVisible(event) {
+  var target = event.target;
+
+  try {
+    return target.matches(':focus-visible');
+  } catch (error) {} // browsers not implementing :focus-visible will throw a SyntaxError
+  // we use our own heuristic for those browsers
+  // rethrow might be better if it's not the expected error but do we really
+  // want to crash if focus-visible malfunctioned?
+  // no need for validFocusTarget check. the user does that by attaching it to
+  // focusable events only
+
+
+  return hadKeyboardEvent || focusTriggersKeyboardModality(target);
+}
+/**
+ * Should be called if a blur event is fired on a focus-visible element
+ */
+
+
+function handleBlurVisible() {
+  // To detect a tab/window switch, we look for a blur event followed
+  // rapidly by a visibility change.
+  // If we don't see a visibility change within 100ms, it's probably a
+  // regular focus change.
+  hadFocusVisibleRecently = true;
+  window.clearTimeout(hadFocusVisibleRecentlyTimeout);
+  hadFocusVisibleRecentlyTimeout = window.setTimeout(function () {
+    hadFocusVisibleRecently = false;
+    window.clearTimeout(hadFocusVisibleRecentlyTimeout);
+  }, 100);
+}
+
+function useIsFocusVisible() {
+  var ref = _react.default.useCallback(function (instance) {
+    var node = _reactDom.default.findDOMNode(instance);
+
+    if (node != null) {
+      prepare(node.ownerDocument);
+    }
+  }, []);
+
+  return {
+    isFocusVisible: isFocusVisible,
+    onBlurVisible: handleBlurVisible,
+    ref: ref
+  };
+}
+},{"react":"../../../node_modules/react/index.js","react-dom":"../../../node_modules/react-dom/index.js"}],"../../../node_modules/@babel/runtime/helpers/arrayWithoutHoles.js":[function(require,module,exports) {
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
+      arr2[i] = arr[i];
+    }
+
+    return arr2;
+  }
+}
+
+module.exports = _arrayWithoutHoles;
+},{}],"../../../node_modules/@babel/runtime/helpers/iterableToArray.js":[function(require,module,exports) {
+function _iterableToArray(iter) {
+  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+}
+
+module.exports = _iterableToArray;
+},{}],"../../../node_modules/@babel/runtime/helpers/nonIterableSpread.js":[function(require,module,exports) {
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance");
+}
+
+module.exports = _nonIterableSpread;
+},{}],"../../../node_modules/@babel/runtime/helpers/toConsumableArray.js":[function(require,module,exports) {
+var arrayWithoutHoles = require("./arrayWithoutHoles");
+
+var iterableToArray = require("./iterableToArray");
+
+var nonIterableSpread = require("./nonIterableSpread");
+
+function _toConsumableArray(arr) {
+  return arrayWithoutHoles(arr) || iterableToArray(arr) || nonIterableSpread();
+}
+
+module.exports = _toConsumableArray;
+},{"./arrayWithoutHoles":"../../../node_modules/@babel/runtime/helpers/arrayWithoutHoles.js","./iterableToArray":"../../../node_modules/@babel/runtime/helpers/iterableToArray.js","./nonIterableSpread":"../../../node_modules/@babel/runtime/helpers/nonIterableSpread.js"}],"../../../node_modules/@material-ui/core/esm/ButtonBase/Ripple.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
+
+var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
+
+var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutProperties"));
+
+var _react = _interopRequireDefault(require("react"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _clsx = _interopRequireDefault(require("clsx"));
+
+var _reactTransitionGroup = require("react-transition-group");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * @ignore - internal component.
+ */
+function Ripple(props) {
+  var classes = props.classes,
+      className = props.className,
+      _props$pulsate = props.pulsate,
+      pulsate = _props$pulsate === void 0 ? false : _props$pulsate,
+      rippleX = props.rippleX,
+      rippleY = props.rippleY,
+      rippleSize = props.rippleSize,
+      other = (0, _objectWithoutProperties2.default)(props, ["classes", "className", "pulsate", "rippleX", "rippleY", "rippleSize"]);
+
+  var _React$useState = _react.default.useState(false),
+      _React$useState2 = (0, _slicedToArray2.default)(_React$useState, 2),
+      visible = _React$useState2[0],
+      setVisible = _React$useState2[1];
+
+  var _React$useState3 = _react.default.useState(false),
+      _React$useState4 = (0, _slicedToArray2.default)(_React$useState3, 2),
+      leaving = _React$useState4[0],
+      setLeaving = _React$useState4[1];
+
+  var handleEnter = function handleEnter() {
+    setVisible(true);
+  };
+
+  var handleExit = function handleExit() {
+    setLeaving(true);
+  };
+
+  var rippleClassName = (0, _clsx.default)(classes.ripple, visible && classes.rippleVisible, pulsate && classes.ripplePulsate, className);
+  var rippleStyles = {
+    width: rippleSize,
+    height: rippleSize,
+    top: -(rippleSize / 2) + rippleY,
+    left: -(rippleSize / 2) + rippleX
+  };
+  var childClassName = (0, _clsx.default)(classes.child, leaving && classes.childLeaving, pulsate && classes.childPulsate);
+  return _react.default.createElement(_reactTransitionGroup.Transition, (0, _extends2.default)({
+    onEnter: handleEnter,
+    onExit: handleExit
+  }, other), _react.default.createElement("span", {
+    className: rippleClassName,
+    style: rippleStyles
+  }, _react.default.createElement("span", {
+    className: childClassName
+  })));
+}
+
+"development" !== "production" ? Ripple.propTypes = {
+  /**
+   * Override or extend the styles applied to the component.
+   * See [CSS API](#css) below for more details.
+   */
+  classes: _propTypes.default.object.isRequired,
+
+  /**
+   * @ignore
+   */
+  className: _propTypes.default.string,
+
+  /**
+   * If `true`, the ripple pulsates, typically indicating the keyboard focus state of an element.
+   */
+  pulsate: _propTypes.default.bool,
+
+  /**
+   * Diameter of the ripple.
+   */
+  rippleSize: _propTypes.default.number,
+
+  /**
+   * Horizontal position of the ripple center.
+   */
+  rippleX: _propTypes.default.number,
+
+  /**
+   * Vertical position of the ripple center.
+   */
+  rippleY: _propTypes.default.number
+} : void 0;
+var _default = Ripple;
+exports.default = _default;
+},{"@babel/runtime/helpers/extends":"../../../node_modules/@babel/runtime/helpers/extends.js","@babel/runtime/helpers/slicedToArray":"../../../node_modules/@babel/runtime/helpers/slicedToArray.js","@babel/runtime/helpers/objectWithoutProperties":"../../../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","react":"../../../node_modules/react/index.js","prop-types":"../../../node_modules/prop-types/index.js","clsx":"../../../node_modules/clsx/dist/clsx.m.js","react-transition-group":"../../../node_modules/react-transition-group/esm/index.js"}],"../../../node_modules/@material-ui/core/esm/ButtonBase/TouchRipple.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.styles = exports.DELAY_RIPPLE = void 0;
+
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
+
+var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutProperties"));
+
+var _toConsumableArray2 = _interopRequireDefault(require("@babel/runtime/helpers/toConsumableArray"));
+
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
+
+var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
+
+var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
+
+var _getPrototypeOf3 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
+
+var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
+
+var _react = _interopRequireDefault(require("react"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _reactTransitionGroup = require("react-transition-group");
+
+var _clsx = _interopRequireDefault(require("clsx"));
+
+var _withStyles = _interopRequireDefault(require("../styles/withStyles"));
+
+var _Ripple = _interopRequireDefault(require("./Ripple"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var DURATION = 550;
+var DELAY_RIPPLE = 80;
+exports.DELAY_RIPPLE = DELAY_RIPPLE;
+
+var styles = function styles(theme) {
+  return {
+    /* Styles applied to the root element. */
+    root: {
+      display: 'block',
+      position: 'absolute',
+      overflow: 'hidden',
+      borderRadius: 'inherit',
+      width: '100%',
+      height: '100%',
+      left: 0,
+      top: 0,
+      pointerEvents: 'none',
+      zIndex: 0
+    },
+
+    /* Styles applied to the internal `Ripple` components `ripple` class. */
+    ripple: {
+      opacity: 0,
+      position: 'absolute'
+    },
+
+    /* Styles applied to the internal `Ripple` components `rippleVisible` class. */
+    rippleVisible: {
+      opacity: 0.3,
+      transform: 'scale(1)',
+      animation: "mui-ripple-enter ".concat(DURATION, "ms ").concat(theme.transitions.easing.easeInOut),
+      // Backward compatible logic between JSS v9 and v10.
+      // To remove with the release of Material-UI v4
+      animationName: '$mui-ripple-enter'
+    },
+
+    /* Styles applied to the internal `Ripple` components `ripplePulsate` class. */
+    ripplePulsate: {
+      animationDuration: "".concat(theme.transitions.duration.shorter, "ms")
+    },
+
+    /* Styles applied to the internal `Ripple` components `child` class. */
+    child: {
+      opacity: 1,
+      display: 'block',
+      width: '100%',
+      height: '100%',
+      borderRadius: '50%',
+      backgroundColor: 'currentColor'
+    },
+
+    /* Styles applied to the internal `Ripple` components `childLeaving` class. */
+    childLeaving: {
+      opacity: 0,
+      animation: "mui-ripple-exit ".concat(DURATION, "ms ").concat(theme.transitions.easing.easeInOut),
+      // Backward compatible logic between JSS v9 and v10.
+      // To remove with the release of Material-UI v4
+      animationName: '$mui-ripple-exit'
+    },
+
+    /* Styles applied to the internal `Ripple` components `childPulsate` class. */
+    childPulsate: {
+      position: 'absolute',
+      left: 0,
+      top: 0,
+      animation: "mui-ripple-pulsate 2500ms ".concat(theme.transitions.easing.easeInOut, " 200ms infinite"),
+      // Backward compatible logic between JSS v9 and v10.
+      // To remove with the release of Material-UI v4
+      animationName: '$mui-ripple-pulsate'
+    },
+    '@keyframes mui-ripple-enter': {
+      '0%': {
+        transform: 'scale(0)',
+        opacity: 0.1
+      },
+      '100%': {
+        transform: 'scale(1)',
+        opacity: 0.3
+      }
+    },
+    '@keyframes mui-ripple-exit': {
+      '0%': {
+        opacity: 1
+      },
+      '100%': {
+        opacity: 0
+      }
+    },
+    '@keyframes mui-ripple-pulsate': {
+      '0%': {
+        transform: 'scale(1)'
+      },
+      '50%': {
+        transform: 'scale(0.92)'
+      },
+      '100%': {
+        transform: 'scale(1)'
+      }
+    }
+  };
+};
+
+exports.styles = styles;
+
+var TouchRipple =
+/*#__PURE__*/
+function (_React$PureComponent) {
+  (0, _inherits2.default)(TouchRipple, _React$PureComponent);
+
+  function TouchRipple() {
+    var _getPrototypeOf2;
+
+    var _this;
+
+    (0, _classCallCheck2.default)(this, TouchRipple);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = (0, _possibleConstructorReturn2.default)(this, (_getPrototypeOf2 = (0, _getPrototypeOf3.default)(TouchRipple)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    _this.state = {
+      nextKey: 0,
+      ripples: []
+    };
+    _this.container = _react.default.createRef();
+
+    _this.pulsate = function () {
+      _this.start({}, {
+        pulsate: true
+      });
+    };
+
+    _this.start = function () {
+      var event = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var cb = arguments.length > 2 ? arguments[2] : undefined;
+      var _options$pulsate = options.pulsate,
+          pulsate = _options$pulsate === void 0 ? false : _options$pulsate,
+          _options$center = options.center,
+          center = _options$center === void 0 ? _this.props.center || options.pulsate : _options$center,
+          _options$fakeElement = options.fakeElement,
+          fakeElement = _options$fakeElement === void 0 ? false : _options$fakeElement;
+
+      if (event.type === 'mousedown' && _this.ignoringMouseDown) {
+        _this.ignoringMouseDown = false;
+        return;
+      }
+
+      if (event.type === 'touchstart') {
+        _this.ignoringMouseDown = true;
+      }
+
+      var element = fakeElement ? null : _this.container.current;
+      var rect = element ? element.getBoundingClientRect() : {
+        width: 0,
+        height: 0,
+        left: 0,
+        top: 0
+      }; // Get the size of the ripple
+
+      var rippleX;
+      var rippleY;
+      var rippleSize;
+
+      if (center || event.clientX === 0 && event.clientY === 0 || !event.clientX && !event.touches) {
+        rippleX = Math.round(rect.width / 2);
+        rippleY = Math.round(rect.height / 2);
+      } else {
+        var clientX = event.clientX ? event.clientX : event.touches[0].clientX;
+        var clientY = event.clientY ? event.clientY : event.touches[0].clientY;
+        rippleX = Math.round(clientX - rect.left);
+        rippleY = Math.round(clientY - rect.top);
+      }
+
+      if (center) {
+        rippleSize = Math.sqrt((2 * Math.pow(rect.width, 2) + Math.pow(rect.height, 2)) / 3); // For some reason the animation is broken on Mobile Chrome if the size if even.
+
+        if (rippleSize % 2 === 0) {
+          rippleSize += 1;
+        }
+      } else {
+        var sizeX = Math.max(Math.abs((element ? element.clientWidth : 0) - rippleX), rippleX) * 2 + 2;
+        var sizeY = Math.max(Math.abs((element ? element.clientHeight : 0) - rippleY), rippleY) * 2 + 2;
+        rippleSize = Math.sqrt(Math.pow(sizeX, 2) + Math.pow(sizeY, 2));
+      } // Touche devices
+
+
+      if (event.touches) {
+        // Prepare the ripple effect.
+        _this.startTimerCommit = function () {
+          _this.startCommit({
+            pulsate: pulsate,
+            rippleX: rippleX,
+            rippleY: rippleY,
+            rippleSize: rippleSize,
+            cb: cb
+          });
+        }; // Delay the execution of the ripple effect.
+
+
+        _this.startTimer = setTimeout(function () {
+          if (_this.startTimerCommit) {
+            _this.startTimerCommit();
+
+            _this.startTimerCommit = null;
+          }
+        }, DELAY_RIPPLE); // We have to make a tradeoff with this value.
+      } else {
+        _this.startCommit({
+          pulsate: pulsate,
+          rippleX: rippleX,
+          rippleY: rippleY,
+          rippleSize: rippleSize,
+          cb: cb
+        });
+      }
+    };
+
+    _this.startCommit = function (params) {
+      var pulsate = params.pulsate,
+          rippleX = params.rippleX,
+          rippleY = params.rippleY,
+          rippleSize = params.rippleSize,
+          cb = params.cb;
+
+      _this.setState(function (state) {
+        return {
+          nextKey: state.nextKey + 1,
+          ripples: [].concat((0, _toConsumableArray2.default)(state.ripples), [_react.default.createElement(_Ripple.default, {
+            key: state.nextKey,
+            classes: _this.props.classes,
+            timeout: {
+              exit: DURATION,
+              enter: DURATION
+            },
+            pulsate: pulsate,
+            rippleX: rippleX,
+            rippleY: rippleY,
+            rippleSize: rippleSize
+          })])
+        };
+      }, cb);
+    };
+
+    _this.stop = function (event, cb) {
+      clearTimeout(_this.startTimer);
+      var ripples = _this.state.ripples; // The touch interaction occurs too quickly.
+      // We still want to show ripple effect.
+
+      if (event.type === 'touchend' && _this.startTimerCommit) {
+        event.persist();
+
+        _this.startTimerCommit();
+
+        _this.startTimerCommit = null;
+        _this.startTimer = setTimeout(function () {
+          _this.stop(event, cb);
+        });
+        return;
+      }
+
+      _this.startTimerCommit = null;
+
+      if (ripples && ripples.length) {
+        _this.setState({
+          ripples: ripples.slice(1)
+        }, cb);
+      }
+    };
+
+    return _this;
+  }
+
+  (0, _createClass2.default)(TouchRipple, [{
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      clearTimeout(this.startTimer);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$props = this.props,
+          center = _this$props.center,
+          classes = _this$props.classes,
+          className = _this$props.className,
+          other = (0, _objectWithoutProperties2.default)(_this$props, ["center", "classes", "className"]);
+      return _react.default.createElement("span", (0, _extends2.default)({
+        className: (0, _clsx.default)(classes.root, className),
+        ref: this.container
+      }, other), _react.default.createElement(_reactTransitionGroup.TransitionGroup, {
+        component: null,
+        enter: true,
+        exit: true
+      }, this.state.ripples));
+    }
+  }]);
+  return TouchRipple;
+}(_react.default.PureComponent);
+
+"development" !== "production" ? TouchRipple.propTypes = {
+  /**
+   * If `true`, the ripple starts at the center of the component
+   * rather than at the point of interaction.
+   */
+  center: _propTypes.default.bool,
+
+  /**
+   * Override or extend the styles applied to the component.
+   * See [CSS API](#css) below for more details.
+   */
+  classes: _propTypes.default.object.isRequired,
+
+  /**
+   * @ignore
+   */
+  className: _propTypes.default.string
+} : void 0;
+TouchRipple.defaultProps = {
+  center: false
+};
+
+var _default = (0, _withStyles.default)(styles, {
+  flip: false,
+  name: 'MuiTouchRipple'
+})(TouchRipple);
+
+exports.default = _default;
+},{"@babel/runtime/helpers/extends":"../../../node_modules/@babel/runtime/helpers/extends.js","@babel/runtime/helpers/objectWithoutProperties":"../../../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","@babel/runtime/helpers/toConsumableArray":"../../../node_modules/@babel/runtime/helpers/toConsumableArray.js","@babel/runtime/helpers/classCallCheck":"../../../node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"../../../node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"../../../node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"../../../node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/inherits":"../../../node_modules/@babel/runtime/helpers/inherits.js","react":"../../../node_modules/react/index.js","prop-types":"../../../node_modules/prop-types/index.js","react-transition-group":"../../../node_modules/react-transition-group/esm/index.js","clsx":"../../../node_modules/clsx/dist/clsx.m.js","../styles/withStyles":"../../../node_modules/@material-ui/core/esm/styles/withStyles.js","./Ripple":"../../../node_modules/@material-ui/core/esm/ButtonBase/Ripple.js"}],"../../../node_modules/@material-ui/core/esm/ButtonBase/ButtonBase.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.styles = void 0;
+
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
+
+var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
+
+var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutProperties"));
+
+var _react = _interopRequireDefault(require("react"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _reactDom = _interopRequireDefault(require("react-dom"));
+
+var _clsx = _interopRequireDefault(require("clsx"));
+
+var _utils = require("@material-ui/utils");
+
+var _reactHelpers = require("../utils/reactHelpers");
+
+var _withStyles = _interopRequireDefault(require("../styles/withStyles"));
+
+var _NoSsr = _interopRequireDefault(require("../NoSsr"));
+
+var _focusVisible = require("../utils/focusVisible");
+
+var _TouchRipple = _interopRequireDefault(require("./TouchRipple"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var styles = {
+  /* Styles applied to the root element. */
+  root: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+    // Remove grey highlight
+    WebkitTapHighlightColor: 'transparent',
+    backgroundColor: 'transparent',
+    // Reset default value
+    // We disable the focus ring for mouse, touch and keyboard users.
+    outline: 'none',
+    border: 0,
+    margin: 0,
+    // Remove the margin in Safari
+    borderRadius: 0,
+    padding: 0,
+    // Remove the padding in Firefox
+    cursor: 'pointer',
+    userSelect: 'none',
+    verticalAlign: 'middle',
+    '-moz-appearance': 'none',
+    // Reset
+    '-webkit-appearance': 'none',
+    // Reset
+    textDecoration: 'none',
+    // So we take precedent over the style of a native <a /> element.
+    color: 'inherit',
+    '&::-moz-focus-inner': {
+      borderStyle: 'none' // Remove Firefox dotted outline.
+
+    },
+    '&$disabled': {
+      pointerEvents: 'none',
+      // Disable link interactions
+      cursor: 'default'
+    }
+  },
+
+  /* Styles applied to the root element if `disabled={true}`. */
+  disabled: {},
+
+  /* Styles applied to the root element if keyboard focused. */
+  focusVisible: {}
+};
+exports.styles = styles;
+var useEnhancedEffect = typeof window !== 'undefined' ? _react.default.useLayoutEffect : _react.default.useEffect;
+/**
+ * https://github.com/facebook/react/issues/14099#issuecomment-440013892
+ *
+ * @param {function} fn
+ */
+
+function useEventCallback(fn) {
+  var ref = _react.default.useRef(fn);
+
+  useEnhancedEffect(function () {
+    ref.current = fn;
+  });
+  return _react.default.useCallback(function (event) {
+    return (0, ref.current)(event);
+  }, []);
+}
+/**
+ * `ButtonBase` contains as few styles as possible.
+ * It aims to be a simple building block for creating a button.
+ * It contains a load of style reset and some focus/ripple logic.
+ */
+
+
+var ButtonBase = _react.default.forwardRef(function ButtonBase(props, ref) {
+  var action = props.action,
+      buttonRefProp = props.buttonRef,
+      _props$centerRipple = props.centerRipple,
+      centerRipple = _props$centerRipple === void 0 ? false : _props$centerRipple,
+      children = props.children,
+      classes = props.classes,
+      classNameProp = props.className,
+      _props$component = props.component,
+      component = _props$component === void 0 ? 'button' : _props$component,
+      disabled = props.disabled,
+      _props$disableRipple = props.disableRipple,
+      disableRipple = _props$disableRipple === void 0 ? false : _props$disableRipple,
+      _props$disableTouchRi = props.disableTouchRipple,
+      disableTouchRipple = _props$disableTouchRi === void 0 ? false : _props$disableTouchRi,
+      _props$focusRipple = props.focusRipple,
+      focusRipple = _props$focusRipple === void 0 ? false : _props$focusRipple,
+      focusVisibleClassName = props.focusVisibleClassName,
+      onBlur = props.onBlur,
+      onClick = props.onClick,
+      onFocus = props.onFocus,
+      onFocusVisible = props.onFocusVisible,
+      onKeyDown = props.onKeyDown,
+      onKeyUp = props.onKeyUp,
+      onMouseDown = props.onMouseDown,
+      onMouseLeave = props.onMouseLeave,
+      onMouseUp = props.onMouseUp,
+      onTouchEnd = props.onTouchEnd,
+      onTouchMove = props.onTouchMove,
+      onTouchStart = props.onTouchStart,
+      _props$tabIndex = props.tabIndex,
+      tabIndex = _props$tabIndex === void 0 ? 0 : _props$tabIndex,
+      TouchRippleProps = props.TouchRippleProps,
+      _props$type = props.type,
+      type = _props$type === void 0 ? 'button' : _props$type,
+      other = (0, _objectWithoutProperties2.default)(props, ["action", "buttonRef", "centerRipple", "children", "classes", "className", "component", "disabled", "disableRipple", "disableTouchRipple", "focusRipple", "focusVisibleClassName", "onBlur", "onClick", "onFocus", "onFocusVisible", "onKeyDown", "onKeyUp", "onMouseDown", "onMouseLeave", "onMouseUp", "onTouchEnd", "onTouchMove", "onTouchStart", "tabIndex", "TouchRippleProps", "type"]);
+
+  var buttonRef = _react.default.useRef(null);
+
+  function getButtonNode() {
+    // #StrictMode ready
+    return _reactDom.default.findDOMNode(buttonRef.current);
+  }
+
+  var rippleRef = _react.default.useRef(null);
+
+  var _React$useState = _react.default.useState(false),
+      _React$useState2 = (0, _slicedToArray2.default)(_React$useState, 2),
+      focusVisible = _React$useState2[0],
+      setFocusVisible = _React$useState2[1];
+
+  if (disabled && focusVisible) {
+    setFocusVisible(false);
+  }
+
+  var _useIsFocusVisible = (0, _focusVisible.useIsFocusVisible)(),
+      isFocusVisible = _useIsFocusVisible.isFocusVisible,
+      onBlurVisible = _useIsFocusVisible.onBlurVisible,
+      focusVisibleRef = _useIsFocusVisible.ref;
+
+  _react.default.useImperativeHandle(action, function () {
+    return {
+      focusVisible: function focusVisible() {
+        setFocusVisible(true);
+        buttonRef.current.focus();
+      }
+    };
+  }, []);
+
+  _react.default.useEffect(function () {
+    if (focusVisible && focusRipple && !disableRipple) {
+      rippleRef.current.pulsate();
+    }
+  }, [disableRipple, focusRipple, focusVisible]);
+
+  function useRippleHandler(rippleAction, eventCallback) {
+    var skipRippleAction = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : disableTouchRipple;
+    return useEventCallback(function (event) {
+      if (eventCallback) {
+        eventCallback(event);
+      }
+
+      var ignore = event.defaultPrevented || skipRippleAction;
+
+      if (!ignore && rippleRef.current) {
+        rippleRef.current[rippleAction](event);
+      }
+
+      return true;
+    });
+  }
+
+  var handleMouseDown = useRippleHandler('start', onMouseDown);
+  var handleMouseUp = useRippleHandler('stop', onMouseUp);
+  var handleMouseLeave = useRippleHandler('stop', function (event) {
+    if (focusVisible) {
+      event.preventDefault();
+    }
+
+    if (onMouseLeave) {
+      onMouseLeave(event);
+    }
+  });
+  var handleTouchStart = useRippleHandler('start', onTouchStart);
+  var handleTouchEnd = useRippleHandler('stop', onTouchEnd);
+  var handleTouchMove = useRippleHandler('stop', onTouchMove);
+  var handleBlur = useRippleHandler('stop', function (event) {
+    if (focusVisible) {
+      onBlurVisible(event);
+      setFocusVisible(false);
+    }
+
+    if (onBlur) {
+      onBlur(event);
+    }
+  }, false);
+  var handleFocus = useEventCallback(function (event) {
+    if (disabled) {
+      return;
+    } // Fix for https://github.com/facebook/react/issues/7769
+
+
+    if (!buttonRef.current) {
+      buttonRef.current = event.currentTarget;
+    }
+
+    if (isFocusVisible(event)) {
+      setFocusVisible(true);
+
+      if (onFocusVisible) {
+        onFocusVisible(event);
+      }
+    }
+
+    if (onFocus) {
+      onFocus(event);
+    }
+  });
+
+  var keydownRef = _react.default.useRef(false);
+
+  var handleKeyDown = useEventCallback(function (event) {
+    // Check if key is already down to avoid repeats being counted as multiple activations
+    if (focusRipple && !keydownRef.current && focusVisible && rippleRef.current && event.key === ' ') {
+      keydownRef.current = true;
+      event.persist();
+      rippleRef.current.stop(event, function () {
+        rippleRef.current.start(event);
+      });
+    }
+
+    if (onKeyDown) {
+      onKeyDown(event);
+    }
+
+    var button = getButtonNode(); // Keyboard accessibility for non interactive elements
+
+    if (event.target === event.currentTarget && component && component !== 'button' && (event.key === ' ' || event.key === 'Enter') && !(button.tagName === 'A' && button.href)) {
+      event.preventDefault();
+
+      if (onClick) {
+        onClick(event);
+      }
+    }
+  });
+  var handleKeyUp = useEventCallback(function (event) {
+    if (focusRipple && event.key === ' ' && rippleRef.current && focusVisible) {
+      keydownRef.current = false;
+      event.persist();
+      rippleRef.current.stop(event, function () {
+        rippleRef.current.pulsate(event);
+      });
+    }
+
+    if (onKeyUp) {
+      onKeyUp(event);
+    }
+  });
+  var className = (0, _clsx.default)(classes.root, classNameProp, focusVisible && [classes.focusVisible, focusVisibleClassName], disabled && classes.disabled);
+  var ComponentProp = component;
+
+  if (ComponentProp === 'button' && other.href) {
+    ComponentProp = 'a';
+  }
+
+  var buttonProps = {};
+
+  if (ComponentProp === 'button') {
+    buttonProps.type = type;
+    buttonProps.disabled = disabled;
+  } else {
+    buttonProps.role = 'button';
+    buttonProps['aria-disabled'] = disabled;
+  }
+
+  var handleUserRef = (0, _reactHelpers.useForkRef)(buttonRefProp, ref);
+  var handleOwnRef = (0, _reactHelpers.useForkRef)(focusVisibleRef, buttonRef);
+  var handleRef = (0, _reactHelpers.useForkRef)(handleUserRef, handleOwnRef);
+  return _react.default.createElement(ComponentProp, (0, _extends2.default)({
+    className: className,
+    onBlur: handleBlur,
+    onClick: onClick,
+    onFocus: handleFocus,
+    onKeyDown: handleKeyDown,
+    onKeyUp: handleKeyUp,
+    onMouseDown: handleMouseDown,
+    onMouseLeave: handleMouseLeave,
+    onMouseUp: handleMouseUp,
+    onTouchEnd: handleTouchEnd,
+    onTouchMove: handleTouchMove,
+    onTouchStart: handleTouchStart,
+    ref: handleRef,
+    tabIndex: disabled ? -1 : tabIndex
+  }, buttonProps, other), children, !disableRipple && !disabled ? _react.default.createElement(_NoSsr.default, null, _react.default.createElement(_TouchRipple.default, (0, _extends2.default)({
+    ref: rippleRef,
+    center: centerRipple
+  }, TouchRippleProps))) : null);
+});
+
+"development" !== "production" ? ButtonBase.propTypes = {
+  /**
+   * Callback fired when the component mounts.
+   * This is useful when you want to trigger an action programmatically.
+   * It currently only supports `focusVisible()` action.
+   *
+   * @param {object} actions This object contains all possible actions
+   * that can be triggered programmatically.
+   */
+  action: _propTypes.default.func,
+
+  /**
+   * Use that property to pass a ref callback to the native button component.
+   * @deprecated Use `ref` instead
+   */
+  buttonRef: _propTypes.default.oneOfType([_propTypes.default.func, _propTypes.default.object]),
+
+  /**
+   * If `true`, the ripples will be centered.
+   * They won't start at the cursor interaction position.
+   */
+  centerRipple: _propTypes.default.bool,
+
+  /**
+   * The content of the component.
+   */
+  children: _propTypes.default.node,
+
+  /**
+   * Override or extend the styles applied to the component.
+   * See [CSS API](#css) below for more details.
+   */
+  classes: _propTypes.default.object.isRequired,
+
+  /**
+   * @ignore
+   */
+  className: _propTypes.default.string,
+
+  /**
+   * The component used for the root node.
+   * Either a string to use a DOM element or a component.
+   */
+  component: _utils.elementTypeAcceptingRef,
+
+  /**
+   * If `true`, the base button will be disabled.
+   */
+  disabled: _propTypes.default.bool,
+
+  /**
+   * If `true`, the ripple effect will be disabled.
+   *
+   * ⚠️ Without a ripple there is no styling for :focus-visible by default. Be sure
+   * to highlight the element by applying separate styles with the `focusVisibleClassName`.
+   */
+  disableRipple: _propTypes.default.bool,
+
+  /**
+   * If `true`, the touch ripple effect will be disabled.
+   */
+  disableTouchRipple: _propTypes.default.bool,
+
+  /**
+   * If `true`, the base button will have a keyboard focus ripple.
+   * `disableRipple` must also be `false`.
+   */
+  focusRipple: _propTypes.default.bool,
+
+  /**
+   * This property can help a person know which element has the keyboard focus.
+   * The class name will be applied when the element gain the focus through a keyboard interaction.
+   * It's a polyfill for the [CSS :focus-visible selector](https://drafts.csswg.org/selectors-4/#the-focus-visible-pseudo).
+   * The rationale for using this feature [is explained here](https://github.com/WICG/focus-visible/blob/master/explainer.md).
+   * A [polyfill can be used](https://github.com/WICG/focus-visible) to apply a `focus-visible` class to other components
+   * if needed.
+   */
+  focusVisibleClassName: _propTypes.default.string,
+
+  /**
+   * @ignore
+   */
+  onBlur: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  onClick: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  onFocus: _propTypes.default.func,
+
+  /**
+   * Callback fired when the component is focused with a keyboard.
+   * We trigger a `onFocus` callback too.
+   */
+  onFocusVisible: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  onKeyDown: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  onKeyUp: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  onMouseDown: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  onMouseLeave: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  onMouseUp: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  onTouchEnd: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  onTouchMove: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  onTouchStart: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  role: _propTypes.default.string,
+
+  /**
+   * @ignore
+   */
+  tabIndex: _propTypes.default.oneOfType([_propTypes.default.number, _propTypes.default.string]),
+
+  /**
+   * Properties applied to the `TouchRipple` element.
+   */
+  TouchRippleProps: _propTypes.default.object,
+
+  /**
+   * Used to control the button's purpose.
+   * This property passes the value to the `type` attribute of the native button component.
+   */
+  type: _propTypes.default.oneOf(['submit', 'reset', 'button'])
+} : void 0;
+
+var _default = (0, _withStyles.default)(styles, {
+  name: 'MuiButtonBase'
+})(ButtonBase);
+
+exports.default = _default;
+},{"@babel/runtime/helpers/extends":"../../../node_modules/@babel/runtime/helpers/extends.js","@babel/runtime/helpers/slicedToArray":"../../../node_modules/@babel/runtime/helpers/slicedToArray.js","@babel/runtime/helpers/objectWithoutProperties":"../../../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","react":"../../../node_modules/react/index.js","prop-types":"../../../node_modules/prop-types/index.js","react-dom":"../../../node_modules/react-dom/index.js","clsx":"../../../node_modules/clsx/dist/clsx.m.js","@material-ui/utils":"../../../node_modules/@material-ui/utils/esm/index.js","../utils/reactHelpers":"../../../node_modules/@material-ui/core/esm/utils/reactHelpers.js","../styles/withStyles":"../../../node_modules/@material-ui/core/esm/styles/withStyles.js","../NoSsr":"../../../node_modules/@material-ui/core/esm/NoSsr/index.js","../utils/focusVisible":"../../../node_modules/@material-ui/core/esm/utils/focusVisible.js","./TouchRipple":"../../../node_modules/@material-ui/core/esm/ButtonBase/TouchRipple.js"}],"../../../node_modules/@material-ui/core/esm/ButtonBase/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function () {
+    return _ButtonBase.default;
+  }
+});
+
+var _ButtonBase = _interopRequireDefault(require("./ButtonBase"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+},{"./ButtonBase":"../../../node_modules/@material-ui/core/esm/ButtonBase/ButtonBase.js"}],"../../../node_modules/@material-ui/core/esm/Button/Button.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.styles = void 0;
+
+var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutProperties"));
+
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
+
+var _react = _interopRequireDefault(require("react"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _clsx = _interopRequireDefault(require("clsx"));
+
+var _withStyles = _interopRequireDefault(require("../styles/withStyles"));
+
+var _colorManipulator = require("../styles/colorManipulator");
+
+var _ButtonBase = _interopRequireDefault(require("../ButtonBase"));
+
+var _helpers = require("../utils/helpers");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var styles = function styles(theme) {
+  return {
+    /* Styles applied to the root element. */
+    root: (0, _extends2.default)({
+      lineHeight: 1.75
+    }, theme.typography.button, {
+      boxSizing: 'border-box',
+      minWidth: 64,
+      padding: '6px 16px',
+      borderRadius: theme.shape.borderRadius,
+      color: theme.palette.text.primary,
+      transition: theme.transitions.create(['background-color', 'box-shadow', 'border'], {
+        duration: theme.transitions.duration.short
+      }),
+      '&:hover': {
+        textDecoration: 'none',
+        backgroundColor: (0, _colorManipulator.fade)(theme.palette.text.primary, theme.palette.action.hoverOpacity),
+        // Reset on touch devices, it doesn't add specificity
+        '@media (hover: none)': {
+          backgroundColor: 'transparent'
+        },
+        '&$disabled': {
+          backgroundColor: 'transparent'
+        }
+      },
+      '&$disabled': {
+        color: theme.palette.action.disabled
+      }
+    }),
+
+    /* Styles applied to the span element that wraps the children. */
+    label: {
+      width: '100%',
+      // Ensure the correct width for iOS Safari
+      display: 'inherit',
+      alignItems: 'inherit',
+      justifyContent: 'inherit'
+    },
+
+    /* Styles applied to the root element if `variant="text"`. */
+    text: {
+      padding: '6px 8px'
+    },
+
+    /* Styles applied to the root element if `variant="text"` and `color="primary"`. */
+    textPrimary: {
+      color: theme.palette.primary.main,
+      '&:hover': {
+        backgroundColor: (0, _colorManipulator.fade)(theme.palette.primary.main, theme.palette.action.hoverOpacity),
+        // Reset on touch devices, it doesn't add specificity
+        '@media (hover: none)': {
+          backgroundColor: 'transparent'
+        }
+      }
+    },
+
+    /* Styles applied to the root element if `variant="text"` and `color="secondary"`. */
+    textSecondary: {
+      color: theme.palette.secondary.main,
+      '&:hover': {
+        backgroundColor: (0, _colorManipulator.fade)(theme.palette.secondary.main, theme.palette.action.hoverOpacity),
+        // Reset on touch devices, it doesn't add specificity
+        '@media (hover: none)': {
+          backgroundColor: 'transparent'
+        }
+      }
+    },
+
+    /* Styles applied to the root element if `variant="outlined"`. */
+    outlined: {
+      padding: '5px 16px',
+      border: "1px solid ".concat(theme.palette.type === 'light' ? 'rgba(0, 0, 0, 0.23)' : 'rgba(255, 255, 255, 0.23)'),
+      '&$disabled': {
+        border: "1px solid ".concat(theme.palette.action.disabled)
+      }
+    },
+
+    /* Styles applied to the root element if `variant="outlined"` and `color="primary"`. */
+    outlinedPrimary: {
+      color: theme.palette.primary.main,
+      border: "1px solid ".concat((0, _colorManipulator.fade)(theme.palette.primary.main, 0.5)),
+      '&:hover': {
+        border: "1px solid ".concat(theme.palette.primary.main),
+        backgroundColor: (0, _colorManipulator.fade)(theme.palette.primary.main, theme.palette.action.hoverOpacity),
+        // Reset on touch devices, it doesn't add specificity
+        '@media (hover: none)': {
+          backgroundColor: 'transparent'
+        }
+      }
+    },
+
+    /* Styles applied to the root element if `variant="outlined"` and `color="secondary"`. */
+    outlinedSecondary: {
+      color: theme.palette.secondary.main,
+      border: "1px solid ".concat((0, _colorManipulator.fade)(theme.palette.secondary.main, 0.5)),
+      '&:hover': {
+        border: "1px solid ".concat(theme.palette.secondary.main),
+        backgroundColor: (0, _colorManipulator.fade)(theme.palette.secondary.main, theme.palette.action.hoverOpacity),
+        // Reset on touch devices, it doesn't add specificity
+        '@media (hover: none)': {
+          backgroundColor: 'transparent'
+        }
+      },
+      '&$disabled': {
+        border: "1px solid ".concat(theme.palette.action.disabled)
+      }
+    },
+
+    /* Styles applied to the root element if `variant="contained"`. */
+    contained: {
+      color: theme.palette.getContrastText(theme.palette.grey[300]),
+      backgroundColor: theme.palette.grey[300],
+      boxShadow: theme.shadows[2],
+      '&$focusVisible': {
+        boxShadow: theme.shadows[6]
+      },
+      '&:active': {
+        boxShadow: theme.shadows[8]
+      },
+      '&$disabled': {
+        color: theme.palette.action.disabled,
+        boxShadow: theme.shadows[0],
+        backgroundColor: theme.palette.action.disabledBackground
+      },
+      '&:hover': {
+        backgroundColor: theme.palette.grey.A100,
+        // Reset on touch devices, it doesn't add specificity
+        '@media (hover: none)': {
+          backgroundColor: theme.palette.grey[300]
+        },
+        '&$disabled': {
+          backgroundColor: theme.palette.action.disabledBackground
+        }
+      }
+    },
+
+    /* Styles applied to the root element if `variant="contained"` and `color="primary"`. */
+    containedPrimary: {
+      color: theme.palette.primary.contrastText,
+      backgroundColor: theme.palette.primary.main,
+      '&:hover': {
+        backgroundColor: theme.palette.primary.dark,
+        // Reset on touch devices, it doesn't add specificity
+        '@media (hover: none)': {
+          backgroundColor: theme.palette.primary.main
+        }
+      }
+    },
+
+    /* Styles applied to the root element if `variant="contained"` and `color="secondary"`. */
+    containedSecondary: {
+      color: theme.palette.secondary.contrastText,
+      backgroundColor: theme.palette.secondary.main,
+      '&:hover': {
+        backgroundColor: theme.palette.secondary.dark,
+        // Reset on touch devices, it doesn't add specificity
+        '@media (hover: none)': {
+          backgroundColor: theme.palette.secondary.main
+        }
+      }
+    },
+
+    /* Styles applied to the ButtonBase root element if the button is keyboard focused. */
+    focusVisible: {},
+
+    /* Styles applied to the root element if `disabled={true}`. */
+    disabled: {},
+
+    /* Styles applied to the root element if `color="inherit"`. */
+    colorInherit: {
+      color: 'inherit',
+      borderColor: 'currentColor'
+    },
+
+    /* Styles applied to the root element if `size="small"`. */
+    sizeSmall: {
+      padding: '4px 8px',
+      minWidth: 64,
+      fontSize: theme.typography.pxToRem(13)
+    },
+
+    /* Styles applied to the root element if `size="large"`. */
+    sizeLarge: {
+      padding: '8px 24px',
+      fontSize: theme.typography.pxToRem(15)
+    },
+
+    /* Styles applied to the root element if `fullWidth={true}`. */
+    fullWidth: {
+      width: '100%'
+    }
+  };
+};
+
+exports.styles = styles;
+
+var Button = _react.default.forwardRef(function Button(props, ref) {
+  var children = props.children,
+      classes = props.classes,
+      classNameProp = props.className,
+      _props$color = props.color,
+      color = _props$color === void 0 ? 'default' : _props$color,
+      _props$component = props.component,
+      component = _props$component === void 0 ? 'button' : _props$component,
+      _props$disabled = props.disabled,
+      disabled = _props$disabled === void 0 ? false : _props$disabled,
+      _props$disableFocusRi = props.disableFocusRipple,
+      disableFocusRipple = _props$disableFocusRi === void 0 ? false : _props$disableFocusRi,
+      focusVisibleClassName = props.focusVisibleClassName,
+      _props$fullWidth = props.fullWidth,
+      fullWidth = _props$fullWidth === void 0 ? false : _props$fullWidth,
+      _props$size = props.size,
+      size = _props$size === void 0 ? 'medium' : _props$size,
+      _props$type = props.type,
+      type = _props$type === void 0 ? 'button' : _props$type,
+      _props$variant = props.variant,
+      variant = _props$variant === void 0 ? 'text' : _props$variant,
+      other = (0, _objectWithoutProperties2.default)(props, ["children", "classes", "className", "color", "component", "disabled", "disableFocusRipple", "focusVisibleClassName", "fullWidth", "size", "type", "variant"]);
+  var contained = variant === 'contained';
+  var text = variant === 'text';
+  var className = (0, _clsx.default)(classes.root, classNameProp, variant === 'outlined' && [classes.outlined, color === 'primary' && classes.outlinedPrimary, color === 'secondary' && classes.outlinedSecondary], color === 'secondary' && [text && classes.textSecondary, contained && classes.containedSecondary], color === 'primary' && [text && classes.textPrimary, contained && classes.containedPrimary], text && classes.text, contained && classes.contained, size !== 'medium' && classes["size".concat((0, _helpers.capitalize)(size))], disabled && classes.disabled, fullWidth && classes.fullWidth, color === 'inherit' && classes.colorInherit);
+  return _react.default.createElement(_ButtonBase.default, (0, _extends2.default)({
+    className: className,
+    component: component,
+    disabled: disabled,
+    focusRipple: !disableFocusRipple,
+    focusVisibleClassName: (0, _clsx.default)(classes.focusVisible, focusVisibleClassName),
+    ref: ref,
+    type: type
+  }, other), _react.default.createElement("span", {
+    className: classes.label
+  }, children));
+});
+
+"development" !== "production" ? Button.propTypes = {
+  /**
+   * The content of the button.
+   */
+  children: _propTypes.default.node.isRequired,
+
+  /**
+   * Override or extend the styles applied to the component.
+   * See [CSS API](#css) below for more details.
+   */
+  classes: _propTypes.default.object.isRequired,
+
+  /**
+   * @ignore
+   */
+  className: _propTypes.default.string,
+
+  /**
+   * The color of the component. It supports those theme colors that make sense for this component.
+   */
+  color: _propTypes.default.oneOf(['default', 'inherit', 'primary', 'secondary']),
+
+  /**
+   * The component used for the root node.
+   * Either a string to use a DOM element or a component.
+   */
+  component: _propTypes.default.elementType,
+
+  /**
+   * If `true`, the button will be disabled.
+   */
+  disabled: _propTypes.default.bool,
+
+  /**
+   * If `true`, the  keyboard focus ripple will be disabled.
+   * `disableRipple` must also be true.
+   */
+  disableFocusRipple: _propTypes.default.bool,
+
+  /**
+   * If `true`, the ripple effect will be disabled.
+   *
+   * ⚠️ Without a ripple there is no styling for :focus-visible by default. Be sure
+   * to highlight the element by applying separate styles with the `focusVisibleClassName`.
+   */
+  disableRipple: _propTypes.default.bool,
+
+  /**
+   * @ignore
+   */
+  focusVisibleClassName: _propTypes.default.string,
+
+  /**
+   * If `true`, the button will take up the full width of its container.
+   */
+  fullWidth: _propTypes.default.bool,
+
+  /**
+   * The URL to link to when the button is clicked.
+   * If defined, an `a` element will be used as the root node.
+   */
+  href: _propTypes.default.string,
+
+  /**
+   * The size of the button.
+   * `small` is equivalent to the dense button styling.
+   */
+  size: _propTypes.default.oneOf(['small', 'medium', 'large']),
+
+  /**
+   * @ignore
+   */
+  type: _propTypes.default.string,
+
+  /**
+   * The variant to use.
+   */
+  variant: _propTypes.default.oneOf(['text', 'outlined', 'contained'])
+} : void 0;
+
+var _default = (0, _withStyles.default)(styles, {
+  name: 'MuiButton'
+})(Button);
+
+exports.default = _default;
+},{"@babel/runtime/helpers/objectWithoutProperties":"../../../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","@babel/runtime/helpers/extends":"../../../node_modules/@babel/runtime/helpers/extends.js","react":"../../../node_modules/react/index.js","prop-types":"../../../node_modules/prop-types/index.js","clsx":"../../../node_modules/clsx/dist/clsx.m.js","../styles/withStyles":"../../../node_modules/@material-ui/core/esm/styles/withStyles.js","../styles/colorManipulator":"../../../node_modules/@material-ui/core/esm/styles/colorManipulator.js","../ButtonBase":"../../../node_modules/@material-ui/core/esm/ButtonBase/index.js","../utils/helpers":"../../../node_modules/@material-ui/core/esm/utils/helpers.js"}],"../../../node_modules/@material-ui/core/esm/Button/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function () {
+    return _Button.default;
+  }
+});
+
+var _Button = _interopRequireDefault(require("./Button"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+},{"./Button":"../../../node_modules/@material-ui/core/esm/Button/Button.js"}],"../components/ChatHeader.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importStar = this && this.__importStar || function (mod) {
@@ -61178,11 +62815,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var React = __importStar(require("react"));
 
+var react_apollo_1 = require("react-apollo");
+
 var styles_1 = require("@material-ui/core/styles");
 
 var Container_1 = __importDefault(require("@material-ui/core/Container"));
 
 var Avatar_1 = __importDefault(require("@material-ui/core/Avatar"));
+
+var Button_1 = __importDefault(require("@material-ui/core/Button"));
 
 var useStyles = styles_1.makeStyles(function (theme) {
   return {
@@ -61197,13 +62838,23 @@ var useStyles = styles_1.makeStyles(function (theme) {
     avatar: {
       marginRight: 20,
       display: 'inline-block'
+    },
+    button: {
+      float: 'right'
     }
   };
 });
 
 var ChatHeader = function ChatHeader(_a) {
-  var users = _a.users;
+  var users = _a.users,
+      client = _a.client;
   var classes = useStyles();
+
+  var logout = function logout() {
+    localStorage.removeItem('token');
+    client.resetStore();
+  };
+
   return React.createElement(Container_1.default, {
     className: classes.chatHeader
   }, users.map(function (user) {
@@ -61213,11 +62864,14 @@ var ChatHeader = function ChatHeader(_a) {
       alt: user.firstName,
       src: user.avatar
     });
-  }));
+  }), React.createElement(Button_1.default, {
+    className: classes.button,
+    onClick: logout
+  }, "Sign Out"));
 };
 
-exports.default = ChatHeader;
-},{"react":"../../../node_modules/react/index.js","@material-ui/core/styles":"../../../node_modules/@material-ui/core/esm/styles/index.js","@material-ui/core/Container":"../../../node_modules/@material-ui/core/esm/Container/index.js","@material-ui/core/Avatar":"../../../node_modules/@material-ui/core/esm/Avatar/index.js"}],"../store/gql/mutations/createMessage.ts":[function(require,module,exports) {
+exports.default = react_apollo_1.withApollo(ChatHeader);
+},{"react":"../../../node_modules/react/index.js","react-apollo":"../../../node_modules/react-apollo/react-apollo.esm.js","@material-ui/core/styles":"../../../node_modules/@material-ui/core/esm/styles/index.js","@material-ui/core/Container":"../../../node_modules/@material-ui/core/esm/Container/index.js","@material-ui/core/Avatar":"../../../node_modules/@material-ui/core/esm/Avatar/index.js","@material-ui/core/Button":"../../../node_modules/@material-ui/core/esm/Button/index.js"}],"../store/gql/mutations/createMessage.ts":[function(require,module,exports) {
 "use strict";
 
 var __makeTemplateObject = this && this.__makeTemplateObject || function (cooked, raw) {
@@ -61273,7 +62927,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var graphql_tag_1 = __importDefault(require("graphql-tag"));
 
-exports.default = graphql_tag_1.default(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  mutation loginUser($email: String! $password: String!) {\n    loginUser(\n      email: $email,\n      password: $password\n    ) {\n      _id\n    }\n  }\n"], ["\n  mutation loginUser($email: String! $password: String!) {\n    loginUser(\n      email: $email,\n      password: $password\n    ) {\n      _id\n    }\n  }\n"])));
+exports.default = graphql_tag_1.default(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  mutation loginUser($email: String! $password: String!) {\n    loginUser(\n      email: $email,\n      password: $password\n    )\n  }\n"], ["\n  mutation loginUser($email: String! $password: String!) {\n    loginUser(\n      email: $email,\n      password: $password\n    )\n  }\n"])));
 var templateObject_1;
 },{"graphql-tag":"../../../node_modules/graphql-tag/src/index.js"}],"../store/gql/mutations/toggleUserTyping.ts":[function(require,module,exports) {
 "use strict";
@@ -64348,43 +66002,7 @@ Object.defineProperty(exports, "default", {
 var _FormHelperText = _interopRequireDefault(require("./FormHelperText"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./FormHelperText":"../../../node_modules/@material-ui/core/esm/FormHelperText/FormHelperText.js"}],"../../../node_modules/@babel/runtime/helpers/arrayWithoutHoles.js":[function(require,module,exports) {
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
-      arr2[i] = arr[i];
-    }
-
-    return arr2;
-  }
-}
-
-module.exports = _arrayWithoutHoles;
-},{}],"../../../node_modules/@babel/runtime/helpers/iterableToArray.js":[function(require,module,exports) {
-function _iterableToArray(iter) {
-  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
-}
-
-module.exports = _iterableToArray;
-},{}],"../../../node_modules/@babel/runtime/helpers/nonIterableSpread.js":[function(require,module,exports) {
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance");
-}
-
-module.exports = _nonIterableSpread;
-},{}],"../../../node_modules/@babel/runtime/helpers/toConsumableArray.js":[function(require,module,exports) {
-var arrayWithoutHoles = require("./arrayWithoutHoles");
-
-var iterableToArray = require("./iterableToArray");
-
-var nonIterableSpread = require("./nonIterableSpread");
-
-function _toConsumableArray(arr) {
-  return arrayWithoutHoles(arr) || iterableToArray(arr) || nonIterableSpread();
-}
-
-module.exports = _toConsumableArray;
-},{"./arrayWithoutHoles":"../../../node_modules/@babel/runtime/helpers/arrayWithoutHoles.js","./iterableToArray":"../../../node_modules/@babel/runtime/helpers/iterableToArray.js","./nonIterableSpread":"../../../node_modules/@babel/runtime/helpers/nonIterableSpread.js"}],"../../../node_modules/react-event-listener/dist/react-event-listener.cjs.js":[function(require,module,exports) {
+},{"./FormHelperText":"../../../node_modules/@material-ui/core/esm/FormHelperText/FormHelperText.js"}],"../../../node_modules/react-event-listener/dist/react-event-listener.cjs.js":[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -67988,1245 +69606,7 @@ Object.defineProperty(exports, "default", {
 var _Icon = _interopRequireDefault(require("./Icon"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./Icon":"../../../node_modules/@material-ui/core/esm/Icon/Icon.js"}],"../../../node_modules/@material-ui/core/esm/NoSsr/NoSsr.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
-
-var _react = _interopRequireDefault(require("react"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
-var _utils = require("@material-ui/utils");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var useEnhancedEffect = typeof window !== 'undefined' && "development" !== 'test' ? _react.default.useLayoutEffect : _react.default.useEffect;
-/**
- * NoSsr purposely removes components from the subject of Server Side Rendering (SSR).
- *
- * This component can be useful in a variety of situations:
- * - Escape hatch for broken dependencies not supporting SSR.
- * - Improve the time-to-first paint on the client by only rendering above the fold.
- * - Reduce the rendering time on the server.
- * - Under too heavy server load, you can turn on service degradation.
- */
-
-function NoSsr(props) {
-  var children = props.children,
-      _props$defer = props.defer,
-      defer = _props$defer === void 0 ? false : _props$defer,
-      _props$fallback = props.fallback,
-      fallback = _props$fallback === void 0 ? null : _props$fallback;
-
-  var _React$useState = _react.default.useState(false),
-      _React$useState2 = (0, _slicedToArray2.default)(_React$useState, 2),
-      mountedState = _React$useState2[0],
-      setMountedState = _React$useState2[1];
-
-  useEnhancedEffect(function () {
-    if (!defer) {
-      setMountedState(true);
-    }
-  }, [defer]);
-
-  _react.default.useEffect(function () {
-    if (defer) {
-      setMountedState(true);
-    }
-  }, [defer]); // We need the Fragment here to force react-docgen to recognise NoSsr as a component.
-
-
-  return _react.default.createElement(_react.default.Fragment, null, mountedState ? children : fallback);
-}
-
-"development" !== "production" ? NoSsr.propTypes = {
-  /**
-   * You can wrap a node.
-   */
-  children: _propTypes.default.node.isRequired,
-
-  /**
-   * If `true`, the component will not only prevent server-side rendering.
-   * It will also defer the rendering of the children into a different screen frame.
-   */
-  defer: _propTypes.default.bool,
-
-  /**
-   * The fallback content to display.
-   */
-  fallback: _propTypes.default.node
-} : void 0;
-
-if ("development" !== 'production') {
-  // eslint-disable-next-line
-  NoSsr['propTypes' + ''] = (0, _utils.exactProp)(NoSsr.propTypes);
-}
-
-var _default = NoSsr;
-exports.default = _default;
-},{"@babel/runtime/helpers/slicedToArray":"../../../node_modules/@babel/runtime/helpers/slicedToArray.js","react":"../../../node_modules/react/index.js","prop-types":"../../../node_modules/prop-types/index.js","@material-ui/utils":"../../../node_modules/@material-ui/utils/esm/index.js"}],"../../../node_modules/@material-ui/core/esm/NoSsr/index.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "default", {
-  enumerable: true,
-  get: function () {
-    return _NoSsr.default;
-  }
-});
-
-var _NoSsr = _interopRequireDefault(require("./NoSsr"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./NoSsr":"../../../node_modules/@material-ui/core/esm/NoSsr/NoSsr.js"}],"../../../node_modules/@material-ui/core/esm/utils/focusVisible.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.prepare = prepare;
-exports.teardown = teardown;
-exports.isFocusVisible = isFocusVisible;
-exports.handleBlurVisible = handleBlurVisible;
-exports.useIsFocusVisible = useIsFocusVisible;
-
-var _react = _interopRequireDefault(require("react"));
-
-var _reactDom = _interopRequireDefault(require("react-dom"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// based on https://github.com/WICG/focus-visible/blob/v4.1.5/src/focus-visible.js
-var hadKeyboardEvent = true;
-var hadFocusVisibleRecently = false;
-var hadFocusVisibleRecentlyTimeout = null;
-var inputTypesWhitelist = {
-  text: true,
-  search: true,
-  url: true,
-  tel: true,
-  email: true,
-  password: true,
-  number: true,
-  date: true,
-  month: true,
-  week: true,
-  time: true,
-  datetime: true,
-  'datetime-local': true
-};
-/**
- * Computes whether the given element should automatically trigger the
- * `focus-visible` class being added, i.e. whether it should always match
- * `:focus-visible` when focused.
- * @param {Element} node
- * @return {boolean}
- */
-
-function focusTriggersKeyboardModality(node) {
-  var type = node.type,
-      tagName = node.tagName;
-
-  if (tagName === 'INPUT' && inputTypesWhitelist[type] && !node.readOnly) {
-    return true;
-  }
-
-  if (tagName === 'TEXTAREA' && !node.readOnly) {
-    return true;
-  }
-
-  if (node.isContentEditable) {
-    return true;
-  }
-
-  return false;
-}
-
-function handleKeyDown() {
-  hadKeyboardEvent = true;
-}
-/**
- * If at any point a user clicks with a pointing device, ensure that we change
- * the modality away from keyboard.
- * This avoids the situation where a user presses a key on an already focused
- * element, and then clicks on a different element, focusing it with a
- * pointing device, while we still think we're in keyboard modality.
- * @param {Event} e
- */
-
-
-function handlePointerDown() {
-  hadKeyboardEvent = false;
-}
-
-function handleVisibilityChange() {
-  if (this.visibilityState === 'hidden') {
-    // If the tab becomes active again, the browser will handle calling focus
-    // on the element (Safari actually calls it twice).
-    // If this tab change caused a blur on an element with focus-visible,
-    // re-apply the class when the user switches back to the tab.
-    if (hadFocusVisibleRecently) {
-      hadKeyboardEvent = true;
-    }
-  }
-}
-
-function prepare(ownerDocument) {
-  ownerDocument.addEventListener('keydown', handleKeyDown, true);
-  ownerDocument.addEventListener('mousedown', handlePointerDown, true);
-  ownerDocument.addEventListener('pointerdown', handlePointerDown, true);
-  ownerDocument.addEventListener('touchstart', handlePointerDown, true);
-  ownerDocument.addEventListener('visibilitychange', handleVisibilityChange, true);
-}
-
-function teardown(ownerDocument) {
-  ownerDocument.removeEventListener('keydown', handleKeyDown, true);
-  ownerDocument.removeEventListener('mousedown', handlePointerDown, true);
-  ownerDocument.removeEventListener('pointerdown', handlePointerDown, true);
-  ownerDocument.removeEventListener('touchstart', handlePointerDown, true);
-  ownerDocument.removeEventListener('visibilitychange', handleVisibilityChange, true);
-}
-
-function isFocusVisible(event) {
-  var target = event.target;
-
-  try {
-    return target.matches(':focus-visible');
-  } catch (error) {} // browsers not implementing :focus-visible will throw a SyntaxError
-  // we use our own heuristic for those browsers
-  // rethrow might be better if it's not the expected error but do we really
-  // want to crash if focus-visible malfunctioned?
-  // no need for validFocusTarget check. the user does that by attaching it to
-  // focusable events only
-
-
-  return hadKeyboardEvent || focusTriggersKeyboardModality(target);
-}
-/**
- * Should be called if a blur event is fired on a focus-visible element
- */
-
-
-function handleBlurVisible() {
-  // To detect a tab/window switch, we look for a blur event followed
-  // rapidly by a visibility change.
-  // If we don't see a visibility change within 100ms, it's probably a
-  // regular focus change.
-  hadFocusVisibleRecently = true;
-  window.clearTimeout(hadFocusVisibleRecentlyTimeout);
-  hadFocusVisibleRecentlyTimeout = window.setTimeout(function () {
-    hadFocusVisibleRecently = false;
-    window.clearTimeout(hadFocusVisibleRecentlyTimeout);
-  }, 100);
-}
-
-function useIsFocusVisible() {
-  var ref = _react.default.useCallback(function (instance) {
-    var node = _reactDom.default.findDOMNode(instance);
-
-    if (node != null) {
-      prepare(node.ownerDocument);
-    }
-  }, []);
-
-  return {
-    isFocusVisible: isFocusVisible,
-    onBlurVisible: handleBlurVisible,
-    ref: ref
-  };
-}
-},{"react":"../../../node_modules/react/index.js","react-dom":"../../../node_modules/react-dom/index.js"}],"../../../node_modules/@material-ui/core/esm/ButtonBase/Ripple.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
-
-var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
-
-var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutProperties"));
-
-var _react = _interopRequireDefault(require("react"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
-var _clsx = _interopRequireDefault(require("clsx"));
-
-var _reactTransitionGroup = require("react-transition-group");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * @ignore - internal component.
- */
-function Ripple(props) {
-  var classes = props.classes,
-      className = props.className,
-      _props$pulsate = props.pulsate,
-      pulsate = _props$pulsate === void 0 ? false : _props$pulsate,
-      rippleX = props.rippleX,
-      rippleY = props.rippleY,
-      rippleSize = props.rippleSize,
-      other = (0, _objectWithoutProperties2.default)(props, ["classes", "className", "pulsate", "rippleX", "rippleY", "rippleSize"]);
-
-  var _React$useState = _react.default.useState(false),
-      _React$useState2 = (0, _slicedToArray2.default)(_React$useState, 2),
-      visible = _React$useState2[0],
-      setVisible = _React$useState2[1];
-
-  var _React$useState3 = _react.default.useState(false),
-      _React$useState4 = (0, _slicedToArray2.default)(_React$useState3, 2),
-      leaving = _React$useState4[0],
-      setLeaving = _React$useState4[1];
-
-  var handleEnter = function handleEnter() {
-    setVisible(true);
-  };
-
-  var handleExit = function handleExit() {
-    setLeaving(true);
-  };
-
-  var rippleClassName = (0, _clsx.default)(classes.ripple, visible && classes.rippleVisible, pulsate && classes.ripplePulsate, className);
-  var rippleStyles = {
-    width: rippleSize,
-    height: rippleSize,
-    top: -(rippleSize / 2) + rippleY,
-    left: -(rippleSize / 2) + rippleX
-  };
-  var childClassName = (0, _clsx.default)(classes.child, leaving && classes.childLeaving, pulsate && classes.childPulsate);
-  return _react.default.createElement(_reactTransitionGroup.Transition, (0, _extends2.default)({
-    onEnter: handleEnter,
-    onExit: handleExit
-  }, other), _react.default.createElement("span", {
-    className: rippleClassName,
-    style: rippleStyles
-  }, _react.default.createElement("span", {
-    className: childClassName
-  })));
-}
-
-"development" !== "production" ? Ripple.propTypes = {
-  /**
-   * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
-   */
-  classes: _propTypes.default.object.isRequired,
-
-  /**
-   * @ignore
-   */
-  className: _propTypes.default.string,
-
-  /**
-   * If `true`, the ripple pulsates, typically indicating the keyboard focus state of an element.
-   */
-  pulsate: _propTypes.default.bool,
-
-  /**
-   * Diameter of the ripple.
-   */
-  rippleSize: _propTypes.default.number,
-
-  /**
-   * Horizontal position of the ripple center.
-   */
-  rippleX: _propTypes.default.number,
-
-  /**
-   * Vertical position of the ripple center.
-   */
-  rippleY: _propTypes.default.number
-} : void 0;
-var _default = Ripple;
-exports.default = _default;
-},{"@babel/runtime/helpers/extends":"../../../node_modules/@babel/runtime/helpers/extends.js","@babel/runtime/helpers/slicedToArray":"../../../node_modules/@babel/runtime/helpers/slicedToArray.js","@babel/runtime/helpers/objectWithoutProperties":"../../../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","react":"../../../node_modules/react/index.js","prop-types":"../../../node_modules/prop-types/index.js","clsx":"../../../node_modules/clsx/dist/clsx.m.js","react-transition-group":"../../../node_modules/react-transition-group/esm/index.js"}],"../../../node_modules/@material-ui/core/esm/ButtonBase/TouchRipple.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = exports.styles = exports.DELAY_RIPPLE = void 0;
-
-var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
-
-var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutProperties"));
-
-var _toConsumableArray2 = _interopRequireDefault(require("@babel/runtime/helpers/toConsumableArray"));
-
-var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
-
-var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-
-var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
-
-var _getPrototypeOf3 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
-
-var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
-
-var _react = _interopRequireDefault(require("react"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
-var _reactTransitionGroup = require("react-transition-group");
-
-var _clsx = _interopRequireDefault(require("clsx"));
-
-var _withStyles = _interopRequireDefault(require("../styles/withStyles"));
-
-var _Ripple = _interopRequireDefault(require("./Ripple"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var DURATION = 550;
-var DELAY_RIPPLE = 80;
-exports.DELAY_RIPPLE = DELAY_RIPPLE;
-
-var styles = function styles(theme) {
-  return {
-    /* Styles applied to the root element. */
-    root: {
-      display: 'block',
-      position: 'absolute',
-      overflow: 'hidden',
-      borderRadius: 'inherit',
-      width: '100%',
-      height: '100%',
-      left: 0,
-      top: 0,
-      pointerEvents: 'none',
-      zIndex: 0
-    },
-
-    /* Styles applied to the internal `Ripple` components `ripple` class. */
-    ripple: {
-      opacity: 0,
-      position: 'absolute'
-    },
-
-    /* Styles applied to the internal `Ripple` components `rippleVisible` class. */
-    rippleVisible: {
-      opacity: 0.3,
-      transform: 'scale(1)',
-      animation: "mui-ripple-enter ".concat(DURATION, "ms ").concat(theme.transitions.easing.easeInOut),
-      // Backward compatible logic between JSS v9 and v10.
-      // To remove with the release of Material-UI v4
-      animationName: '$mui-ripple-enter'
-    },
-
-    /* Styles applied to the internal `Ripple` components `ripplePulsate` class. */
-    ripplePulsate: {
-      animationDuration: "".concat(theme.transitions.duration.shorter, "ms")
-    },
-
-    /* Styles applied to the internal `Ripple` components `child` class. */
-    child: {
-      opacity: 1,
-      display: 'block',
-      width: '100%',
-      height: '100%',
-      borderRadius: '50%',
-      backgroundColor: 'currentColor'
-    },
-
-    /* Styles applied to the internal `Ripple` components `childLeaving` class. */
-    childLeaving: {
-      opacity: 0,
-      animation: "mui-ripple-exit ".concat(DURATION, "ms ").concat(theme.transitions.easing.easeInOut),
-      // Backward compatible logic between JSS v9 and v10.
-      // To remove with the release of Material-UI v4
-      animationName: '$mui-ripple-exit'
-    },
-
-    /* Styles applied to the internal `Ripple` components `childPulsate` class. */
-    childPulsate: {
-      position: 'absolute',
-      left: 0,
-      top: 0,
-      animation: "mui-ripple-pulsate 2500ms ".concat(theme.transitions.easing.easeInOut, " 200ms infinite"),
-      // Backward compatible logic between JSS v9 and v10.
-      // To remove with the release of Material-UI v4
-      animationName: '$mui-ripple-pulsate'
-    },
-    '@keyframes mui-ripple-enter': {
-      '0%': {
-        transform: 'scale(0)',
-        opacity: 0.1
-      },
-      '100%': {
-        transform: 'scale(1)',
-        opacity: 0.3
-      }
-    },
-    '@keyframes mui-ripple-exit': {
-      '0%': {
-        opacity: 1
-      },
-      '100%': {
-        opacity: 0
-      }
-    },
-    '@keyframes mui-ripple-pulsate': {
-      '0%': {
-        transform: 'scale(1)'
-      },
-      '50%': {
-        transform: 'scale(0.92)'
-      },
-      '100%': {
-        transform: 'scale(1)'
-      }
-    }
-  };
-};
-
-exports.styles = styles;
-
-var TouchRipple =
-/*#__PURE__*/
-function (_React$PureComponent) {
-  (0, _inherits2.default)(TouchRipple, _React$PureComponent);
-
-  function TouchRipple() {
-    var _getPrototypeOf2;
-
-    var _this;
-
-    (0, _classCallCheck2.default)(this, TouchRipple);
-
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    _this = (0, _possibleConstructorReturn2.default)(this, (_getPrototypeOf2 = (0, _getPrototypeOf3.default)(TouchRipple)).call.apply(_getPrototypeOf2, [this].concat(args)));
-    _this.state = {
-      nextKey: 0,
-      ripples: []
-    };
-    _this.container = _react.default.createRef();
-
-    _this.pulsate = function () {
-      _this.start({}, {
-        pulsate: true
-      });
-    };
-
-    _this.start = function () {
-      var event = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      var cb = arguments.length > 2 ? arguments[2] : undefined;
-      var _options$pulsate = options.pulsate,
-          pulsate = _options$pulsate === void 0 ? false : _options$pulsate,
-          _options$center = options.center,
-          center = _options$center === void 0 ? _this.props.center || options.pulsate : _options$center,
-          _options$fakeElement = options.fakeElement,
-          fakeElement = _options$fakeElement === void 0 ? false : _options$fakeElement;
-
-      if (event.type === 'mousedown' && _this.ignoringMouseDown) {
-        _this.ignoringMouseDown = false;
-        return;
-      }
-
-      if (event.type === 'touchstart') {
-        _this.ignoringMouseDown = true;
-      }
-
-      var element = fakeElement ? null : _this.container.current;
-      var rect = element ? element.getBoundingClientRect() : {
-        width: 0,
-        height: 0,
-        left: 0,
-        top: 0
-      }; // Get the size of the ripple
-
-      var rippleX;
-      var rippleY;
-      var rippleSize;
-
-      if (center || event.clientX === 0 && event.clientY === 0 || !event.clientX && !event.touches) {
-        rippleX = Math.round(rect.width / 2);
-        rippleY = Math.round(rect.height / 2);
-      } else {
-        var clientX = event.clientX ? event.clientX : event.touches[0].clientX;
-        var clientY = event.clientY ? event.clientY : event.touches[0].clientY;
-        rippleX = Math.round(clientX - rect.left);
-        rippleY = Math.round(clientY - rect.top);
-      }
-
-      if (center) {
-        rippleSize = Math.sqrt((2 * Math.pow(rect.width, 2) + Math.pow(rect.height, 2)) / 3); // For some reason the animation is broken on Mobile Chrome if the size if even.
-
-        if (rippleSize % 2 === 0) {
-          rippleSize += 1;
-        }
-      } else {
-        var sizeX = Math.max(Math.abs((element ? element.clientWidth : 0) - rippleX), rippleX) * 2 + 2;
-        var sizeY = Math.max(Math.abs((element ? element.clientHeight : 0) - rippleY), rippleY) * 2 + 2;
-        rippleSize = Math.sqrt(Math.pow(sizeX, 2) + Math.pow(sizeY, 2));
-      } // Touche devices
-
-
-      if (event.touches) {
-        // Prepare the ripple effect.
-        _this.startTimerCommit = function () {
-          _this.startCommit({
-            pulsate: pulsate,
-            rippleX: rippleX,
-            rippleY: rippleY,
-            rippleSize: rippleSize,
-            cb: cb
-          });
-        }; // Delay the execution of the ripple effect.
-
-
-        _this.startTimer = setTimeout(function () {
-          if (_this.startTimerCommit) {
-            _this.startTimerCommit();
-
-            _this.startTimerCommit = null;
-          }
-        }, DELAY_RIPPLE); // We have to make a tradeoff with this value.
-      } else {
-        _this.startCommit({
-          pulsate: pulsate,
-          rippleX: rippleX,
-          rippleY: rippleY,
-          rippleSize: rippleSize,
-          cb: cb
-        });
-      }
-    };
-
-    _this.startCommit = function (params) {
-      var pulsate = params.pulsate,
-          rippleX = params.rippleX,
-          rippleY = params.rippleY,
-          rippleSize = params.rippleSize,
-          cb = params.cb;
-
-      _this.setState(function (state) {
-        return {
-          nextKey: state.nextKey + 1,
-          ripples: [].concat((0, _toConsumableArray2.default)(state.ripples), [_react.default.createElement(_Ripple.default, {
-            key: state.nextKey,
-            classes: _this.props.classes,
-            timeout: {
-              exit: DURATION,
-              enter: DURATION
-            },
-            pulsate: pulsate,
-            rippleX: rippleX,
-            rippleY: rippleY,
-            rippleSize: rippleSize
-          })])
-        };
-      }, cb);
-    };
-
-    _this.stop = function (event, cb) {
-      clearTimeout(_this.startTimer);
-      var ripples = _this.state.ripples; // The touch interaction occurs too quickly.
-      // We still want to show ripple effect.
-
-      if (event.type === 'touchend' && _this.startTimerCommit) {
-        event.persist();
-
-        _this.startTimerCommit();
-
-        _this.startTimerCommit = null;
-        _this.startTimer = setTimeout(function () {
-          _this.stop(event, cb);
-        });
-        return;
-      }
-
-      _this.startTimerCommit = null;
-
-      if (ripples && ripples.length) {
-        _this.setState({
-          ripples: ripples.slice(1)
-        }, cb);
-      }
-    };
-
-    return _this;
-  }
-
-  (0, _createClass2.default)(TouchRipple, [{
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {
-      clearTimeout(this.startTimer);
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this$props = this.props,
-          center = _this$props.center,
-          classes = _this$props.classes,
-          className = _this$props.className,
-          other = (0, _objectWithoutProperties2.default)(_this$props, ["center", "classes", "className"]);
-      return _react.default.createElement("span", (0, _extends2.default)({
-        className: (0, _clsx.default)(classes.root, className),
-        ref: this.container
-      }, other), _react.default.createElement(_reactTransitionGroup.TransitionGroup, {
-        component: null,
-        enter: true,
-        exit: true
-      }, this.state.ripples));
-    }
-  }]);
-  return TouchRipple;
-}(_react.default.PureComponent);
-
-"development" !== "production" ? TouchRipple.propTypes = {
-  /**
-   * If `true`, the ripple starts at the center of the component
-   * rather than at the point of interaction.
-   */
-  center: _propTypes.default.bool,
-
-  /**
-   * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
-   */
-  classes: _propTypes.default.object.isRequired,
-
-  /**
-   * @ignore
-   */
-  className: _propTypes.default.string
-} : void 0;
-TouchRipple.defaultProps = {
-  center: false
-};
-
-var _default = (0, _withStyles.default)(styles, {
-  flip: false,
-  name: 'MuiTouchRipple'
-})(TouchRipple);
-
-exports.default = _default;
-},{"@babel/runtime/helpers/extends":"../../../node_modules/@babel/runtime/helpers/extends.js","@babel/runtime/helpers/objectWithoutProperties":"../../../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","@babel/runtime/helpers/toConsumableArray":"../../../node_modules/@babel/runtime/helpers/toConsumableArray.js","@babel/runtime/helpers/classCallCheck":"../../../node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"../../../node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"../../../node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"../../../node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/inherits":"../../../node_modules/@babel/runtime/helpers/inherits.js","react":"../../../node_modules/react/index.js","prop-types":"../../../node_modules/prop-types/index.js","react-transition-group":"../../../node_modules/react-transition-group/esm/index.js","clsx":"../../../node_modules/clsx/dist/clsx.m.js","../styles/withStyles":"../../../node_modules/@material-ui/core/esm/styles/withStyles.js","./Ripple":"../../../node_modules/@material-ui/core/esm/ButtonBase/Ripple.js"}],"../../../node_modules/@material-ui/core/esm/ButtonBase/ButtonBase.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = exports.styles = void 0;
-
-var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
-
-var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
-
-var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutProperties"));
-
-var _react = _interopRequireDefault(require("react"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
-var _reactDom = _interopRequireDefault(require("react-dom"));
-
-var _clsx = _interopRequireDefault(require("clsx"));
-
-var _utils = require("@material-ui/utils");
-
-var _reactHelpers = require("../utils/reactHelpers");
-
-var _withStyles = _interopRequireDefault(require("../styles/withStyles"));
-
-var _NoSsr = _interopRequireDefault(require("../NoSsr"));
-
-var _focusVisible = require("../utils/focusVisible");
-
-var _TouchRipple = _interopRequireDefault(require("./TouchRipple"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var styles = {
-  /* Styles applied to the root element. */
-  root: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative',
-    // Remove grey highlight
-    WebkitTapHighlightColor: 'transparent',
-    backgroundColor: 'transparent',
-    // Reset default value
-    // We disable the focus ring for mouse, touch and keyboard users.
-    outline: 'none',
-    border: 0,
-    margin: 0,
-    // Remove the margin in Safari
-    borderRadius: 0,
-    padding: 0,
-    // Remove the padding in Firefox
-    cursor: 'pointer',
-    userSelect: 'none',
-    verticalAlign: 'middle',
-    '-moz-appearance': 'none',
-    // Reset
-    '-webkit-appearance': 'none',
-    // Reset
-    textDecoration: 'none',
-    // So we take precedent over the style of a native <a /> element.
-    color: 'inherit',
-    '&::-moz-focus-inner': {
-      borderStyle: 'none' // Remove Firefox dotted outline.
-
-    },
-    '&$disabled': {
-      pointerEvents: 'none',
-      // Disable link interactions
-      cursor: 'default'
-    }
-  },
-
-  /* Styles applied to the root element if `disabled={true}`. */
-  disabled: {},
-
-  /* Styles applied to the root element if keyboard focused. */
-  focusVisible: {}
-};
-exports.styles = styles;
-var useEnhancedEffect = typeof window !== 'undefined' ? _react.default.useLayoutEffect : _react.default.useEffect;
-/**
- * https://github.com/facebook/react/issues/14099#issuecomment-440013892
- *
- * @param {function} fn
- */
-
-function useEventCallback(fn) {
-  var ref = _react.default.useRef(fn);
-
-  useEnhancedEffect(function () {
-    ref.current = fn;
-  });
-  return _react.default.useCallback(function (event) {
-    return (0, ref.current)(event);
-  }, []);
-}
-/**
- * `ButtonBase` contains as few styles as possible.
- * It aims to be a simple building block for creating a button.
- * It contains a load of style reset and some focus/ripple logic.
- */
-
-
-var ButtonBase = _react.default.forwardRef(function ButtonBase(props, ref) {
-  var action = props.action,
-      buttonRefProp = props.buttonRef,
-      _props$centerRipple = props.centerRipple,
-      centerRipple = _props$centerRipple === void 0 ? false : _props$centerRipple,
-      children = props.children,
-      classes = props.classes,
-      classNameProp = props.className,
-      _props$component = props.component,
-      component = _props$component === void 0 ? 'button' : _props$component,
-      disabled = props.disabled,
-      _props$disableRipple = props.disableRipple,
-      disableRipple = _props$disableRipple === void 0 ? false : _props$disableRipple,
-      _props$disableTouchRi = props.disableTouchRipple,
-      disableTouchRipple = _props$disableTouchRi === void 0 ? false : _props$disableTouchRi,
-      _props$focusRipple = props.focusRipple,
-      focusRipple = _props$focusRipple === void 0 ? false : _props$focusRipple,
-      focusVisibleClassName = props.focusVisibleClassName,
-      onBlur = props.onBlur,
-      onClick = props.onClick,
-      onFocus = props.onFocus,
-      onFocusVisible = props.onFocusVisible,
-      onKeyDown = props.onKeyDown,
-      onKeyUp = props.onKeyUp,
-      onMouseDown = props.onMouseDown,
-      onMouseLeave = props.onMouseLeave,
-      onMouseUp = props.onMouseUp,
-      onTouchEnd = props.onTouchEnd,
-      onTouchMove = props.onTouchMove,
-      onTouchStart = props.onTouchStart,
-      _props$tabIndex = props.tabIndex,
-      tabIndex = _props$tabIndex === void 0 ? 0 : _props$tabIndex,
-      TouchRippleProps = props.TouchRippleProps,
-      _props$type = props.type,
-      type = _props$type === void 0 ? 'button' : _props$type,
-      other = (0, _objectWithoutProperties2.default)(props, ["action", "buttonRef", "centerRipple", "children", "classes", "className", "component", "disabled", "disableRipple", "disableTouchRipple", "focusRipple", "focusVisibleClassName", "onBlur", "onClick", "onFocus", "onFocusVisible", "onKeyDown", "onKeyUp", "onMouseDown", "onMouseLeave", "onMouseUp", "onTouchEnd", "onTouchMove", "onTouchStart", "tabIndex", "TouchRippleProps", "type"]);
-
-  var buttonRef = _react.default.useRef(null);
-
-  function getButtonNode() {
-    // #StrictMode ready
-    return _reactDom.default.findDOMNode(buttonRef.current);
-  }
-
-  var rippleRef = _react.default.useRef(null);
-
-  var _React$useState = _react.default.useState(false),
-      _React$useState2 = (0, _slicedToArray2.default)(_React$useState, 2),
-      focusVisible = _React$useState2[0],
-      setFocusVisible = _React$useState2[1];
-
-  if (disabled && focusVisible) {
-    setFocusVisible(false);
-  }
-
-  var _useIsFocusVisible = (0, _focusVisible.useIsFocusVisible)(),
-      isFocusVisible = _useIsFocusVisible.isFocusVisible,
-      onBlurVisible = _useIsFocusVisible.onBlurVisible,
-      focusVisibleRef = _useIsFocusVisible.ref;
-
-  _react.default.useImperativeHandle(action, function () {
-    return {
-      focusVisible: function focusVisible() {
-        setFocusVisible(true);
-        buttonRef.current.focus();
-      }
-    };
-  }, []);
-
-  _react.default.useEffect(function () {
-    if (focusVisible && focusRipple && !disableRipple) {
-      rippleRef.current.pulsate();
-    }
-  }, [disableRipple, focusRipple, focusVisible]);
-
-  function useRippleHandler(rippleAction, eventCallback) {
-    var skipRippleAction = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : disableTouchRipple;
-    return useEventCallback(function (event) {
-      if (eventCallback) {
-        eventCallback(event);
-      }
-
-      var ignore = event.defaultPrevented || skipRippleAction;
-
-      if (!ignore && rippleRef.current) {
-        rippleRef.current[rippleAction](event);
-      }
-
-      return true;
-    });
-  }
-
-  var handleMouseDown = useRippleHandler('start', onMouseDown);
-  var handleMouseUp = useRippleHandler('stop', onMouseUp);
-  var handleMouseLeave = useRippleHandler('stop', function (event) {
-    if (focusVisible) {
-      event.preventDefault();
-    }
-
-    if (onMouseLeave) {
-      onMouseLeave(event);
-    }
-  });
-  var handleTouchStart = useRippleHandler('start', onTouchStart);
-  var handleTouchEnd = useRippleHandler('stop', onTouchEnd);
-  var handleTouchMove = useRippleHandler('stop', onTouchMove);
-  var handleBlur = useRippleHandler('stop', function (event) {
-    if (focusVisible) {
-      onBlurVisible(event);
-      setFocusVisible(false);
-    }
-
-    if (onBlur) {
-      onBlur(event);
-    }
-  }, false);
-  var handleFocus = useEventCallback(function (event) {
-    if (disabled) {
-      return;
-    } // Fix for https://github.com/facebook/react/issues/7769
-
-
-    if (!buttonRef.current) {
-      buttonRef.current = event.currentTarget;
-    }
-
-    if (isFocusVisible(event)) {
-      setFocusVisible(true);
-
-      if (onFocusVisible) {
-        onFocusVisible(event);
-      }
-    }
-
-    if (onFocus) {
-      onFocus(event);
-    }
-  });
-
-  var keydownRef = _react.default.useRef(false);
-
-  var handleKeyDown = useEventCallback(function (event) {
-    // Check if key is already down to avoid repeats being counted as multiple activations
-    if (focusRipple && !keydownRef.current && focusVisible && rippleRef.current && event.key === ' ') {
-      keydownRef.current = true;
-      event.persist();
-      rippleRef.current.stop(event, function () {
-        rippleRef.current.start(event);
-      });
-    }
-
-    if (onKeyDown) {
-      onKeyDown(event);
-    }
-
-    var button = getButtonNode(); // Keyboard accessibility for non interactive elements
-
-    if (event.target === event.currentTarget && component && component !== 'button' && (event.key === ' ' || event.key === 'Enter') && !(button.tagName === 'A' && button.href)) {
-      event.preventDefault();
-
-      if (onClick) {
-        onClick(event);
-      }
-    }
-  });
-  var handleKeyUp = useEventCallback(function (event) {
-    if (focusRipple && event.key === ' ' && rippleRef.current && focusVisible) {
-      keydownRef.current = false;
-      event.persist();
-      rippleRef.current.stop(event, function () {
-        rippleRef.current.pulsate(event);
-      });
-    }
-
-    if (onKeyUp) {
-      onKeyUp(event);
-    }
-  });
-  var className = (0, _clsx.default)(classes.root, classNameProp, focusVisible && [classes.focusVisible, focusVisibleClassName], disabled && classes.disabled);
-  var ComponentProp = component;
-
-  if (ComponentProp === 'button' && other.href) {
-    ComponentProp = 'a';
-  }
-
-  var buttonProps = {};
-
-  if (ComponentProp === 'button') {
-    buttonProps.type = type;
-    buttonProps.disabled = disabled;
-  } else {
-    buttonProps.role = 'button';
-    buttonProps['aria-disabled'] = disabled;
-  }
-
-  var handleUserRef = (0, _reactHelpers.useForkRef)(buttonRefProp, ref);
-  var handleOwnRef = (0, _reactHelpers.useForkRef)(focusVisibleRef, buttonRef);
-  var handleRef = (0, _reactHelpers.useForkRef)(handleUserRef, handleOwnRef);
-  return _react.default.createElement(ComponentProp, (0, _extends2.default)({
-    className: className,
-    onBlur: handleBlur,
-    onClick: onClick,
-    onFocus: handleFocus,
-    onKeyDown: handleKeyDown,
-    onKeyUp: handleKeyUp,
-    onMouseDown: handleMouseDown,
-    onMouseLeave: handleMouseLeave,
-    onMouseUp: handleMouseUp,
-    onTouchEnd: handleTouchEnd,
-    onTouchMove: handleTouchMove,
-    onTouchStart: handleTouchStart,
-    ref: handleRef,
-    tabIndex: disabled ? -1 : tabIndex
-  }, buttonProps, other), children, !disableRipple && !disabled ? _react.default.createElement(_NoSsr.default, null, _react.default.createElement(_TouchRipple.default, (0, _extends2.default)({
-    ref: rippleRef,
-    center: centerRipple
-  }, TouchRippleProps))) : null);
-});
-
-"development" !== "production" ? ButtonBase.propTypes = {
-  /**
-   * Callback fired when the component mounts.
-   * This is useful when you want to trigger an action programmatically.
-   * It currently only supports `focusVisible()` action.
-   *
-   * @param {object} actions This object contains all possible actions
-   * that can be triggered programmatically.
-   */
-  action: _propTypes.default.func,
-
-  /**
-   * Use that property to pass a ref callback to the native button component.
-   * @deprecated Use `ref` instead
-   */
-  buttonRef: _propTypes.default.oneOfType([_propTypes.default.func, _propTypes.default.object]),
-
-  /**
-   * If `true`, the ripples will be centered.
-   * They won't start at the cursor interaction position.
-   */
-  centerRipple: _propTypes.default.bool,
-
-  /**
-   * The content of the component.
-   */
-  children: _propTypes.default.node,
-
-  /**
-   * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
-   */
-  classes: _propTypes.default.object.isRequired,
-
-  /**
-   * @ignore
-   */
-  className: _propTypes.default.string,
-
-  /**
-   * The component used for the root node.
-   * Either a string to use a DOM element or a component.
-   */
-  component: _utils.elementTypeAcceptingRef,
-
-  /**
-   * If `true`, the base button will be disabled.
-   */
-  disabled: _propTypes.default.bool,
-
-  /**
-   * If `true`, the ripple effect will be disabled.
-   *
-   * ⚠️ Without a ripple there is no styling for :focus-visible by default. Be sure
-   * to highlight the element by applying separate styles with the `focusVisibleClassName`.
-   */
-  disableRipple: _propTypes.default.bool,
-
-  /**
-   * If `true`, the touch ripple effect will be disabled.
-   */
-  disableTouchRipple: _propTypes.default.bool,
-
-  /**
-   * If `true`, the base button will have a keyboard focus ripple.
-   * `disableRipple` must also be `false`.
-   */
-  focusRipple: _propTypes.default.bool,
-
-  /**
-   * This property can help a person know which element has the keyboard focus.
-   * The class name will be applied when the element gain the focus through a keyboard interaction.
-   * It's a polyfill for the [CSS :focus-visible selector](https://drafts.csswg.org/selectors-4/#the-focus-visible-pseudo).
-   * The rationale for using this feature [is explained here](https://github.com/WICG/focus-visible/blob/master/explainer.md).
-   * A [polyfill can be used](https://github.com/WICG/focus-visible) to apply a `focus-visible` class to other components
-   * if needed.
-   */
-  focusVisibleClassName: _propTypes.default.string,
-
-  /**
-   * @ignore
-   */
-  onBlur: _propTypes.default.func,
-
-  /**
-   * @ignore
-   */
-  onClick: _propTypes.default.func,
-
-  /**
-   * @ignore
-   */
-  onFocus: _propTypes.default.func,
-
-  /**
-   * Callback fired when the component is focused with a keyboard.
-   * We trigger a `onFocus` callback too.
-   */
-  onFocusVisible: _propTypes.default.func,
-
-  /**
-   * @ignore
-   */
-  onKeyDown: _propTypes.default.func,
-
-  /**
-   * @ignore
-   */
-  onKeyUp: _propTypes.default.func,
-
-  /**
-   * @ignore
-   */
-  onMouseDown: _propTypes.default.func,
-
-  /**
-   * @ignore
-   */
-  onMouseLeave: _propTypes.default.func,
-
-  /**
-   * @ignore
-   */
-  onMouseUp: _propTypes.default.func,
-
-  /**
-   * @ignore
-   */
-  onTouchEnd: _propTypes.default.func,
-
-  /**
-   * @ignore
-   */
-  onTouchMove: _propTypes.default.func,
-
-  /**
-   * @ignore
-   */
-  onTouchStart: _propTypes.default.func,
-
-  /**
-   * @ignore
-   */
-  role: _propTypes.default.string,
-
-  /**
-   * @ignore
-   */
-  tabIndex: _propTypes.default.oneOfType([_propTypes.default.number, _propTypes.default.string]),
-
-  /**
-   * Properties applied to the `TouchRipple` element.
-   */
-  TouchRippleProps: _propTypes.default.object,
-
-  /**
-   * Used to control the button's purpose.
-   * This property passes the value to the `type` attribute of the native button component.
-   */
-  type: _propTypes.default.oneOf(['submit', 'reset', 'button'])
-} : void 0;
-
-var _default = (0, _withStyles.default)(styles, {
-  name: 'MuiButtonBase'
-})(ButtonBase);
-
-exports.default = _default;
-},{"@babel/runtime/helpers/extends":"../../../node_modules/@babel/runtime/helpers/extends.js","@babel/runtime/helpers/slicedToArray":"../../../node_modules/@babel/runtime/helpers/slicedToArray.js","@babel/runtime/helpers/objectWithoutProperties":"../../../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","react":"../../../node_modules/react/index.js","prop-types":"../../../node_modules/prop-types/index.js","react-dom":"../../../node_modules/react-dom/index.js","clsx":"../../../node_modules/clsx/dist/clsx.m.js","@material-ui/utils":"../../../node_modules/@material-ui/utils/esm/index.js","../utils/reactHelpers":"../../../node_modules/@material-ui/core/esm/utils/reactHelpers.js","../styles/withStyles":"../../../node_modules/@material-ui/core/esm/styles/withStyles.js","../NoSsr":"../../../node_modules/@material-ui/core/esm/NoSsr/index.js","../utils/focusVisible":"../../../node_modules/@material-ui/core/esm/utils/focusVisible.js","./TouchRipple":"../../../node_modules/@material-ui/core/esm/ButtonBase/TouchRipple.js"}],"../../../node_modules/@material-ui/core/esm/ButtonBase/index.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "default", {
-  enumerable: true,
-  get: function () {
-    return _ButtonBase.default;
-  }
-});
-
-var _ButtonBase = _interopRequireDefault(require("./ButtonBase"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./ButtonBase":"../../../node_modules/@material-ui/core/esm/ButtonBase/ButtonBase.js"}],"../../../node_modules/@material-ui/core/esm/Fab/Fab.js":[function(require,module,exports) {
+},{"./Icon":"../../../node_modules/@material-ui/core/esm/Icon/Icon.js"}],"../../../node_modules/@material-ui/core/esm/Fab/Fab.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -74167,6 +74547,145 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
+var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : new P(function (resolve) {
+        resolve(result.value);
+      }).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+var __generator = this && this.__generator || function (thisArg, body) {
+  var _ = {
+    label: 0,
+    sent: function sent() {
+      if (t[0] & 1) throw t[1];
+      return t[1];
+    },
+    trys: [],
+    ops: []
+  },
+      f,
+      y,
+      t,
+      g;
+  return g = {
+    next: verb(0),
+    "throw": verb(1),
+    "return": verb(2)
+  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+    return this;
+  }), g;
+
+  function verb(n) {
+    return function (v) {
+      return step([n, v]);
+    };
+  }
+
+  function step(op) {
+    if (f) throw new TypeError("Generator is already executing.");
+
+    while (_) {
+      try {
+        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+        if (y = 0, t) op = [op[0] & 2, t.value];
+
+        switch (op[0]) {
+          case 0:
+          case 1:
+            t = op;
+            break;
+
+          case 4:
+            _.label++;
+            return {
+              value: op[1],
+              done: false
+            };
+
+          case 5:
+            _.label++;
+            y = op[1];
+            op = [0];
+            continue;
+
+          case 7:
+            op = _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+
+          default:
+            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+              _ = 0;
+              continue;
+            }
+
+            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+              _.label = op[1];
+              break;
+            }
+
+            if (op[0] === 6 && _.label < t[1]) {
+              _.label = t[1];
+              t = op;
+              break;
+            }
+
+            if (t && _.label < t[2]) {
+              _.label = t[2];
+
+              _.ops.push(op);
+
+              break;
+            }
+
+            if (t[2]) _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+        }
+
+        op = body.call(thisArg, _);
+      } catch (e) {
+        op = [6, e];
+        y = 0;
+      } finally {
+        f = t = 0;
+      }
+    }
+
+    if (op[0] & 5) throw op[1];
+    return {
+      value: op[0] ? op[1] : void 0,
+      done: true
+    };
+  }
+};
+
 var __importStar = this && this.__importStar || function (mod) {
   if (mod && mod.__esModule) return mod;
   var result = {};
@@ -74182,6 +74701,8 @@ var __importDefault = this && this.__importDefault || function (mod) {
     "default": mod
   };
 };
+
+var _this = this;
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -74199,37 +74720,40 @@ var TextField_1 = __importDefault(require("@material-ui/core/TextField"));
 
 var Container_1 = __importDefault(require("@material-ui/core/Container"));
 
+var Button_1 = __importDefault(require("@material-ui/core/Button"));
+
+var Typography_1 = __importDefault(require("@material-ui/core/Typography"));
+
 var theme_1 = __importDefault(require("../lib/theme"));
 
 var useStyles = styles_1.makeStyles(function (theme) {
   return styles_1.createStyles({
     authForm: {
-      width: '100%',
-      height: 130,
-      padding: theme.spacing(3, 5),
-      backgroundColor: '#fff',
+      height: '100vh',
       display: 'flex',
+      flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center'
     },
-    textField: {
-      flex: 1,
-      marginRight: 40
-    },
+    textField: {},
     button: {
-      margin: theme.spacing(1),
+      color: '#fff',
+      margin: theme.spacing(2),
+      padding: theme.spacing(1, 4),
       background: theme_1.default.button
     }
   });
 });
 
 var AuthForm = function AuthForm(_a) {
-  var loginUserMutation = _a.loginUserMutation;
+  var loginUserMutation = _a.loginUserMutation,
+      client = _a.client;
   var classes = useStyles();
 
   var _b = React.useState({
     email: '',
-    password: ''
+    password: '',
+    error: null
   }),
       values = _b[0],
       setValues = _b[1];
@@ -74242,9 +74766,37 @@ var AuthForm = function AuthForm(_a) {
     };
   };
 
+  var handleSubmit = function handleSubmit() {
+    return __awaiter(_this, void 0, void 0, function () {
+      var loginUser;
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            return [4, loginUserMutation(__assign({}, values))];
+
+          case 1:
+            loginUser = _a.sent().data.loginUser;
+
+            if (loginUser == "false") {
+              setValues(__assign({}, values, {
+                error: 'Password or email are incorrect'
+              }));
+            } else {
+              localStorage.setItem('token', loginUser);
+              client.resetStore();
+            }
+
+            return [2];
+        }
+      });
+    });
+  };
+
   return React.createElement(Container_1.default, {
-    className: classes.chatFooter
-  }, React.createElement(TextField_1.default, {
+    className: classes.authForm
+  }, React.createElement(Typography_1.default, {
+    component: "h1"
+  }, "Sign In"), React.createElement(TextField_1.default, {
     id: "outlined-email-input",
     label: "Email",
     className: classes.textField,
@@ -74262,13 +74814,17 @@ var AuthForm = function AuthForm(_a) {
     type: "password",
     autoComplete: "current-password",
     margin: "normal",
+    variant: "outlined",
     value: values.password,
     onChange: handleChange('password')
-  }));
+  }), React.createElement(Button_1.default, {
+    className: classes.button,
+    onClick: handleSubmit
+  }, "Submit"));
 };
 
-exports.default = react_apollo_1.compose(mutations_1.withLoginUser)(AuthForm);
-},{"react":"../../../node_modules/react/index.js","react-apollo":"../../../node_modules/react-apollo/react-apollo.esm.js","../store/hoc/mutations":"../store/hoc/mutations/index.ts","@material-ui/core/styles":"../../../node_modules/@material-ui/core/esm/styles/index.js","@material-ui/core/TextField":"../../../node_modules/@material-ui/core/esm/TextField/index.js","@material-ui/core/Container":"../../../node_modules/@material-ui/core/esm/Container/index.js","../lib/theme":"../lib/theme.ts"}],"../containers/Chat.tsx":[function(require,module,exports) {
+exports.default = react_apollo_1.compose(react_apollo_1.withApollo, mutations_1.withLoginUser)(AuthForm);
+},{"react":"../../../node_modules/react/index.js","react-apollo":"../../../node_modules/react-apollo/react-apollo.esm.js","../store/hoc/mutations":"../store/hoc/mutations/index.ts","@material-ui/core/styles":"../../../node_modules/@material-ui/core/esm/styles/index.js","@material-ui/core/TextField":"../../../node_modules/@material-ui/core/esm/TextField/index.js","@material-ui/core/Container":"../../../node_modules/@material-ui/core/esm/Container/index.js","@material-ui/core/Button":"../../../node_modules/@material-ui/core/esm/Button/index.js","@material-ui/core/Typography":"../../../node_modules/@material-ui/core/esm/Typography/index.js","../lib/theme":"../lib/theme.ts"}],"../containers/Chat.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importStar = this && this.__importStar || function (mod) {
@@ -74313,7 +74869,7 @@ var Messages_1 = __importDefault(require("../components/Messages"));
 
 var AuthForm_1 = __importDefault(require("../components/AuthForm"));
 
-var drawerWidth = '50%';
+var drawerWidth = '100%';
 var useStyles = styles_1.makeStyles(function (theme) {
   return {
     root: {
@@ -74366,24 +74922,24 @@ var Chat = function Chat(_a) {
   var classes = useStyles();
   return React.createElement("div", {
     className: classes.root
-  }, React.createElement(CssBaseline_1.default, null), User || React.createElement(Drawer_1.default, {
+  }, React.createElement(CssBaseline_1.default, null), User === null && React.createElement(Drawer_1.default, {
     className: classes.drawer,
     variant: "permanent",
     classes: {
       paper: classes.drawerPaper
     },
     anchor: "left"
-  }, React.createElement(AuthForm_1.default, null)), React.createElement(Container_1.default, {
+  }, React.createElement(AuthForm_1.default, null)) || React.createElement(Container_1.default, {
     className: classes.content,
     maxWidth: "sm"
-  }, User && React.createElement(React.Fragment, null, React.createElement(ChatHeader_1.default, {
+  }, React.createElement(ChatHeader_1.default, {
     users: allUsers
   }), React.createElement(Messages_1.default, {
     users: users,
     userId: User._id
   }), React.createElement(ChatFooter_1.default, {
     userId: User._id
-  })) || React.createElement("h1", null, "Welcome")));
+  })));
 };
 
 exports.default = react_apollo_1.compose(queries_1.withUsers, queries_1.withUser)(Chat);
@@ -74455,7 +75011,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59306" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62562" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

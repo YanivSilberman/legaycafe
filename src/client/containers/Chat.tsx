@@ -16,7 +16,7 @@ import AuthForm from '../components/AuthForm';
 
 import customTheme from '../lib/theme';
 
-const drawerWidth = '50%';
+const drawerWidth = '100%';
 
 const useStyles = makeStyles(theme => {
   return ({
@@ -81,7 +81,7 @@ const Chat: React.FunctionComponent<{
   return (
     <div className={classes.root}>
       <CssBaseline />
-      {User || (
+      {(User === null) && (
         <Drawer
           className={classes.drawer}
           variant="permanent"
@@ -92,18 +92,13 @@ const Chat: React.FunctionComponent<{
         >
           <AuthForm />
         </Drawer>
+      ) || (
+        <Container className={classes.content} maxWidth="sm">
+          <ChatHeader users={allUsers} />
+          <Messages users={users} userId={User._id} />
+          <ChatFooter userId={User._id} />
+        </Container>
       )}
-      <Container className={classes.content} maxWidth="sm">
-        {User && (
-          <>
-            <ChatHeader users={allUsers} />
-            <Messages users={users} userId={User._id} />
-            <ChatFooter userId={User._id} />
-          </>
-        ) || (
-          <h1>Welcome</h1>
-        )}
-      </Container>
     </div>
   );
 };
