@@ -12,9 +12,10 @@ type Mutation {
 
 type Query {
   users: [User!]!
-  messages: [Message!]!
+  messages(skip: Int): [Message!]!
   User: User
   usersTyping: [User!]
+  messageCount: Int!
 }
 
 type Message {

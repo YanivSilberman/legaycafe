@@ -6,6 +6,7 @@ export default gql`
       _id
       text
       user
+      createdAt
     }
   }
 `;

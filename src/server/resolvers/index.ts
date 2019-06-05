@@ -3,6 +3,7 @@ import { PubSub } from 'apollo-server';
 import uuid from 'uuid/v4';
 import jwt from 'jsonwebtoken';
 import { User, Message } from '../models';
+import { NUM_MESSAGES } from '../constants';
 
 const pubsub = new PubSub();
 
@@ -48,8 +49,14 @@ const resolvers: IResolvers = {
     },
   },
   Query: {
-    async messages(_: void, args: void) {
-      const messages = await Message.find({}, null, {sort: '-createdAt'}).limit(10);
+    async messageCount(_: void, args: void) {
+      return await Message.collection.count()
+    },
+
+    async messages(_: void, args: any) {
+      const messages = await Message.find().sort({ $natural: -1 })
+        .skip(args.skip || 0)
+        .limit(NUM_MESSAGES);
       return messages.reverse();
     },
 

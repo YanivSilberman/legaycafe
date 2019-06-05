@@ -1,5 +1,6 @@
 import Mongoose from "mongoose";
 import bcrypt from "bcrypt";
+import moment from "moment";
 
 Mongoose.connect("mongodb+srv://yaniv:1296yyy1296@legaycafe-uurrn.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true });
 
@@ -66,7 +67,7 @@ const MessageSchema = new Schema({
   id: ObjectId,
   text: String,
   user: { type: ObjectId, ref: 'User' },
-  createdAt: { type: Date, default: Date.now() }
+  createdAt: { type: Date, default: moment().toDate() }
 });
 
 

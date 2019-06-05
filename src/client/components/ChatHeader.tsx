@@ -7,12 +7,14 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 
+import customTheme from '../lib/theme';
+
 const useStyles = makeStyles(theme => ({
   chatHeader: {
     width: '100%',
     height: 70,
     padding: theme.spacing(3, 5),
-    backgroundColor: '#fff',
+    
     display: 'flex',
     alignItems: 'center'
   },
@@ -20,8 +22,12 @@ const useStyles = makeStyles(theme => ({
     marginRight: 20,
     display: 'inline-block'
   },
+  buttonContainer: {
+    flex: 1,
+    textAlign: 'right'
+  },
   button: {
-    float: 'right'
+
   }
 }));
 
@@ -45,9 +51,11 @@ const ChatHeader: React.FunctionComponent<{
           src={user.avatar}
         />
       ))}
-      <Button className={classes.button} onClick={logout}>
-        Sign Out
-      </Button>
+      <div className={classes.buttonContainer}>
+        <Button className={classes.button} onClick={logout}>
+          Sign Out
+        </Button>
+      </div>
     </Container>
   );
 };

@@ -1,26 +1,30 @@
 import { graphql } from 'react-apollo';
 import { messagesGql } from '../../gql/queries';
 import { newMessageSubscriptionGql } from '../../gql/subscriptions';
+import { NUM_MESSAGES } from '../../../../server/constants';
 
 export default graphql(messagesGql, {
   name: 'messages',
   options: () => ({
     skip: true
   }),
-  props: ({ messages: { error, loading, messages, usersTyping, fetchMore, subscribeToMore } }) => {
+  fetchPolicy: 'no-cache',
+  props: ({ messages: { error, loading, messages, messageCount, fetchMore, subscribeToMore } }) => {
     if (error) return null;
 
     return {
       loading,
       messages,
-      refetchMessages: (id) => fetchMore({
-        variables: { id },
+      isMoreMessages: messages && messageCount > messages.length || false,
+      moreMessages: (skip) => fetchMore({
+        variables: { skip },
         updateQuery: (previousResult, { fetchMoreResult }) => {
           if (!fetchMoreResult) {
             return previousResult;
           }
           return Object.assign({}, previousResult, {
-            messages: fetchMoreResult.messages
+            messages: [ ...fetchMoreResult.messages , ...previousResult.messages ],
+            isMoreMessages: fetchMoreResult.messages.length < NUM_MESSAGES
           });
         }
       }),
