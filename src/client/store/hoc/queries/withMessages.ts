@@ -16,12 +16,13 @@ export default graphql(messagesGql, {
       loading,
       messages,
       isMoreMessages: messages && messageCount > messages.length || false,
-      moreMessages: (skip) => fetchMore({
+      moreMessages: (skip, cb) => fetchMore({
         variables: { skip },
         updateQuery: (previousResult, { fetchMoreResult }) => {
           if (!fetchMoreResult) {
             return previousResult;
           }
+          cb();
           return Object.assign({}, previousResult, {
             messages: [ ...fetchMoreResult.messages , ...previousResult.messages ],
             isMoreMessages: fetchMoreResult.messages.length < NUM_MESSAGES

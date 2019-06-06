@@ -47,12 +47,23 @@ const useStyles = makeStyles(theme => ({
   avatar: {
 
   },
+  avatarPlaceholder: {
+    width: 40
+  },
   isTyping: {
     marginTop: 20
   },
   date: {
     fontSize: 10,
     marginTop: 10
+  },
+  top: {
+    textAlign: 'center',
+    marginBottom: 50,
+    opacity: 0.5
+  },
+  skeletonMessage: {
+    background: "#eeeeee"
   }
 }));
 
@@ -61,6 +72,7 @@ const Messages: React.FunctionComponent<{
   usersTyping: [];
 }> = ({
   messages,
+  waitingOnMessage,
   usersTyping,
   subscribeToNewMessages,
   subscribeToUserTyping,
@@ -75,6 +87,9 @@ const Messages: React.FunctionComponent<{
 
   const classes = useStyles();
 
+  const [fetchingMessages, setFetchingMessages] = React.useState(false);
+  const [scrollPosition, setScrollPosition] = React.useState(0);
+
   React.useEffect(() => {
     subscribeToNewMessages();
     subscribeToUserTyping();
@@ -87,12 +102,25 @@ const Messages: React.FunctionComponent<{
     })
   }, []);
 
-  const formatDate = (date) => date.toLocaleString();
+  React.useEffect(() => {
+    if (fetchingMessages) {
+      setTimeout(() => {
+        moreMessages(messages.length, () => {
+          setFetchingMessages(false);
+        });
+      }, 1000);
+    }
+  }, [{fetchingMessages}]);
 
   const handleInfiniteScroll = e => {
-    if (e.target.scrollTop === 0 && isMoreMessages) {
-      // fetch more messages
-      moreMessages(messages.length);
+    if (e.target.scrollTop < scrollPosition) {
+      // moving up
+      if (e.target.scrollTop <= 400 && isMoreMessages && !fetchingMessages) {
+        // fetch more messages
+        setFetchingMessages(true);
+      }
+    } else {
+      setScrollPosition(e.target.scrollTop)
     }
   }
 
@@ -102,18 +130,27 @@ const Messages: React.FunctionComponent<{
       id="scrollContainer"
       onScroll={handleInfiniteScroll}
     >
+      {!isMoreMessages && (
+        <Typography className={classes.top} component="h5">
+          Top of conversation
+        </Typography>
+      )|| null}
       <Trail
         items={messages}
         keys={message => message._id}
-        from={{ marginBottom: 50, opacity: 0 }}
-        to={{ marginBottom: 20, opacity: 1 }}
+        from={{ marginLeft: 20, opacity: 0 }}
+        to={{ marginLeft: 0, opacity: 1 }}
       >
-        {({ id, text, user, createdAt }) => styleProps => (
+        {({ id, text, user, createdAt }, key) => styleProps => (
           <div
             style={styleProps}
             className={`${classes.messageContainer} ${(user === userId) && classes.ownMessageContainer}`}
           >
-            <Avatar className={classes.avatar} alt={users[user].avatar} src={users[user].avatar} />
+            {(key === 0 || messages[key-1].user !== user) ? (
+              <Avatar className={classes.avatar} alt={users[user].avatar} src={users[user].avatar} />
+            ) : (
+              <div className={classes.avatarPlaceholder} />
+            )}
             <Paper
               key={id}
               className={`${classes.message} ${(user === userId) && classes.ownMessage}`}
@@ -123,7 +160,7 @@ const Messages: React.FunctionComponent<{
               </Typography>
             </Paper>
             <span className={classes.date}>
-              {moment(parseInt(createdAt)).format()}
+              {moment(parseInt(createdAt)).fromNow()}
             </span>
           </div>
         )}

@@ -24,7 +24,7 @@ const server = new ApolloServer({
         currentUser = await jwt.verify(authToken, secret);
       }
     } catch (e) {
-      console.warn(`Unable to authenticate using auth token: ${authToken}`);
+      // console.warn(`Unable to authenticate using auth token: ${authToken}`);
     }
 
     return { authToken, currentUser };

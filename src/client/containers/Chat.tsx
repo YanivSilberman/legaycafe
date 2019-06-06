@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { compose } from 'react-apollo';
-import { withUsers, withUser } from '../store/hoc/queries';
+import { withUsers } from '../store/hoc/queries';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -68,15 +68,24 @@ const Chat: React.FunctionComponent<{
   usersLoading: boolean;
 }> = ({
   User,
-  UserLoading,
   users,
   allUsers,
   usersLoading,
 }) => {
 
-  if (usersLoading || UserLoading) return 'loading ...';
+  if (usersLoading) return 'loading ...';
 
   const classes = useStyles();
+
+  const [state, setState] = React.useState({
+    waitingOnMessage: false
+  });
+
+  /*
+  const handleChange = name => event => {
+    setState({ ...state, [name]: event.target.value });
+  };
+  */
 
   return (
     <div className={classes.root}>
@@ -94,13 +103,26 @@ const Chat: React.FunctionComponent<{
         </Drawer>
       ) || (
         <Container className={classes.content} maxWidth="sm">
-          <ChatHeader users={allUsers} />
-          <Messages users={users} userId={User._id} />
-          <ChatFooter userId={User._id} />
+          <ChatHeader
+            users={allUsers}
+          />
+          <Messages
+            users={users}
+            userId={User._id}
+            waitingOnMessage={state.waitingOnMessage}
+          />
+          <ChatFooter
+            setIsWaitingOnMessage={(isWaiting) => setState({
+              ...state,
+              waitingOnMessage: isWaiting
+            })}
+            waitingOnMessage={state.waitingOnMessage}
+            userId={User._id}
+          />
         </Container>
       )}
     </div>
   );
 };
 
-export default compose(withUsers, withUser)(Chat);
+export default compose(withUsers)(Chat);

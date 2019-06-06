@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { withRouter } from "react-router-dom";
 import { withApollo, compose } from 'react-apollo';
 import { withLoginUser } from '../store/hoc/mutations';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
@@ -31,7 +32,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const AuthForm: React.FunctionComponent<> = ({
   loginUserMutation,
-  client
+  client,
+  history
 }) => {
   const classes = useStyles();
 
@@ -53,7 +55,9 @@ const AuthForm: React.FunctionComponent<> = ({
       // success
       localStorage.setItem('token', loginUser);
       // update apollo cache
-      client.resetStore()
+      client.resetStore().then(() => {
+        history.push("/");
+      })
     }
   }
 
@@ -92,4 +96,4 @@ const AuthForm: React.FunctionComponent<> = ({
   );
 };
 
-export default compose(withApollo, withLoginUser)(AuthForm);
+export default compose(withRouter, withApollo, withLoginUser)(AuthForm);

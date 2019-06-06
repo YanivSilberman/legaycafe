@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { compose } from 'react-apollo';
+import { scroller } from 'react-scroll'
 import { withCreateMessage, withToggleTyping } from '../store/hoc/mutations';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
@@ -40,16 +41,37 @@ const ChatFooter: React.FunctionComponent<{
   createMessageMutation: function;
   toggleUserTypingMutation: function;
   userId: string;
-}> = ({ userId, createMessageMutation, toggleUserTypingMutation }) => {
+}> = ({ waitingOnMessage, userId, createMessageMutation, toggleUserTypingMutation, setIsWaitingOnMessage }) => {
   const classes = useStyles();
 
   const [values, setValues] = React.useState({
-    value: 'Say something here...'
+    value: ''
   });
 
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value });
   };
+
+  React.useEffect(() => {
+     if (waitingOnMessage) {
+       // just sent message
+       createMessageMutation({ text: values.value, userId }, () => {
+         setIsWaitingOnMessage(false);
+         setValues({ ...values, value: '' })
+         scroller.scrollTo('scrollTarget', {
+           duration: 1000,
+           smooth: true,
+           containerId: 'scrollContainer'
+         })
+       })
+     }
+  }, [{waitingOnMessage}]);
+
+  const sendMessage = () => {
+    if (!waitingOnMessage) {
+      setIsWaitingOnMessage(true);
+    }
+  }
 
   return (
     <Container className={classes.chatFooter}>
@@ -60,10 +82,17 @@ const ChatFooter: React.FunctionComponent<{
         onChange={handleChange('value')}
         className={classes.textField}
         margin="normal"
+        placeholder="Say something here..."
         onFocus={() => toggleUserTypingMutation({_id:userId, isTyping:true})}
         onBlur={() => toggleUserTypingMutation({_id:userId, isTyping:false})}
       />
-      <Fab onClick={() => createMessageMutation({ text: values.value, userId })} color="primary" aria-label="Add" className={classes.button}>
+      <Fab
+        onClick={sendMessage}
+        color="primary"
+        aria-label="Add"
+        className={classes.button}
+        disabled={waitingOnMessage}
+      >
         <Icon className={classes.rightIcon}>send</Icon>
       </Fab>
     </Container>
