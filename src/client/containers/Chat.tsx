@@ -103,9 +103,9 @@ const Chat: React.FunctionComponent<{
         </Drawer>
       ) || (
         <Container className={classes.content} maxWidth="sm">
-          <ChatHeader
+          {/*<ChatHeader
             users={allUsers}
-          />
+          />*/}
           <Messages
             users={users}
             userId={User._id}

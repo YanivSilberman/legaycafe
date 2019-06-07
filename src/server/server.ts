@@ -1,3 +1,6 @@
+require('dotenv');
+
+import path from 'path';
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import depthLimit from 'graphql-depth-limit';
@@ -7,7 +10,6 @@ import cors from 'cors';
 import jwt from 'jsonwebtoken';
 
 import schema from './schema/schema';
-import { secret } from './resolvers';
 
 const app = express();
 
@@ -21,7 +23,7 @@ const server = new ApolloServer({
       authToken = req.headers.authorization;
 
       if (authToken) {
-        currentUser = await jwt.verify(authToken, secret);
+        currentUser = await jwt.verify(authToken, process.env.JWT_SECRET);
       }
     } catch (e) {
       // console.warn(`Unable to authenticate using auth token: ${authToken}`);
@@ -39,6 +41,14 @@ const corsOptions = {
 
 app.use('*', cors(corsOptions));
 app.use(compression());
+
+// route react app
+app.use(express.static(path.join(__dirname, '../', '../', 'dist')));
+
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, '../', '../', 'dist', 'index.html'));
+});
+
 server.applyMiddleware({ app, path: '/graphql' });
 
 const httpServer = createServer(app);

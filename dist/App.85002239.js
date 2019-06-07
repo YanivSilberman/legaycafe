@@ -51133,7 +51133,8 @@ exports.default = react_apollo_1.graphql(queries_1.messagesGql, {
   },
   fetchPolicy: 'no-cache',
   props: function props(_a) {
-    var _b = _a.messages,
+    var userId = _a.ownProps.userId,
+        _b = _a.messages,
         error = _b.error,
         loading = _b.loading,
         messages = _b.messages,
@@ -52526,7 +52527,11 @@ function createSpacing() {
       args[_key] = arguments[_key];
     }
 
-    "development" !== "production" ? (0, _warning.default)(args.length <= 4, "Too many arguments, expected [1, 4], got ".concat(args.length)) : void 0;
+    "development" !== "production" ? (0, _warning.default)(args.length <= 4, "Too many arguments, expected between 1 and 4, got ".concat(args.length)) : void 0;
+
+    if (args.length === 0) {
+      return transform(1);
+    }
 
     if (args.length === 1) {
       return transform(args[0]);
@@ -57812,7 +57817,7 @@ function () {
   }, {
     key: "getStyleElement",
     value: function getStyleElement(props) {
-      return _react.default.createElement('style', Object.assign({
+      return _react.default.createElement('style', (0, _extends2.default)({
         id: 'jss-server-side',
         key: 'jss-server-side',
         dangerouslySetInnerHTML: {
@@ -57913,8 +57918,6 @@ var _react = _interopRequireDefault(require("react"));
 
 var _clsx = _interopRequireDefault(require("clsx"));
 
-var _warning = _interopRequireDefault(require("warning"));
-
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _utils = require("@material-ui/utils");
@@ -57951,8 +57954,11 @@ function styled(Component) {
 
     if ("development" !== 'production' && !name) {
       // Provide a better DX outside production.
-      classNamePrefix = (0, _utils.getDisplayName)(Component);
-      "development" !== "production" ? (0, _warning.default)(typeof classNamePrefix === 'string', ['Material-UI: the component displayName is invalid. It needs to be a string.', "Please fix the following component: ".concat(Component, ".")].join('\n')) : void 0;
+      var displayName = (0, _utils.getDisplayName)(Component);
+
+      if (displayName !== undefined) {
+        classNamePrefix = displayName;
+      }
     }
 
     var stylesOrCreator = typeof style === 'function' ? function (theme) {
@@ -58065,7 +58071,7 @@ function styled(Component) {
 
 var _default = styled;
 exports.default = _default;
-},{"@babel/runtime/helpers/extends":"../../../node_modules/@babel/runtime/helpers/extends.js","@babel/runtime/helpers/objectWithoutProperties":"../../../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","react":"../../../node_modules/react/index.js","clsx":"../../../node_modules/clsx/dist/clsx.m.js","warning":"../../../node_modules/warning/warning.js","prop-types":"../../../node_modules/prop-types/index.js","@material-ui/utils":"../../../node_modules/@material-ui/utils/esm/index.js","hoist-non-react-statics":"../../../node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js","../makeStyles":"../../../node_modules/@material-ui/styles/esm/makeStyles/index.js"}],"../../../node_modules/@material-ui/styles/esm/styled/index.js":[function(require,module,exports) {
+},{"@babel/runtime/helpers/extends":"../../../node_modules/@babel/runtime/helpers/extends.js","@babel/runtime/helpers/objectWithoutProperties":"../../../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","react":"../../../node_modules/react/index.js","clsx":"../../../node_modules/clsx/dist/clsx.m.js","prop-types":"../../../node_modules/prop-types/index.js","@material-ui/utils":"../../../node_modules/@material-ui/utils/esm/index.js","hoist-non-react-statics":"../../../node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js","../makeStyles":"../../../node_modules/@material-ui/styles/esm/makeStyles/index.js"}],"../../../node_modules/@material-ui/styles/esm/styled/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -58195,8 +58201,6 @@ var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _warning = _interopRequireDefault(require("warning"));
-
 var _hoistNonReactStatics = _interopRequireDefault(require("hoist-non-react-statics"));
 
 var _utils = require("@material-ui/utils");
@@ -58229,8 +58233,11 @@ var withStyles = function withStyles(stylesOrCreator) {
 
     if ("development" !== 'production' && !name) {
       // Provide a better DX outside production.
-      classNamePrefix = (0, _utils.getDisplayName)(Component);
-      "development" !== "production" ? (0, _warning.default)(typeof classNamePrefix === 'string', ['Material-UI: the component displayName is invalid. It needs to be a string.', "Please fix the following component: ".concat(Component, ".")].join('\n')) : void 0;
+      var displayName = (0, _utils.getDisplayName)(Component);
+
+      if (displayName !== undefined) {
+        classNamePrefix = displayName;
+      }
     }
 
     var useStyles = (0, _makeStyles.default)(stylesOrCreator, (0, _extends2.default)({
@@ -58315,7 +58322,7 @@ var withStyles = function withStyles(stylesOrCreator) {
 
 var _default = withStyles;
 exports.default = _default;
-},{"@babel/runtime/helpers/extends":"../../../node_modules/@babel/runtime/helpers/extends.js","@babel/runtime/helpers/objectWithoutProperties":"../../../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","react":"../../../node_modules/react/index.js","prop-types":"../../../node_modules/prop-types/index.js","warning":"../../../node_modules/warning/warning.js","hoist-non-react-statics":"../../../node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js","@material-ui/utils":"../../../node_modules/@material-ui/utils/esm/index.js","../makeStyles":"../../../node_modules/@material-ui/styles/esm/makeStyles/index.js","../getThemeProps":"../../../node_modules/@material-ui/styles/esm/getThemeProps/index.js","../useTheme":"../../../node_modules/@material-ui/styles/esm/useTheme/index.js"}],"../../../node_modules/@material-ui/styles/esm/withStyles/index.js":[function(require,module,exports) {
+},{"@babel/runtime/helpers/extends":"../../../node_modules/@babel/runtime/helpers/extends.js","@babel/runtime/helpers/objectWithoutProperties":"../../../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","react":"../../../node_modules/react/index.js","prop-types":"../../../node_modules/prop-types/index.js","hoist-non-react-statics":"../../../node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js","@material-ui/utils":"../../../node_modules/@material-ui/utils/esm/index.js","../makeStyles":"../../../node_modules/@material-ui/styles/esm/makeStyles/index.js","../getThemeProps":"../../../node_modules/@material-ui/styles/esm/getThemeProps/index.js","../useTheme":"../../../node_modules/@material-ui/styles/esm/useTheme/index.js"}],"../../../node_modules/@material-ui/styles/esm/withStyles/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -58563,7 +58570,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/** @license Material-UI v4.0.1
+/** @license Material-UI v4.0.2
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -58671,7 +58678,7 @@ module.exports = function parseUnit(str, out) {
     return out
 }
 },{}],"../../../node_modules/convert-css-length/dist/index.js":[function(require,module,exports) {
-var e=require("parse-unit"),r=function(r){return e(r)[0]};module.exports=function(n){return null==n&&(n=n),function(u,i,t,f){null==t&&(t=n),null==f&&(f=t);var l=function(r){return e(r)[1]}(u);if(l===i)return u;var o=r(u);if("px"!==l)if("em"===l)o=r(u)*r(t);else if("rem"===l)o=r(u)*r(n);else{if("ex"!==l)return u;o=r(u)*r(t)*2}var a=o;if("px"!==i)if("em"===i)a=o/r(f);else if("rem"===i)a=o/r(n);else{if("ex"!==i)return u;a=o/r(f)/2}return parseFloat(a.toFixed(5))+i}};
+var e,r=(e=require("parse-unit"))&&"object"==typeof e&&"default"in e?e.default:e,n=function(e){return r(e)[0]};module.exports=function(e){return null==e&&(e=e),function(t,u,i,f){null==i&&(i=e),null==f&&(f=i);var l=function(e){return r(e)[1]}(t);if(l===u)return t;var o=n(t);if("px"!==l)if("em"===l)o=n(t)*n(i);else if("rem"===l)o=n(t)*n(e);else{if("ex"!==l)return t;o=n(t)*n(i)*2}var a=o;if("px"!==u)if("em"===u)a=o/n(f);else if("rem"===u)a=o/n(e);else{if("ex"!==u)return t;a=o/n(f)/2}return parseFloat(a.toFixed(5))+u}};
 
 
 },{"parse-unit":"../../../node_modules/parse-unit/index.js"}],"../../../node_modules/@material-ui/core/esm/styles/cssUtils.js":[function(require,module,exports) {
@@ -59277,8 +59284,7 @@ var Portal = _react.default.forwardRef(function Portal(props, ref) {
       setMountNode(getContainer(container) || document.body);
     }
   }, [container, disablePortal]);
-
-  _react.default.useEffect(function () {
+  useEnhancedEffect(function () {
     if (onRendered && mountNode) {
       onRendered();
     }
@@ -59904,10 +59910,11 @@ function TrapFocus(props) {
       doc.removeEventListener('keydown', loopFocus, true); // restoreLastFocus()
 
       if (!disableRestoreFocus) {
+        // In IE 11 it is possible for document.activeElement to be null resulting
+        // in lastFocus.current being null.
         // Not all elements in IE 11 have a focus method.
-        // Because IE 11 market share is low, we accept the restore focus being broken
-        // and we silent the issue.
-        if (lastFocus.current.focus) {
+        // Once IE 11 support is dropped the focus() call can be unconditional.
+        if (lastFocus.current && lastFocus.current.focus) {
           lastFocus.current.focus();
         }
 
@@ -62445,7 +62452,7 @@ var Backdrop = _react.default.forwardRef(function Backdrop(props, ref) {
     in: open,
     timeout: transitionDuration
   }, other), _react.default.createElement("div", {
-    className: (0, _clsx.default)(classes.root, invisible && classes.invisible, className),
+    className: (0, _clsx.default)(classes.root, className, invisible && classes.invisible),
     "aria-hidden": true,
     ref: ref
   }));
@@ -62949,7 +62956,7 @@ var Paper = _react.default.forwardRef(function Paper(props, ref) {
       elevation = _props$elevation === void 0 ? 1 : _props$elevation,
       other = (0, _objectWithoutProperties2.default)(props, ["classes", "className", "component", "square", "elevation"]);
   "development" !== "production" ? (0, _warning.default)(elevation >= 0 && elevation < 25, "Material-UI: this elevation `".concat(elevation, "` is not implemented.")) : void 0;
-  var className = (0, _clsx.default)(classes.root, classes["elevation".concat(elevation)], !square && classes.rounded, classNameProp);
+  var className = (0, _clsx.default)(classes.root, classes["elevation".concat(elevation)], classNameProp, !square && classes.rounded);
   return _react.default.createElement(Component, (0, _extends2.default)({
     className: className,
     ref: ref
@@ -63635,6 +63642,7 @@ var styles = function styles(theme) {
   var _root;
 
   return {
+    /* Styles applied to the root element. */
     root: (_root = {
       width: '100%',
       marginLeft: 'auto',
@@ -63649,6 +63657,8 @@ var styles = function styles(theme) {
       paddingLeft: theme.spacing(4),
       paddingRight: theme.spacing(4)
     }), _root),
+
+    /* Styles applied to the root element if `fixed={true}`. */
     fixed: Object.keys(theme.breakpoints.values).reduce(function (acc, breakpoint) {
       var value = theme.breakpoints.values[breakpoint];
 
@@ -63660,18 +63670,28 @@ var styles = function styles(theme) {
 
       return acc;
     }, {}),
+
+    /* Styles applied to the root element if `maxWidth="xs"`. */
     maxWidthXs: (0, _defineProperty2.default)({}, theme.breakpoints.up('xs'), {
       maxWidth: Math.max(theme.breakpoints.values.xs, 444)
     }),
+
+    /* Styles applied to the root element if `maxWidth="sm"`. */
     maxWidthSm: (0, _defineProperty2.default)({}, theme.breakpoints.up('sm'), {
       maxWidth: theme.breakpoints.values.sm
     }),
+
+    /* Styles applied to the root element if `maxWidth="md"`. */
     maxWidthMd: (0, _defineProperty2.default)({}, theme.breakpoints.up('md'), {
       maxWidth: theme.breakpoints.values.md
     }),
+
+    /* Styles applied to the root element if `maxWidth="lg"`. */
     maxWidthLg: (0, _defineProperty2.default)({}, theme.breakpoints.up('lg'), {
       maxWidth: theme.breakpoints.values.lg
     }),
+
+    /* Styles applied to the root element if `maxWidth="xl"`. */
     maxWidthXl: (0, _defineProperty2.default)({}, theme.breakpoints.up('xl'), {
       maxWidth: theme.breakpoints.values.xl
     })
@@ -63691,7 +63711,7 @@ var Container = _react.default.forwardRef(function Container(props, ref) {
       maxWidth = _props$maxWidth === void 0 ? 'lg' : _props$maxWidth,
       other = (0, _objectWithoutProperties2.default)(props, ["classes", "className", "component", "fixed", "maxWidth"]);
   return _react.default.createElement(Component, (0, _extends2.default)({
-    className: (0, _clsx.default)(classes.root, fixed && classes.fixed, maxWidth !== false && classes["maxWidth".concat((0, _utils.capitalize)(String(maxWidth)))], className),
+    className: (0, _clsx.default)(classes.root, className, fixed && classes.fixed, maxWidth !== false && classes["maxWidth".concat((0, _utils.capitalize)(String(maxWidth)))]),
     ref: ref
   }, other));
 });
@@ -63753,1908 +63773,7 @@ Object.defineProperty(exports, "default", {
 var _Container = _interopRequireDefault(require("./Container"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./Container":"../../../node_modules/@material-ui/core/esm/Container/Container.js"}],"../../../node_modules/@material-ui/core/esm/Avatar/Avatar.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = exports.styles = void 0;
-
-var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
-
-var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutProperties"));
-
-var _react = _interopRequireDefault(require("react"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
-var _clsx = _interopRequireDefault(require("clsx"));
-
-var _withStyles = _interopRequireDefault(require("../styles/withStyles"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var styles = function styles(theme) {
-  return {
-    /* Styles applied to the root element. */
-    root: {
-      position: 'relative',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexShrink: 0,
-      width: 40,
-      height: 40,
-      fontFamily: theme.typography.fontFamily,
-      fontSize: theme.typography.pxToRem(20),
-      borderRadius: '50%',
-      overflow: 'hidden',
-      userSelect: 'none'
-    },
-
-    /* Styles applied to the root element if there are children and not `src` or `srcSet`. */
-    colorDefault: {
-      color: theme.palette.background.default,
-      backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[400] : theme.palette.grey[600]
-    },
-
-    /* Styles applied to the img element if either `src` or `srcSet` is defined. */
-    img: {
-      width: '100%',
-      height: '100%',
-      textAlign: 'center',
-      // Handle non-square image. The property isn't supported by IE 11.
-      objectFit: 'cover'
-    }
-  };
-};
-
-exports.styles = styles;
-
-var Avatar = _react.default.forwardRef(function Avatar(props, ref) {
-  var alt = props.alt,
-      childrenProp = props.children,
-      childrenClassNameProp = props.childrenClassName,
-      classes = props.classes,
-      classNameProp = props.className,
-      _props$component = props.component,
-      Component = _props$component === void 0 ? 'div' : _props$component,
-      imgProps = props.imgProps,
-      sizes = props.sizes,
-      src = props.src,
-      srcSet = props.srcSet,
-      other = (0, _objectWithoutProperties2.default)(props, ["alt", "children", "childrenClassName", "classes", "className", "component", "imgProps", "sizes", "src", "srcSet"]);
-  var children = null;
-  var img = src || srcSet;
-
-  if (img) {
-    children = _react.default.createElement("img", (0, _extends2.default)({
-      alt: alt,
-      src: src,
-      srcSet: srcSet,
-      sizes: sizes,
-      className: classes.img
-    }, imgProps));
-  } else if (childrenClassNameProp && _react.default.isValidElement(childrenProp)) {
-    children = _react.default.cloneElement(childrenProp, {
-      className: (0, _clsx.default)(childrenClassNameProp, childrenProp.props.className)
-    });
-  } else {
-    children = childrenProp;
-  }
-
-  return _react.default.createElement(Component, (0, _extends2.default)({
-    className: (0, _clsx.default)(classes.root, classes.system, !img && classes.colorDefault, classNameProp),
-    ref: ref
-  }, other), children);
-});
-
-"development" !== "production" ? Avatar.propTypes = {
-  /**
-   * Used in combination with `src` or `srcSet` to
-   * provide an alt attribute for the rendered `img` element.
-   */
-  alt: _propTypes.default.string,
-
-  /**
-   * Used to render icon or text elements inside the Avatar.
-   * `src` and `alt` props will not be used and no `img` will
-   * be rendered by default.
-   *
-   * This can be an element, or just a string.
-   */
-  children: _propTypes.default.node,
-
-  /**
-   * @ignore
-   * The className of the child element.
-   * Used by Chip and ListItemIcon to style the Avatar icon.
-   */
-  childrenClassName: _propTypes.default.string,
-
-  /**
-   * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
-   */
-  classes: _propTypes.default.object.isRequired,
-
-  /**
-   * @ignore
-   */
-  className: _propTypes.default.string,
-
-  /**
-   * The component used for the root node.
-   * Either a string to use a DOM element or a component.
-   */
-  component: _propTypes.default.elementType,
-
-  /**
-   * Attributes applied to the `img` element if the component
-   * is used to display an image.
-   */
-  imgProps: _propTypes.default.object,
-
-  /**
-   * The `sizes` attribute for the `img` element.
-   */
-  sizes: _propTypes.default.string,
-
-  /**
-   * The `src` attribute for the `img` element.
-   */
-  src: _propTypes.default.string,
-
-  /**
-   * The `srcSet` attribute for the `img` element.
-   */
-  srcSet: _propTypes.default.string
-} : void 0;
-
-var _default = (0, _withStyles.default)(styles, {
-  name: 'MuiAvatar'
-})(Avatar);
-
-exports.default = _default;
-},{"@babel/runtime/helpers/extends":"../../../node_modules/@babel/runtime/helpers/extends.js","@babel/runtime/helpers/objectWithoutProperties":"../../../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","react":"../../../node_modules/react/index.js","prop-types":"../../../node_modules/prop-types/index.js","clsx":"../../../node_modules/clsx/dist/clsx.m.js","../styles/withStyles":"../../../node_modules/@material-ui/core/esm/styles/withStyles.js"}],"../../../node_modules/@material-ui/core/esm/Avatar/index.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "default", {
-  enumerable: true,
-  get: function () {
-    return _Avatar.default;
-  }
-});
-
-var _Avatar = _interopRequireDefault(require("./Avatar"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./Avatar":"../../../node_modules/@material-ui/core/esm/Avatar/Avatar.js"}],"../../../node_modules/@material-ui/core/esm/NoSsr/NoSsr.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
-
-var _react = _interopRequireDefault(require("react"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
-var _utils = require("@material-ui/utils");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var useEnhancedEffect = typeof window !== 'undefined' && "development" !== 'test' ? _react.default.useLayoutEffect : _react.default.useEffect;
-/**
- * NoSsr purposely removes components from the subject of Server Side Rendering (SSR).
- *
- * This component can be useful in a variety of situations:
- * - Escape hatch for broken dependencies not supporting SSR.
- * - Improve the time-to-first paint on the client by only rendering above the fold.
- * - Reduce the rendering time on the server.
- * - Under too heavy server load, you can turn on service degradation.
- */
-
-function NoSsr(props) {
-  var children = props.children,
-      _props$defer = props.defer,
-      defer = _props$defer === void 0 ? false : _props$defer,
-      _props$fallback = props.fallback,
-      fallback = _props$fallback === void 0 ? null : _props$fallback;
-
-  var _React$useState = _react.default.useState(false),
-      _React$useState2 = (0, _slicedToArray2.default)(_React$useState, 2),
-      mountedState = _React$useState2[0],
-      setMountedState = _React$useState2[1];
-
-  useEnhancedEffect(function () {
-    if (!defer) {
-      setMountedState(true);
-    }
-  }, [defer]);
-
-  _react.default.useEffect(function () {
-    if (defer) {
-      setMountedState(true);
-    }
-  }, [defer]); // We need the Fragment here to force react-docgen to recognise NoSsr as a component.
-
-
-  return _react.default.createElement(_react.default.Fragment, null, mountedState ? children : fallback);
-}
-
-"development" !== "production" ? NoSsr.propTypes = {
-  /**
-   * You can wrap a node.
-   */
-  children: _propTypes.default.node.isRequired,
-
-  /**
-   * If `true`, the component will not only prevent server-side rendering.
-   * It will also defer the rendering of the children into a different screen frame.
-   */
-  defer: _propTypes.default.bool,
-
-  /**
-   * The fallback content to display.
-   */
-  fallback: _propTypes.default.node
-} : void 0;
-
-if ("development" !== 'production') {
-  // eslint-disable-next-line
-  NoSsr['propTypes' + ''] = (0, _utils.exactProp)(NoSsr.propTypes);
-}
-
-var _default = NoSsr;
-exports.default = _default;
-},{"@babel/runtime/helpers/slicedToArray":"../../../node_modules/@babel/runtime/helpers/slicedToArray.js","react":"../../../node_modules/react/index.js","prop-types":"../../../node_modules/prop-types/index.js","@material-ui/utils":"../../../node_modules/@material-ui/utils/esm/index.js"}],"../../../node_modules/@material-ui/core/esm/NoSsr/index.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "default", {
-  enumerable: true,
-  get: function () {
-    return _NoSsr.default;
-  }
-});
-
-var _NoSsr = _interopRequireDefault(require("./NoSsr"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./NoSsr":"../../../node_modules/@material-ui/core/esm/NoSsr/NoSsr.js"}],"../../../node_modules/@material-ui/core/esm/utils/focusVisible.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.prepare = prepare;
-exports.teardown = teardown;
-exports.isFocusVisible = isFocusVisible;
-exports.handleBlurVisible = handleBlurVisible;
-exports.useIsFocusVisible = useIsFocusVisible;
-
-var _react = _interopRequireDefault(require("react"));
-
-var _reactDom = _interopRequireDefault(require("react-dom"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// based on https://github.com/WICG/focus-visible/blob/v4.1.5/src/focus-visible.js
-var hadKeyboardEvent = true;
-var hadFocusVisibleRecently = false;
-var hadFocusVisibleRecentlyTimeout = null;
-var inputTypesWhitelist = {
-  text: true,
-  search: true,
-  url: true,
-  tel: true,
-  email: true,
-  password: true,
-  number: true,
-  date: true,
-  month: true,
-  week: true,
-  time: true,
-  datetime: true,
-  'datetime-local': true
-};
-/**
- * Computes whether the given element should automatically trigger the
- * `focus-visible` class being added, i.e. whether it should always match
- * `:focus-visible` when focused.
- * @param {Element} node
- * @return {boolean}
- */
-
-function focusTriggersKeyboardModality(node) {
-  var type = node.type,
-      tagName = node.tagName;
-
-  if (tagName === 'INPUT' && inputTypesWhitelist[type] && !node.readOnly) {
-    return true;
-  }
-
-  if (tagName === 'TEXTAREA' && !node.readOnly) {
-    return true;
-  }
-
-  if (node.isContentEditable) {
-    return true;
-  }
-
-  return false;
-}
-
-function handleKeyDown() {
-  hadKeyboardEvent = true;
-}
-/**
- * If at any point a user clicks with a pointing device, ensure that we change
- * the modality away from keyboard.
- * This avoids the situation where a user presses a key on an already focused
- * element, and then clicks on a different element, focusing it with a
- * pointing device, while we still think we're in keyboard modality.
- * @param {Event} e
- */
-
-
-function handlePointerDown() {
-  hadKeyboardEvent = false;
-}
-
-function handleVisibilityChange() {
-  if (this.visibilityState === 'hidden') {
-    // If the tab becomes active again, the browser will handle calling focus
-    // on the element (Safari actually calls it twice).
-    // If this tab change caused a blur on an element with focus-visible,
-    // re-apply the class when the user switches back to the tab.
-    if (hadFocusVisibleRecently) {
-      hadKeyboardEvent = true;
-    }
-  }
-}
-
-function prepare(ownerDocument) {
-  ownerDocument.addEventListener('keydown', handleKeyDown, true);
-  ownerDocument.addEventListener('mousedown', handlePointerDown, true);
-  ownerDocument.addEventListener('pointerdown', handlePointerDown, true);
-  ownerDocument.addEventListener('touchstart', handlePointerDown, true);
-  ownerDocument.addEventListener('visibilitychange', handleVisibilityChange, true);
-}
-
-function teardown(ownerDocument) {
-  ownerDocument.removeEventListener('keydown', handleKeyDown, true);
-  ownerDocument.removeEventListener('mousedown', handlePointerDown, true);
-  ownerDocument.removeEventListener('pointerdown', handlePointerDown, true);
-  ownerDocument.removeEventListener('touchstart', handlePointerDown, true);
-  ownerDocument.removeEventListener('visibilitychange', handleVisibilityChange, true);
-}
-
-function isFocusVisible(event) {
-  var target = event.target;
-
-  try {
-    return target.matches(':focus-visible');
-  } catch (error) {} // browsers not implementing :focus-visible will throw a SyntaxError
-  // we use our own heuristic for those browsers
-  // rethrow might be better if it's not the expected error but do we really
-  // want to crash if focus-visible malfunctioned?
-  // no need for validFocusTarget check. the user does that by attaching it to
-  // focusable events only
-
-
-  return hadKeyboardEvent || focusTriggersKeyboardModality(target);
-}
-/**
- * Should be called if a blur event is fired on a focus-visible element
- */
-
-
-function handleBlurVisible() {
-  // To detect a tab/window switch, we look for a blur event followed
-  // rapidly by a visibility change.
-  // If we don't see a visibility change within 100ms, it's probably a
-  // regular focus change.
-  hadFocusVisibleRecently = true;
-  window.clearTimeout(hadFocusVisibleRecentlyTimeout);
-  hadFocusVisibleRecentlyTimeout = window.setTimeout(function () {
-    hadFocusVisibleRecently = false;
-    window.clearTimeout(hadFocusVisibleRecentlyTimeout);
-  }, 100);
-}
-
-function useIsFocusVisible() {
-  var ref = _react.default.useCallback(function (instance) {
-    var node = _reactDom.default.findDOMNode(instance);
-
-    if (node != null) {
-      prepare(node.ownerDocument);
-    }
-  }, []);
-
-  return {
-    isFocusVisible: isFocusVisible,
-    onBlurVisible: handleBlurVisible,
-    ref: ref
-  };
-}
-},{"react":"../../../node_modules/react/index.js","react-dom":"../../../node_modules/react-dom/index.js"}],"../../../node_modules/@babel/runtime/helpers/arrayWithoutHoles.js":[function(require,module,exports) {
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
-      arr2[i] = arr[i];
-    }
-
-    return arr2;
-  }
-}
-
-module.exports = _arrayWithoutHoles;
-},{}],"../../../node_modules/@babel/runtime/helpers/iterableToArray.js":[function(require,module,exports) {
-function _iterableToArray(iter) {
-  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
-}
-
-module.exports = _iterableToArray;
-},{}],"../../../node_modules/@babel/runtime/helpers/nonIterableSpread.js":[function(require,module,exports) {
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance");
-}
-
-module.exports = _nonIterableSpread;
-},{}],"../../../node_modules/@babel/runtime/helpers/toConsumableArray.js":[function(require,module,exports) {
-var arrayWithoutHoles = require("./arrayWithoutHoles");
-
-var iterableToArray = require("./iterableToArray");
-
-var nonIterableSpread = require("./nonIterableSpread");
-
-function _toConsumableArray(arr) {
-  return arrayWithoutHoles(arr) || iterableToArray(arr) || nonIterableSpread();
-}
-
-module.exports = _toConsumableArray;
-},{"./arrayWithoutHoles":"../../../node_modules/@babel/runtime/helpers/arrayWithoutHoles.js","./iterableToArray":"../../../node_modules/@babel/runtime/helpers/iterableToArray.js","./nonIterableSpread":"../../../node_modules/@babel/runtime/helpers/nonIterableSpread.js"}],"../../../node_modules/@material-ui/core/esm/ButtonBase/Ripple.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
-
-var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
-
-var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutProperties"));
-
-var _react = _interopRequireDefault(require("react"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
-var _clsx = _interopRequireDefault(require("clsx"));
-
-var _reactTransitionGroup = require("react-transition-group");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * @ignore - internal component.
- */
-function Ripple(props) {
-  var classes = props.classes,
-      className = props.className,
-      _props$pulsate = props.pulsate,
-      pulsate = _props$pulsate === void 0 ? false : _props$pulsate,
-      rippleX = props.rippleX,
-      rippleY = props.rippleY,
-      rippleSize = props.rippleSize,
-      other = (0, _objectWithoutProperties2.default)(props, ["classes", "className", "pulsate", "rippleX", "rippleY", "rippleSize"]);
-
-  var _React$useState = _react.default.useState(false),
-      _React$useState2 = (0, _slicedToArray2.default)(_React$useState, 2),
-      visible = _React$useState2[0],
-      setVisible = _React$useState2[1];
-
-  var _React$useState3 = _react.default.useState(false),
-      _React$useState4 = (0, _slicedToArray2.default)(_React$useState3, 2),
-      leaving = _React$useState4[0],
-      setLeaving = _React$useState4[1];
-
-  var handleEnter = function handleEnter() {
-    setVisible(true);
-  };
-
-  var handleExit = function handleExit() {
-    setLeaving(true);
-  };
-
-  var rippleClassName = (0, _clsx.default)(classes.ripple, visible && classes.rippleVisible, pulsate && classes.ripplePulsate, className);
-  var rippleStyles = {
-    width: rippleSize,
-    height: rippleSize,
-    top: -(rippleSize / 2) + rippleY,
-    left: -(rippleSize / 2) + rippleX
-  };
-  var childClassName = (0, _clsx.default)(classes.child, leaving && classes.childLeaving, pulsate && classes.childPulsate);
-  return _react.default.createElement(_reactTransitionGroup.Transition, (0, _extends2.default)({
-    onEnter: handleEnter,
-    onExit: handleExit
-  }, other), _react.default.createElement("span", {
-    className: rippleClassName,
-    style: rippleStyles
-  }, _react.default.createElement("span", {
-    className: childClassName
-  })));
-}
-
-"development" !== "production" ? Ripple.propTypes = {
-  /**
-   * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
-   */
-  classes: _propTypes.default.object.isRequired,
-
-  /**
-   * @ignore
-   */
-  className: _propTypes.default.string,
-
-  /**
-   * If `true`, the ripple pulsates, typically indicating the keyboard focus state of an element.
-   */
-  pulsate: _propTypes.default.bool,
-
-  /**
-   * Diameter of the ripple.
-   */
-  rippleSize: _propTypes.default.number,
-
-  /**
-   * Horizontal position of the ripple center.
-   */
-  rippleX: _propTypes.default.number,
-
-  /**
-   * Vertical position of the ripple center.
-   */
-  rippleY: _propTypes.default.number
-} : void 0;
-var _default = Ripple;
-exports.default = _default;
-},{"@babel/runtime/helpers/extends":"../../../node_modules/@babel/runtime/helpers/extends.js","@babel/runtime/helpers/slicedToArray":"../../../node_modules/@babel/runtime/helpers/slicedToArray.js","@babel/runtime/helpers/objectWithoutProperties":"../../../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","react":"../../../node_modules/react/index.js","prop-types":"../../../node_modules/prop-types/index.js","clsx":"../../../node_modules/clsx/dist/clsx.m.js","react-transition-group":"../../../node_modules/react-transition-group/esm/index.js"}],"../../../node_modules/@material-ui/core/esm/ButtonBase/TouchRipple.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = exports.styles = exports.DELAY_RIPPLE = void 0;
-
-var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
-
-var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutProperties"));
-
-var _toConsumableArray2 = _interopRequireDefault(require("@babel/runtime/helpers/toConsumableArray"));
-
-var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
-
-var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-
-var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
-
-var _getPrototypeOf3 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
-
-var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
-
-var _react = _interopRequireDefault(require("react"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
-var _reactTransitionGroup = require("react-transition-group");
-
-var _clsx = _interopRequireDefault(require("clsx"));
-
-var _withStyles = _interopRequireDefault(require("../styles/withStyles"));
-
-var _Ripple = _interopRequireDefault(require("./Ripple"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var DURATION = 550;
-var DELAY_RIPPLE = 80;
-exports.DELAY_RIPPLE = DELAY_RIPPLE;
-
-var styles = function styles(theme) {
-  return {
-    /* Styles applied to the root element. */
-    root: {
-      display: 'block',
-      position: 'absolute',
-      overflow: 'hidden',
-      borderRadius: 'inherit',
-      width: '100%',
-      height: '100%',
-      left: 0,
-      top: 0,
-      pointerEvents: 'none',
-      zIndex: 0
-    },
-
-    /* Styles applied to the internal `Ripple` components `ripple` class. */
-    ripple: {
-      opacity: 0,
-      position: 'absolute'
-    },
-
-    /* Styles applied to the internal `Ripple` components `rippleVisible` class. */
-    rippleVisible: {
-      opacity: 0.3,
-      transform: 'scale(1)',
-      animation: "mui-ripple-enter ".concat(DURATION, "ms ").concat(theme.transitions.easing.easeInOut),
-      // Backward compatible logic between JSS v9 and v10.
-      // To remove with the release of Material-UI v4
-      animationName: '$mui-ripple-enter'
-    },
-
-    /* Styles applied to the internal `Ripple` components `ripplePulsate` class. */
-    ripplePulsate: {
-      animationDuration: "".concat(theme.transitions.duration.shorter, "ms")
-    },
-
-    /* Styles applied to the internal `Ripple` components `child` class. */
-    child: {
-      opacity: 1,
-      display: 'block',
-      width: '100%',
-      height: '100%',
-      borderRadius: '50%',
-      backgroundColor: 'currentColor'
-    },
-
-    /* Styles applied to the internal `Ripple` components `childLeaving` class. */
-    childLeaving: {
-      opacity: 0,
-      animation: "mui-ripple-exit ".concat(DURATION, "ms ").concat(theme.transitions.easing.easeInOut),
-      // Backward compatible logic between JSS v9 and v10.
-      // To remove with the release of Material-UI v4
-      animationName: '$mui-ripple-exit'
-    },
-
-    /* Styles applied to the internal `Ripple` components `childPulsate` class. */
-    childPulsate: {
-      position: 'absolute',
-      left: 0,
-      top: 0,
-      animation: "mui-ripple-pulsate 2500ms ".concat(theme.transitions.easing.easeInOut, " 200ms infinite"),
-      // Backward compatible logic between JSS v9 and v10.
-      // To remove with the release of Material-UI v4
-      animationName: '$mui-ripple-pulsate'
-    },
-    '@keyframes mui-ripple-enter': {
-      '0%': {
-        transform: 'scale(0)',
-        opacity: 0.1
-      },
-      '100%': {
-        transform: 'scale(1)',
-        opacity: 0.3
-      }
-    },
-    '@keyframes mui-ripple-exit': {
-      '0%': {
-        opacity: 1
-      },
-      '100%': {
-        opacity: 0
-      }
-    },
-    '@keyframes mui-ripple-pulsate': {
-      '0%': {
-        transform: 'scale(1)'
-      },
-      '50%': {
-        transform: 'scale(0.92)'
-      },
-      '100%': {
-        transform: 'scale(1)'
-      }
-    }
-  };
-};
-
-exports.styles = styles;
-
-var TouchRipple =
-/*#__PURE__*/
-function (_React$PureComponent) {
-  (0, _inherits2.default)(TouchRipple, _React$PureComponent);
-
-  function TouchRipple() {
-    var _getPrototypeOf2;
-
-    var _this;
-
-    (0, _classCallCheck2.default)(this, TouchRipple);
-
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    _this = (0, _possibleConstructorReturn2.default)(this, (_getPrototypeOf2 = (0, _getPrototypeOf3.default)(TouchRipple)).call.apply(_getPrototypeOf2, [this].concat(args)));
-    _this.state = {
-      nextKey: 0,
-      ripples: []
-    };
-    _this.container = _react.default.createRef();
-
-    _this.pulsate = function () {
-      _this.start({}, {
-        pulsate: true
-      });
-    };
-
-    _this.start = function () {
-      var event = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      var cb = arguments.length > 2 ? arguments[2] : undefined;
-      var _options$pulsate = options.pulsate,
-          pulsate = _options$pulsate === void 0 ? false : _options$pulsate,
-          _options$center = options.center,
-          center = _options$center === void 0 ? _this.props.center || options.pulsate : _options$center,
-          _options$fakeElement = options.fakeElement,
-          fakeElement = _options$fakeElement === void 0 ? false : _options$fakeElement;
-
-      if (event.type === 'mousedown' && _this.ignoringMouseDown) {
-        _this.ignoringMouseDown = false;
-        return;
-      }
-
-      if (event.type === 'touchstart') {
-        _this.ignoringMouseDown = true;
-      }
-
-      var element = fakeElement ? null : _this.container.current;
-      var rect = element ? element.getBoundingClientRect() : {
-        width: 0,
-        height: 0,
-        left: 0,
-        top: 0
-      }; // Get the size of the ripple
-
-      var rippleX;
-      var rippleY;
-      var rippleSize;
-
-      if (center || event.clientX === 0 && event.clientY === 0 || !event.clientX && !event.touches) {
-        rippleX = Math.round(rect.width / 2);
-        rippleY = Math.round(rect.height / 2);
-      } else {
-        var clientX = event.clientX ? event.clientX : event.touches[0].clientX;
-        var clientY = event.clientY ? event.clientY : event.touches[0].clientY;
-        rippleX = Math.round(clientX - rect.left);
-        rippleY = Math.round(clientY - rect.top);
-      }
-
-      if (center) {
-        rippleSize = Math.sqrt((2 * Math.pow(rect.width, 2) + Math.pow(rect.height, 2)) / 3); // For some reason the animation is broken on Mobile Chrome if the size if even.
-
-        if (rippleSize % 2 === 0) {
-          rippleSize += 1;
-        }
-      } else {
-        var sizeX = Math.max(Math.abs((element ? element.clientWidth : 0) - rippleX), rippleX) * 2 + 2;
-        var sizeY = Math.max(Math.abs((element ? element.clientHeight : 0) - rippleY), rippleY) * 2 + 2;
-        rippleSize = Math.sqrt(Math.pow(sizeX, 2) + Math.pow(sizeY, 2));
-      } // Touche devices
-
-
-      if (event.touches) {
-        // Prepare the ripple effect.
-        _this.startTimerCommit = function () {
-          _this.startCommit({
-            pulsate: pulsate,
-            rippleX: rippleX,
-            rippleY: rippleY,
-            rippleSize: rippleSize,
-            cb: cb
-          });
-        }; // Delay the execution of the ripple effect.
-
-
-        _this.startTimer = setTimeout(function () {
-          if (_this.startTimerCommit) {
-            _this.startTimerCommit();
-
-            _this.startTimerCommit = null;
-          }
-        }, DELAY_RIPPLE); // We have to make a tradeoff with this value.
-      } else {
-        _this.startCommit({
-          pulsate: pulsate,
-          rippleX: rippleX,
-          rippleY: rippleY,
-          rippleSize: rippleSize,
-          cb: cb
-        });
-      }
-    };
-
-    _this.startCommit = function (params) {
-      var pulsate = params.pulsate,
-          rippleX = params.rippleX,
-          rippleY = params.rippleY,
-          rippleSize = params.rippleSize,
-          cb = params.cb;
-
-      _this.setState(function (state) {
-        return {
-          nextKey: state.nextKey + 1,
-          ripples: [].concat((0, _toConsumableArray2.default)(state.ripples), [_react.default.createElement(_Ripple.default, {
-            key: state.nextKey,
-            classes: _this.props.classes,
-            timeout: {
-              exit: DURATION,
-              enter: DURATION
-            },
-            pulsate: pulsate,
-            rippleX: rippleX,
-            rippleY: rippleY,
-            rippleSize: rippleSize
-          })])
-        };
-      }, cb);
-    };
-
-    _this.stop = function (event, cb) {
-      clearTimeout(_this.startTimer);
-      var ripples = _this.state.ripples; // The touch interaction occurs too quickly.
-      // We still want to show ripple effect.
-
-      if (event.type === 'touchend' && _this.startTimerCommit) {
-        event.persist();
-
-        _this.startTimerCommit();
-
-        _this.startTimerCommit = null;
-        _this.startTimer = setTimeout(function () {
-          _this.stop(event, cb);
-        });
-        return;
-      }
-
-      _this.startTimerCommit = null;
-
-      if (ripples && ripples.length) {
-        _this.setState({
-          ripples: ripples.slice(1)
-        }, cb);
-      }
-    };
-
-    return _this;
-  }
-
-  (0, _createClass2.default)(TouchRipple, [{
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {
-      clearTimeout(this.startTimer);
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this$props = this.props,
-          center = _this$props.center,
-          classes = _this$props.classes,
-          className = _this$props.className,
-          other = (0, _objectWithoutProperties2.default)(_this$props, ["center", "classes", "className"]);
-      return _react.default.createElement("span", (0, _extends2.default)({
-        className: (0, _clsx.default)(classes.root, className),
-        ref: this.container
-      }, other), _react.default.createElement(_reactTransitionGroup.TransitionGroup, {
-        component: null,
-        enter: true,
-        exit: true
-      }, this.state.ripples));
-    }
-  }]);
-  return TouchRipple;
-}(_react.default.PureComponent);
-
-"development" !== "production" ? TouchRipple.propTypes = {
-  /**
-   * If `true`, the ripple starts at the center of the component
-   * rather than at the point of interaction.
-   */
-  center: _propTypes.default.bool,
-
-  /**
-   * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
-   */
-  classes: _propTypes.default.object.isRequired,
-
-  /**
-   * @ignore
-   */
-  className: _propTypes.default.string
-} : void 0;
-TouchRipple.defaultProps = {
-  center: false
-};
-
-var _default = (0, _withStyles.default)(styles, {
-  flip: false,
-  name: 'MuiTouchRipple'
-})(TouchRipple);
-
-exports.default = _default;
-},{"@babel/runtime/helpers/extends":"../../../node_modules/@babel/runtime/helpers/extends.js","@babel/runtime/helpers/objectWithoutProperties":"../../../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","@babel/runtime/helpers/toConsumableArray":"../../../node_modules/@babel/runtime/helpers/toConsumableArray.js","@babel/runtime/helpers/classCallCheck":"../../../node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"../../../node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"../../../node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"../../../node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/inherits":"../../../node_modules/@babel/runtime/helpers/inherits.js","react":"../../../node_modules/react/index.js","prop-types":"../../../node_modules/prop-types/index.js","react-transition-group":"../../../node_modules/react-transition-group/esm/index.js","clsx":"../../../node_modules/clsx/dist/clsx.m.js","../styles/withStyles":"../../../node_modules/@material-ui/core/esm/styles/withStyles.js","./Ripple":"../../../node_modules/@material-ui/core/esm/ButtonBase/Ripple.js"}],"../../../node_modules/@material-ui/core/esm/ButtonBase/ButtonBase.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = exports.styles = void 0;
-
-var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
-
-var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
-
-var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutProperties"));
-
-var _react = _interopRequireDefault(require("react"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
-var _reactDom = _interopRequireDefault(require("react-dom"));
-
-var _clsx = _interopRequireDefault(require("clsx"));
-
-var _utils = require("@material-ui/utils");
-
-var _reactHelpers = require("../utils/reactHelpers");
-
-var _withStyles = _interopRequireDefault(require("../styles/withStyles"));
-
-var _NoSsr = _interopRequireDefault(require("../NoSsr"));
-
-var _focusVisible = require("../utils/focusVisible");
-
-var _TouchRipple = _interopRequireDefault(require("./TouchRipple"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var styles = {
-  /* Styles applied to the root element. */
-  root: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative',
-    // Remove grey highlight
-    WebkitTapHighlightColor: 'transparent',
-    backgroundColor: 'transparent',
-    // Reset default value
-    // We disable the focus ring for mouse, touch and keyboard users.
-    outline: 'none',
-    border: 0,
-    margin: 0,
-    // Remove the margin in Safari
-    borderRadius: 0,
-    padding: 0,
-    // Remove the padding in Firefox
-    cursor: 'pointer',
-    userSelect: 'none',
-    verticalAlign: 'middle',
-    '-moz-appearance': 'none',
-    // Reset
-    '-webkit-appearance': 'none',
-    // Reset
-    textDecoration: 'none',
-    // So we take precedent over the style of a native <a /> element.
-    color: 'inherit',
-    '&::-moz-focus-inner': {
-      borderStyle: 'none' // Remove Firefox dotted outline.
-
-    },
-    '&$disabled': {
-      pointerEvents: 'none',
-      // Disable link interactions
-      cursor: 'default'
-    }
-  },
-
-  /* Styles applied to the root element if `disabled={true}`. */
-  disabled: {},
-
-  /* Styles applied to the root element if keyboard focused. */
-  focusVisible: {}
-};
-exports.styles = styles;
-var useEnhancedEffect = typeof window !== 'undefined' ? _react.default.useLayoutEffect : _react.default.useEffect;
-/**
- * https://github.com/facebook/react/issues/14099#issuecomment-440013892
- *
- * @param {function} fn
- */
-
-function useEventCallback(fn) {
-  var ref = _react.default.useRef(fn);
-
-  useEnhancedEffect(function () {
-    ref.current = fn;
-  });
-  return _react.default.useCallback(function (event) {
-    return (0, ref.current)(event);
-  }, []);
-}
-/**
- * `ButtonBase` contains as few styles as possible.
- * It aims to be a simple building block for creating a button.
- * It contains a load of style reset and some focus/ripple logic.
- */
-
-
-var ButtonBase = _react.default.forwardRef(function ButtonBase(props, ref) {
-  var action = props.action,
-      buttonRefProp = props.buttonRef,
-      _props$centerRipple = props.centerRipple,
-      centerRipple = _props$centerRipple === void 0 ? false : _props$centerRipple,
-      children = props.children,
-      classes = props.classes,
-      classNameProp = props.className,
-      _props$component = props.component,
-      component = _props$component === void 0 ? 'button' : _props$component,
-      disabled = props.disabled,
-      _props$disableRipple = props.disableRipple,
-      disableRipple = _props$disableRipple === void 0 ? false : _props$disableRipple,
-      _props$disableTouchRi = props.disableTouchRipple,
-      disableTouchRipple = _props$disableTouchRi === void 0 ? false : _props$disableTouchRi,
-      _props$focusRipple = props.focusRipple,
-      focusRipple = _props$focusRipple === void 0 ? false : _props$focusRipple,
-      focusVisibleClassName = props.focusVisibleClassName,
-      onBlur = props.onBlur,
-      onClick = props.onClick,
-      onFocus = props.onFocus,
-      onFocusVisible = props.onFocusVisible,
-      onKeyDown = props.onKeyDown,
-      onKeyUp = props.onKeyUp,
-      onMouseDown = props.onMouseDown,
-      onMouseLeave = props.onMouseLeave,
-      onMouseUp = props.onMouseUp,
-      onTouchEnd = props.onTouchEnd,
-      onTouchMove = props.onTouchMove,
-      onTouchStart = props.onTouchStart,
-      _props$tabIndex = props.tabIndex,
-      tabIndex = _props$tabIndex === void 0 ? 0 : _props$tabIndex,
-      TouchRippleProps = props.TouchRippleProps,
-      _props$type = props.type,
-      type = _props$type === void 0 ? 'button' : _props$type,
-      other = (0, _objectWithoutProperties2.default)(props, ["action", "buttonRef", "centerRipple", "children", "classes", "className", "component", "disabled", "disableRipple", "disableTouchRipple", "focusRipple", "focusVisibleClassName", "onBlur", "onClick", "onFocus", "onFocusVisible", "onKeyDown", "onKeyUp", "onMouseDown", "onMouseLeave", "onMouseUp", "onTouchEnd", "onTouchMove", "onTouchStart", "tabIndex", "TouchRippleProps", "type"]);
-
-  var buttonRef = _react.default.useRef(null);
-
-  function getButtonNode() {
-    // #StrictMode ready
-    return _reactDom.default.findDOMNode(buttonRef.current);
-  }
-
-  var rippleRef = _react.default.useRef(null);
-
-  var _React$useState = _react.default.useState(false),
-      _React$useState2 = (0, _slicedToArray2.default)(_React$useState, 2),
-      focusVisible = _React$useState2[0],
-      setFocusVisible = _React$useState2[1];
-
-  if (disabled && focusVisible) {
-    setFocusVisible(false);
-  }
-
-  var _useIsFocusVisible = (0, _focusVisible.useIsFocusVisible)(),
-      isFocusVisible = _useIsFocusVisible.isFocusVisible,
-      onBlurVisible = _useIsFocusVisible.onBlurVisible,
-      focusVisibleRef = _useIsFocusVisible.ref;
-
-  _react.default.useImperativeHandle(action, function () {
-    return {
-      focusVisible: function focusVisible() {
-        setFocusVisible(true);
-        buttonRef.current.focus();
-      }
-    };
-  }, []);
-
-  _react.default.useEffect(function () {
-    if (focusVisible && focusRipple && !disableRipple) {
-      rippleRef.current.pulsate();
-    }
-  }, [disableRipple, focusRipple, focusVisible]);
-
-  function useRippleHandler(rippleAction, eventCallback) {
-    var skipRippleAction = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : disableTouchRipple;
-    return useEventCallback(function (event) {
-      if (eventCallback) {
-        eventCallback(event);
-      }
-
-      var ignore = event.defaultPrevented || skipRippleAction;
-
-      if (!ignore && rippleRef.current) {
-        rippleRef.current[rippleAction](event);
-      }
-
-      return true;
-    });
-  }
-
-  var handleMouseDown = useRippleHandler('start', onMouseDown);
-  var handleMouseUp = useRippleHandler('stop', onMouseUp);
-  var handleMouseLeave = useRippleHandler('stop', function (event) {
-    if (focusVisible) {
-      event.preventDefault();
-    }
-
-    if (onMouseLeave) {
-      onMouseLeave(event);
-    }
-  });
-  var handleTouchStart = useRippleHandler('start', onTouchStart);
-  var handleTouchEnd = useRippleHandler('stop', onTouchEnd);
-  var handleTouchMove = useRippleHandler('stop', onTouchMove);
-  var handleBlur = useRippleHandler('stop', function (event) {
-    if (focusVisible) {
-      onBlurVisible(event);
-      setFocusVisible(false);
-    }
-
-    if (onBlur) {
-      onBlur(event);
-    }
-  }, false);
-  var handleFocus = useEventCallback(function (event) {
-    if (disabled) {
-      return;
-    } // Fix for https://github.com/facebook/react/issues/7769
-
-
-    if (!buttonRef.current) {
-      buttonRef.current = event.currentTarget;
-    }
-
-    if (isFocusVisible(event)) {
-      setFocusVisible(true);
-
-      if (onFocusVisible) {
-        onFocusVisible(event);
-      }
-    }
-
-    if (onFocus) {
-      onFocus(event);
-    }
-  });
-
-  var keydownRef = _react.default.useRef(false);
-
-  var handleKeyDown = useEventCallback(function (event) {
-    // Check if key is already down to avoid repeats being counted as multiple activations
-    if (focusRipple && !keydownRef.current && focusVisible && rippleRef.current && event.key === ' ') {
-      keydownRef.current = true;
-      event.persist();
-      rippleRef.current.stop(event, function () {
-        rippleRef.current.start(event);
-      });
-    }
-
-    if (onKeyDown) {
-      onKeyDown(event);
-    }
-
-    var button = getButtonNode(); // Keyboard accessibility for non interactive elements
-
-    if (event.target === event.currentTarget && component && component !== 'button' && (event.key === ' ' || event.key === 'Enter') && !(button.tagName === 'A' && button.href)) {
-      event.preventDefault();
-
-      if (onClick) {
-        onClick(event);
-      }
-    }
-  });
-  var handleKeyUp = useEventCallback(function (event) {
-    if (focusRipple && event.key === ' ' && rippleRef.current && focusVisible) {
-      keydownRef.current = false;
-      event.persist();
-      rippleRef.current.stop(event, function () {
-        rippleRef.current.pulsate(event);
-      });
-    }
-
-    if (onKeyUp) {
-      onKeyUp(event);
-    }
-  });
-  var className = (0, _clsx.default)(classes.root, classNameProp, focusVisible && [classes.focusVisible, focusVisibleClassName], disabled && classes.disabled);
-  var ComponentProp = component;
-
-  if (ComponentProp === 'button' && other.href) {
-    ComponentProp = 'a';
-  }
-
-  var buttonProps = {};
-
-  if (ComponentProp === 'button') {
-    buttonProps.type = type;
-    buttonProps.disabled = disabled;
-  } else {
-    buttonProps.role = 'button';
-    buttonProps['aria-disabled'] = disabled;
-  }
-
-  var handleUserRef = (0, _reactHelpers.useForkRef)(buttonRefProp, ref);
-  var handleOwnRef = (0, _reactHelpers.useForkRef)(focusVisibleRef, buttonRef);
-  var handleRef = (0, _reactHelpers.useForkRef)(handleUserRef, handleOwnRef);
-  return _react.default.createElement(ComponentProp, (0, _extends2.default)({
-    className: className,
-    onBlur: handleBlur,
-    onClick: onClick,
-    onFocus: handleFocus,
-    onKeyDown: handleKeyDown,
-    onKeyUp: handleKeyUp,
-    onMouseDown: handleMouseDown,
-    onMouseLeave: handleMouseLeave,
-    onMouseUp: handleMouseUp,
-    onTouchEnd: handleTouchEnd,
-    onTouchMove: handleTouchMove,
-    onTouchStart: handleTouchStart,
-    ref: handleRef,
-    tabIndex: disabled ? -1 : tabIndex
-  }, buttonProps, other), children, !disableRipple && !disabled ? _react.default.createElement(_NoSsr.default, null, _react.default.createElement(_TouchRipple.default, (0, _extends2.default)({
-    ref: rippleRef,
-    center: centerRipple
-  }, TouchRippleProps))) : null);
-});
-
-"development" !== "production" ? ButtonBase.propTypes = {
-  /**
-   * Callback fired when the component mounts.
-   * This is useful when you want to trigger an action programmatically.
-   * It currently only supports `focusVisible()` action.
-   *
-   * @param {object} actions This object contains all possible actions
-   * that can be triggered programmatically.
-   */
-  action: _propTypes.default.func,
-
-  /**
-   * Use that property to pass a ref callback to the native button component.
-   * @deprecated Use `ref` instead
-   */
-  buttonRef: _propTypes.default.oneOfType([_propTypes.default.func, _propTypes.default.object]),
-
-  /**
-   * If `true`, the ripples will be centered.
-   * They won't start at the cursor interaction position.
-   */
-  centerRipple: _propTypes.default.bool,
-
-  /**
-   * The content of the component.
-   */
-  children: _propTypes.default.node,
-
-  /**
-   * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
-   */
-  classes: _propTypes.default.object.isRequired,
-
-  /**
-   * @ignore
-   */
-  className: _propTypes.default.string,
-
-  /**
-   * The component used for the root node.
-   * Either a string to use a DOM element or a component.
-   */
-  component: _utils.elementTypeAcceptingRef,
-
-  /**
-   * If `true`, the base button will be disabled.
-   */
-  disabled: _propTypes.default.bool,
-
-  /**
-   * If `true`, the ripple effect will be disabled.
-   *
-   * ⚠️ Without a ripple there is no styling for :focus-visible by default. Be sure
-   * to highlight the element by applying separate styles with the `focusVisibleClassName`.
-   */
-  disableRipple: _propTypes.default.bool,
-
-  /**
-   * If `true`, the touch ripple effect will be disabled.
-   */
-  disableTouchRipple: _propTypes.default.bool,
-
-  /**
-   * If `true`, the base button will have a keyboard focus ripple.
-   * `disableRipple` must also be `false`.
-   */
-  focusRipple: _propTypes.default.bool,
-
-  /**
-   * This property can help a person know which element has the keyboard focus.
-   * The class name will be applied when the element gain the focus through a keyboard interaction.
-   * It's a polyfill for the [CSS :focus-visible selector](https://drafts.csswg.org/selectors-4/#the-focus-visible-pseudo).
-   * The rationale for using this feature [is explained here](https://github.com/WICG/focus-visible/blob/master/explainer.md).
-   * A [polyfill can be used](https://github.com/WICG/focus-visible) to apply a `focus-visible` class to other components
-   * if needed.
-   */
-  focusVisibleClassName: _propTypes.default.string,
-
-  /**
-   * @ignore
-   */
-  onBlur: _propTypes.default.func,
-
-  /**
-   * @ignore
-   */
-  onClick: _propTypes.default.func,
-
-  /**
-   * @ignore
-   */
-  onFocus: _propTypes.default.func,
-
-  /**
-   * Callback fired when the component is focused with a keyboard.
-   * We trigger a `onFocus` callback too.
-   */
-  onFocusVisible: _propTypes.default.func,
-
-  /**
-   * @ignore
-   */
-  onKeyDown: _propTypes.default.func,
-
-  /**
-   * @ignore
-   */
-  onKeyUp: _propTypes.default.func,
-
-  /**
-   * @ignore
-   */
-  onMouseDown: _propTypes.default.func,
-
-  /**
-   * @ignore
-   */
-  onMouseLeave: _propTypes.default.func,
-
-  /**
-   * @ignore
-   */
-  onMouseUp: _propTypes.default.func,
-
-  /**
-   * @ignore
-   */
-  onTouchEnd: _propTypes.default.func,
-
-  /**
-   * @ignore
-   */
-  onTouchMove: _propTypes.default.func,
-
-  /**
-   * @ignore
-   */
-  onTouchStart: _propTypes.default.func,
-
-  /**
-   * @ignore
-   */
-  role: _propTypes.default.string,
-
-  /**
-   * @ignore
-   */
-  tabIndex: _propTypes.default.oneOfType([_propTypes.default.number, _propTypes.default.string]),
-
-  /**
-   * Properties applied to the `TouchRipple` element.
-   */
-  TouchRippleProps: _propTypes.default.object,
-
-  /**
-   * Used to control the button's purpose.
-   * This property passes the value to the `type` attribute of the native button component.
-   */
-  type: _propTypes.default.oneOf(['submit', 'reset', 'button'])
-} : void 0;
-
-var _default = (0, _withStyles.default)(styles, {
-  name: 'MuiButtonBase'
-})(ButtonBase);
-
-exports.default = _default;
-},{"@babel/runtime/helpers/extends":"../../../node_modules/@babel/runtime/helpers/extends.js","@babel/runtime/helpers/slicedToArray":"../../../node_modules/@babel/runtime/helpers/slicedToArray.js","@babel/runtime/helpers/objectWithoutProperties":"../../../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","react":"../../../node_modules/react/index.js","prop-types":"../../../node_modules/prop-types/index.js","react-dom":"../../../node_modules/react-dom/index.js","clsx":"../../../node_modules/clsx/dist/clsx.m.js","@material-ui/utils":"../../../node_modules/@material-ui/utils/esm/index.js","../utils/reactHelpers":"../../../node_modules/@material-ui/core/esm/utils/reactHelpers.js","../styles/withStyles":"../../../node_modules/@material-ui/core/esm/styles/withStyles.js","../NoSsr":"../../../node_modules/@material-ui/core/esm/NoSsr/index.js","../utils/focusVisible":"../../../node_modules/@material-ui/core/esm/utils/focusVisible.js","./TouchRipple":"../../../node_modules/@material-ui/core/esm/ButtonBase/TouchRipple.js"}],"../../../node_modules/@material-ui/core/esm/ButtonBase/index.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "default", {
-  enumerable: true,
-  get: function () {
-    return _ButtonBase.default;
-  }
-});
-
-var _ButtonBase = _interopRequireDefault(require("./ButtonBase"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./ButtonBase":"../../../node_modules/@material-ui/core/esm/ButtonBase/ButtonBase.js"}],"../../../node_modules/@material-ui/core/esm/Button/Button.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = exports.styles = void 0;
-
-var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutProperties"));
-
-var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
-
-var _react = _interopRequireDefault(require("react"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
-var _clsx = _interopRequireDefault(require("clsx"));
-
-var _withStyles = _interopRequireDefault(require("../styles/withStyles"));
-
-var _colorManipulator = require("../styles/colorManipulator");
-
-var _ButtonBase = _interopRequireDefault(require("../ButtonBase"));
-
-var _helpers = require("../utils/helpers");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var styles = function styles(theme) {
-  return {
-    /* Styles applied to the root element. */
-    root: (0, _extends2.default)({
-      lineHeight: 1.75
-    }, theme.typography.button, {
-      boxSizing: 'border-box',
-      minWidth: 64,
-      padding: '6px 16px',
-      borderRadius: theme.shape.borderRadius,
-      color: theme.palette.text.primary,
-      transition: theme.transitions.create(['background-color', 'box-shadow', 'border'], {
-        duration: theme.transitions.duration.short
-      }),
-      '&:hover': {
-        textDecoration: 'none',
-        backgroundColor: (0, _colorManipulator.fade)(theme.palette.text.primary, theme.palette.action.hoverOpacity),
-        // Reset on touch devices, it doesn't add specificity
-        '@media (hover: none)': {
-          backgroundColor: 'transparent'
-        },
-        '&$disabled': {
-          backgroundColor: 'transparent'
-        }
-      },
-      '&$disabled': {
-        color: theme.palette.action.disabled
-      }
-    }),
-
-    /* Styles applied to the span element that wraps the children. */
-    label: {
-      width: '100%',
-      // Ensure the correct width for iOS Safari
-      display: 'inherit',
-      alignItems: 'inherit',
-      justifyContent: 'inherit'
-    },
-
-    /* Styles applied to the root element if `variant="text"`. */
-    text: {
-      padding: '6px 8px'
-    },
-
-    /* Styles applied to the root element if `variant="text"` and `color="primary"`. */
-    textPrimary: {
-      color: theme.palette.primary.main,
-      '&:hover': {
-        backgroundColor: (0, _colorManipulator.fade)(theme.palette.primary.main, theme.palette.action.hoverOpacity),
-        // Reset on touch devices, it doesn't add specificity
-        '@media (hover: none)': {
-          backgroundColor: 'transparent'
-        }
-      }
-    },
-
-    /* Styles applied to the root element if `variant="text"` and `color="secondary"`. */
-    textSecondary: {
-      color: theme.palette.secondary.main,
-      '&:hover': {
-        backgroundColor: (0, _colorManipulator.fade)(theme.palette.secondary.main, theme.palette.action.hoverOpacity),
-        // Reset on touch devices, it doesn't add specificity
-        '@media (hover: none)': {
-          backgroundColor: 'transparent'
-        }
-      }
-    },
-
-    /* Styles applied to the root element if `variant="outlined"`. */
-    outlined: {
-      padding: '5px 16px',
-      border: "1px solid ".concat(theme.palette.type === 'light' ? 'rgba(0, 0, 0, 0.23)' : 'rgba(255, 255, 255, 0.23)'),
-      '&$disabled': {
-        border: "1px solid ".concat(theme.palette.action.disabled)
-      }
-    },
-
-    /* Styles applied to the root element if `variant="outlined"` and `color="primary"`. */
-    outlinedPrimary: {
-      color: theme.palette.primary.main,
-      border: "1px solid ".concat((0, _colorManipulator.fade)(theme.palette.primary.main, 0.5)),
-      '&:hover': {
-        border: "1px solid ".concat(theme.palette.primary.main),
-        backgroundColor: (0, _colorManipulator.fade)(theme.palette.primary.main, theme.palette.action.hoverOpacity),
-        // Reset on touch devices, it doesn't add specificity
-        '@media (hover: none)': {
-          backgroundColor: 'transparent'
-        }
-      }
-    },
-
-    /* Styles applied to the root element if `variant="outlined"` and `color="secondary"`. */
-    outlinedSecondary: {
-      color: theme.palette.secondary.main,
-      border: "1px solid ".concat((0, _colorManipulator.fade)(theme.palette.secondary.main, 0.5)),
-      '&:hover': {
-        border: "1px solid ".concat(theme.palette.secondary.main),
-        backgroundColor: (0, _colorManipulator.fade)(theme.palette.secondary.main, theme.palette.action.hoverOpacity),
-        // Reset on touch devices, it doesn't add specificity
-        '@media (hover: none)': {
-          backgroundColor: 'transparent'
-        }
-      },
-      '&$disabled': {
-        border: "1px solid ".concat(theme.palette.action.disabled)
-      }
-    },
-
-    /* Styles applied to the root element if `variant="contained"`. */
-    contained: {
-      color: theme.palette.getContrastText(theme.palette.grey[300]),
-      backgroundColor: theme.palette.grey[300],
-      boxShadow: theme.shadows[2],
-      '&$focusVisible': {
-        boxShadow: theme.shadows[6]
-      },
-      '&:active': {
-        boxShadow: theme.shadows[8]
-      },
-      '&$disabled': {
-        color: theme.palette.action.disabled,
-        boxShadow: theme.shadows[0],
-        backgroundColor: theme.palette.action.disabledBackground
-      },
-      '&:hover': {
-        backgroundColor: theme.palette.grey.A100,
-        // Reset on touch devices, it doesn't add specificity
-        '@media (hover: none)': {
-          backgroundColor: theme.palette.grey[300]
-        },
-        '&$disabled': {
-          backgroundColor: theme.palette.action.disabledBackground
-        }
-      }
-    },
-
-    /* Styles applied to the root element if `variant="contained"` and `color="primary"`. */
-    containedPrimary: {
-      color: theme.palette.primary.contrastText,
-      backgroundColor: theme.palette.primary.main,
-      '&:hover': {
-        backgroundColor: theme.palette.primary.dark,
-        // Reset on touch devices, it doesn't add specificity
-        '@media (hover: none)': {
-          backgroundColor: theme.palette.primary.main
-        }
-      }
-    },
-
-    /* Styles applied to the root element if `variant="contained"` and `color="secondary"`. */
-    containedSecondary: {
-      color: theme.palette.secondary.contrastText,
-      backgroundColor: theme.palette.secondary.main,
-      '&:hover': {
-        backgroundColor: theme.palette.secondary.dark,
-        // Reset on touch devices, it doesn't add specificity
-        '@media (hover: none)': {
-          backgroundColor: theme.palette.secondary.main
-        }
-      }
-    },
-
-    /* Styles applied to the ButtonBase root element if the button is keyboard focused. */
-    focusVisible: {},
-
-    /* Styles applied to the root element if `disabled={true}`. */
-    disabled: {},
-
-    /* Styles applied to the root element if `color="inherit"`. */
-    colorInherit: {
-      color: 'inherit',
-      borderColor: 'currentColor'
-    },
-
-    /* Styles applied to the root element if `size="small"`. */
-    sizeSmall: {
-      padding: '4px 8px',
-      minWidth: 64,
-      fontSize: theme.typography.pxToRem(13)
-    },
-
-    /* Styles applied to the root element if `size="large"`. */
-    sizeLarge: {
-      padding: '8px 24px',
-      fontSize: theme.typography.pxToRem(15)
-    },
-
-    /* Styles applied to the root element if `fullWidth={true}`. */
-    fullWidth: {
-      width: '100%'
-    }
-  };
-};
-
-exports.styles = styles;
-
-var Button = _react.default.forwardRef(function Button(props, ref) {
-  var children = props.children,
-      classes = props.classes,
-      classNameProp = props.className,
-      _props$color = props.color,
-      color = _props$color === void 0 ? 'default' : _props$color,
-      _props$component = props.component,
-      component = _props$component === void 0 ? 'button' : _props$component,
-      _props$disabled = props.disabled,
-      disabled = _props$disabled === void 0 ? false : _props$disabled,
-      _props$disableFocusRi = props.disableFocusRipple,
-      disableFocusRipple = _props$disableFocusRi === void 0 ? false : _props$disableFocusRi,
-      focusVisibleClassName = props.focusVisibleClassName,
-      _props$fullWidth = props.fullWidth,
-      fullWidth = _props$fullWidth === void 0 ? false : _props$fullWidth,
-      _props$size = props.size,
-      size = _props$size === void 0 ? 'medium' : _props$size,
-      _props$type = props.type,
-      type = _props$type === void 0 ? 'button' : _props$type,
-      _props$variant = props.variant,
-      variant = _props$variant === void 0 ? 'text' : _props$variant,
-      other = (0, _objectWithoutProperties2.default)(props, ["children", "classes", "className", "color", "component", "disabled", "disableFocusRipple", "focusVisibleClassName", "fullWidth", "size", "type", "variant"]);
-  var contained = variant === 'contained';
-  var text = variant === 'text';
-  var className = (0, _clsx.default)(classes.root, classNameProp, variant === 'outlined' && [classes.outlined, color === 'primary' && classes.outlinedPrimary, color === 'secondary' && classes.outlinedSecondary], color === 'secondary' && [text && classes.textSecondary, contained && classes.containedSecondary], color === 'primary' && [text && classes.textPrimary, contained && classes.containedPrimary], text && classes.text, contained && classes.contained, size !== 'medium' && classes["size".concat((0, _helpers.capitalize)(size))], disabled && classes.disabled, fullWidth && classes.fullWidth, color === 'inherit' && classes.colorInherit);
-  return _react.default.createElement(_ButtonBase.default, (0, _extends2.default)({
-    className: className,
-    component: component,
-    disabled: disabled,
-    focusRipple: !disableFocusRipple,
-    focusVisibleClassName: (0, _clsx.default)(classes.focusVisible, focusVisibleClassName),
-    ref: ref,
-    type: type
-  }, other), _react.default.createElement("span", {
-    className: classes.label
-  }, children));
-});
-
-"development" !== "production" ? Button.propTypes = {
-  /**
-   * The content of the button.
-   */
-  children: _propTypes.default.node.isRequired,
-
-  /**
-   * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
-   */
-  classes: _propTypes.default.object.isRequired,
-
-  /**
-   * @ignore
-   */
-  className: _propTypes.default.string,
-
-  /**
-   * The color of the component. It supports those theme colors that make sense for this component.
-   */
-  color: _propTypes.default.oneOf(['default', 'inherit', 'primary', 'secondary']),
-
-  /**
-   * The component used for the root node.
-   * Either a string to use a DOM element or a component.
-   */
-  component: _propTypes.default.elementType,
-
-  /**
-   * If `true`, the button will be disabled.
-   */
-  disabled: _propTypes.default.bool,
-
-  /**
-   * If `true`, the  keyboard focus ripple will be disabled.
-   * `disableRipple` must also be true.
-   */
-  disableFocusRipple: _propTypes.default.bool,
-
-  /**
-   * If `true`, the ripple effect will be disabled.
-   *
-   * ⚠️ Without a ripple there is no styling for :focus-visible by default. Be sure
-   * to highlight the element by applying separate styles with the `focusVisibleClassName`.
-   */
-  disableRipple: _propTypes.default.bool,
-
-  /**
-   * @ignore
-   */
-  focusVisibleClassName: _propTypes.default.string,
-
-  /**
-   * If `true`, the button will take up the full width of its container.
-   */
-  fullWidth: _propTypes.default.bool,
-
-  /**
-   * The URL to link to when the button is clicked.
-   * If defined, an `a` element will be used as the root node.
-   */
-  href: _propTypes.default.string,
-
-  /**
-   * The size of the button.
-   * `small` is equivalent to the dense button styling.
-   */
-  size: _propTypes.default.oneOf(['small', 'medium', 'large']),
-
-  /**
-   * @ignore
-   */
-  type: _propTypes.default.string,
-
-  /**
-   * The variant to use.
-   */
-  variant: _propTypes.default.oneOf(['text', 'outlined', 'contained'])
-} : void 0;
-
-var _default = (0, _withStyles.default)(styles, {
-  name: 'MuiButton'
-})(Button);
-
-exports.default = _default;
-},{"@babel/runtime/helpers/objectWithoutProperties":"../../../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","@babel/runtime/helpers/extends":"../../../node_modules/@babel/runtime/helpers/extends.js","react":"../../../node_modules/react/index.js","prop-types":"../../../node_modules/prop-types/index.js","clsx":"../../../node_modules/clsx/dist/clsx.m.js","../styles/withStyles":"../../../node_modules/@material-ui/core/esm/styles/withStyles.js","../styles/colorManipulator":"../../../node_modules/@material-ui/core/esm/styles/colorManipulator.js","../ButtonBase":"../../../node_modules/@material-ui/core/esm/ButtonBase/index.js","../utils/helpers":"../../../node_modules/@material-ui/core/esm/utils/helpers.js"}],"../../../node_modules/@material-ui/core/esm/Button/index.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "default", {
-  enumerable: true,
-  get: function () {
-    return _Button.default;
-  }
-});
-
-var _Button = _interopRequireDefault(require("./Button"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./Button":"../../../node_modules/@material-ui/core/esm/Button/Button.js"}],"../components/ChatHeader.tsx":[function(require,module,exports) {
-"use strict";
-
-var __importStar = this && this.__importStar || function (mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) {
-    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-  }
-  result["default"] = mod;
-  return result;
-};
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var React = __importStar(require("react"));
-
-var react_apollo_1 = require("react-apollo");
-
-var styles_1 = require("@material-ui/core/styles");
-
-var Container_1 = __importDefault(require("@material-ui/core/Container"));
-
-var Avatar_1 = __importDefault(require("@material-ui/core/Avatar"));
-
-var Button_1 = __importDefault(require("@material-ui/core/Button"));
-
-var useStyles = styles_1.makeStyles(function (theme) {
-  return {
-    chatHeader: {
-      width: '100%',
-      height: 70,
-      padding: theme.spacing(3, 5),
-      display: 'flex',
-      alignItems: 'center'
-    },
-    avatar: {
-      marginRight: 20,
-      display: 'inline-block'
-    },
-    buttonContainer: {
-      flex: 1,
-      textAlign: 'right'
-    },
-    button: {}
-  };
-});
-
-var ChatHeader = function ChatHeader(_a) {
-  var users = _a.users,
-      client = _a.client;
-  var classes = useStyles();
-
-  var logout = function logout() {
-    localStorage.removeItem('token');
-    client.resetStore();
-  };
-
-  return React.createElement(Container_1.default, {
-    className: classes.chatHeader
-  }, users.map(function (user) {
-    return React.createElement(Avatar_1.default, {
-      key: user._id,
-      className: classes.avatar,
-      alt: user.firstName,
-      src: user.avatar
-    });
-  }), React.createElement("div", {
-    className: classes.buttonContainer
-  }, React.createElement(Button_1.default, {
-    className: classes.button,
-    onClick: logout
-  }, "Sign Out")));
-};
-
-exports.default = react_apollo_1.withApollo(ChatHeader);
-},{"react":"../../../node_modules/react/index.js","react-apollo":"../../../node_modules/react-apollo/react-apollo.esm.js","@material-ui/core/styles":"../../../node_modules/@material-ui/core/esm/styles/index.js","@material-ui/core/Container":"../../../node_modules/@material-ui/core/esm/Container/index.js","@material-ui/core/Avatar":"../../../node_modules/@material-ui/core/esm/Avatar/index.js","@material-ui/core/Button":"../../../node_modules/@material-ui/core/esm/Button/index.js"}],"../../../node_modules/react-scroll/modules/mixins/utils.js":[function(require,module,exports) {
+},{"./Container":"../../../node_modules/@material-ui/core/esm/Container/Container.js"}],"../../../node_modules/react-scroll/modules/mixins/utils.js":[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -68578,7 +66697,7 @@ var InputBase = _react.default.forwardRef(function InputBase(props, ref) {
   }
 
   return _react.default.createElement("div", (0, _extends2.default)({
-    className: (0, _clsx.default)(classes.root, fcs.disabled && classes.disabled, fcs.error && classes.error, fullWidth && classes.fullWidth, fcs.focused && classes.focused, muiFormControl && classes.formControl, fcs.margin === 'dense' && classes.marginDense, multiline && classes.multiline, startAdornment && classes.adornedStart, endAdornment && classes.adornedEnd, classNameProp),
+    className: (0, _clsx.default)(classes.root, classNameProp, fcs.disabled && classes.disabled, fcs.error && classes.error, fullWidth && classes.fullWidth, fcs.focused && classes.focused, muiFormControl && classes.formControl, fcs.margin === 'dense' && classes.marginDense, multiline && classes.multiline, startAdornment && classes.adornedStart, endAdornment && classes.adornedEnd),
     onClick: handleClick,
     ref: ref
   }, other), renderPrefix ? renderPrefix((0, _extends2.default)({}, fcs, {
@@ -68590,7 +66709,7 @@ var InputBase = _react.default.forwardRef(function InputBase(props, ref) {
     "aria-describedby": ariaDescribedby,
     autoComplete: autoComplete,
     autoFocus: autoFocus,
-    className: (0, _clsx.default)(classes.input, fcs.disabled && classes.disabled, type === 'search' && classes.inputTypeSearch, multiline && classes.inputMultiline, fcs.margin === 'dense' && classes.inputMarginDense, startAdornment && classes.inputAdornedStart, endAdornment && classes.inputAdornedEnd, inputPropsClassName),
+    className: (0, _clsx.default)(classes.input, inputPropsClassName, fcs.disabled && classes.disabled, type === 'search' && classes.inputTypeSearch, multiline && classes.inputMultiline, fcs.margin === 'dense' && classes.inputMarginDense, startAdornment && classes.inputAdornedStart, endAdornment && classes.inputAdornedEnd),
     defaultValue: defaultValue,
     disabled: fcs.disabled,
     id: id,
@@ -70052,7 +68171,7 @@ var FormLabel = _react.default.forwardRef(function FormLabel(props, ref) {
     states: ['required', 'focused', 'disabled', 'error', 'filled']
   });
   return _react.default.createElement(Component, (0, _extends2.default)({
-    className: (0, _clsx.default)(classes.root, fcs.disabled && classes.disabled, fcs.error && classes.error, fcs.filled && classes.filled, fcs.focused && classes.focused, fcs.required && classes.required, classNameProp),
+    className: (0, _clsx.default)(classes.root, classNameProp, fcs.disabled && classes.disabled, fcs.error && classes.error, fcs.filled && classes.filled, fcs.focused && classes.focused, fcs.required && classes.required),
     ref: ref
   }, other), children, fcs.required && _react.default.createElement("span", {
     className: (0, _clsx.default)(classes.asterisk, fcs.error && classes.error)
@@ -70275,7 +68394,7 @@ var InputLabel = _react.default.forwardRef(function InputLabel(props, ref) {
   });
   return _react.default.createElement(_FormLabel.default, (0, _extends2.default)({
     "data-shrink": shrink,
-    className: (0, _clsx.default)(classes.root, muiFormControl && classes.formControl, !disableAnimation && classes.animated, shrink && classes.shrink, fcs.margin === 'dense' && classes.marginDense, fcs.variant === 'filled' && classes.filled, fcs.variant === 'outlined' && classes.outlined, className),
+    className: (0, _clsx.default)(classes.root, className, muiFormControl && classes.formControl, !disableAnimation && classes.animated, shrink && classes.shrink, fcs.margin === 'dense' && classes.marginDense, fcs.variant === 'filled' && classes.filled, fcs.variant === 'outlined' && classes.outlined),
     classes: {
       focused: classes.focused,
       disabled: classes.disabled,
@@ -70441,10 +68560,21 @@ var styles = {
  * Relying on the context provides high flexibility and ensures that the state always stays
  * consistent across the children of the `FormControl`.
  * This context is used by the following components:
+ *
  *  - FormLabel
  *  - FormHelperText
  *  - Input
  *  - InputLabel
+ *
+ * You can find one composition example below and more going to [the demos](/components/text-fields/#components).
+ *
+ * ```jsx
+ * <FormControl>
+ *   <InputLabel htmlFor="my-input">Email address</InputLabel>
+ *   <Input id="my-input" aria-describedby="my-helper-text" />
+ *   <FormHelperText id="my-helper-text">We'll never share your email.</FormHelperText>
+ * </FormControl>
+ * ```
  *
  * ⚠️Only one input can be used within a FormControl.
  */
@@ -70564,7 +68694,7 @@ var FormControl = _react.default.forwardRef(function FormControl(props, ref) {
   return _react.default.createElement(_FormControlContext.default.Provider, {
     value: childContext
   }, _react.default.createElement(Component, (0, _extends2.default)({
-    className: (0, _clsx.default)(classes.root, margin !== 'none' && classes["margin".concat((0, _helpers.capitalize)(margin))], fullWidth && classes.fullWidth, className),
+    className: (0, _clsx.default)(classes.root, className, margin !== 'none' && classes["margin".concat((0, _helpers.capitalize)(margin))], fullWidth && classes.fullWidth),
     ref: ref
   }, other), children));
 });
@@ -70738,7 +68868,7 @@ var FormHelperText = _react.default.forwardRef(function FormHelperText(props, re
     states: ['variant', 'margin', 'disabled', 'error', 'filled', 'focused', 'required']
   });
   return _react.default.createElement(Component, (0, _extends2.default)({
-    className: (0, _clsx.default)(classes.root, (fcs.variant === 'filled' || fcs.variant === 'outlined') && classes.contained, fcs.margin === 'dense' && classes.marginDense, fcs.disabled && classes.disabled, fcs.error && classes.error, fcs.filled && classes.filled, fcs.focused && classes.focused, fcs.required && classes.required, classNameProp),
+    className: (0, _clsx.default)(classes.root, (fcs.variant === 'filled' || fcs.variant === 'outlined') && classes.contained, classNameProp, fcs.margin === 'dense' && classes.marginDense, fcs.disabled && classes.disabled, fcs.error && classes.error, fcs.filled && classes.filled, fcs.focused && classes.focused, fcs.required && classes.required),
     ref: ref
   }, other));
 });
@@ -70829,203 +68959,43 @@ Object.defineProperty(exports, "default", {
 var _FormHelperText = _interopRequireDefault(require("./FormHelperText"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./FormHelperText":"../../../node_modules/@material-ui/core/esm/FormHelperText/FormHelperText.js"}],"../../../node_modules/react-event-listener/dist/react-event-listener.cjs.js":[function(require,module,exports) {
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-
-function _interopDefault(ex) {
-  return ex && typeof ex === 'object' && 'default' in ex ? ex['default'] : ex;
-}
-
-var _classCallCheck = _interopDefault(require('@babel/runtime/helpers/classCallCheck'));
-
-var _createClass = _interopDefault(require('@babel/runtime/helpers/createClass'));
-
-var _possibleConstructorReturn = _interopDefault(require('@babel/runtime/helpers/possibleConstructorReturn'));
-
-var _getPrototypeOf = _interopDefault(require('@babel/runtime/helpers/getPrototypeOf'));
-
-var _inherits = _interopDefault(require('@babel/runtime/helpers/inherits'));
-
-var _typeof = _interopDefault(require('@babel/runtime/helpers/typeof'));
-
-var _objectWithoutProperties = _interopDefault(require('@babel/runtime/helpers/objectWithoutProperties'));
-
-var _extends = _interopDefault(require('@babel/runtime/helpers/extends'));
-
-var React = _interopDefault(require('react'));
-
-var PropTypes = _interopDefault(require('prop-types'));
-
-var warning = _interopDefault(require('warning'));
-
-function defineProperty(object, property, attr) {
-  return Object.defineProperty(object, property, attr);
-} // Passive options
-// Inspired by https://github.com/Modernizr/Modernizr/blob/master/feature-detects/dom/passiveeventlisteners.js
-
-
-var passiveOption = function () {
-  var cache = null;
-  return function () {
-    if (cache !== null) {
-      return cache;
+},{"./FormHelperText":"../../../node_modules/@material-ui/core/esm/FormHelperText/FormHelperText.js"}],"../../../node_modules/@babel/runtime/helpers/arrayWithoutHoles.js":[function(require,module,exports) {
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
+      arr2[i] = arr[i];
     }
 
-    var supportsPassiveOption = false;
-
-    try {
-      window.addEventListener('test', null, defineProperty({}, 'passive', {
-        get: function get() {
-          supportsPassiveOption = true;
-        }
-      }));
-    } catch (err) {//
-    }
-
-    cache = supportsPassiveOption;
-    return supportsPassiveOption;
-  }();
-}();
-
-var defaultEventOptions = {
-  capture: false,
-  passive: false
-};
-
-function mergeDefaultEventOptions(options) {
-  return _extends({}, defaultEventOptions, options);
-}
-
-function getEventListenerArgs(eventName, callback, options) {
-  var args = [eventName, callback];
-  args.push(passiveOption ? options : options.capture);
-  return args;
-}
-
-function on(target, eventName, callback, options) {
-  // eslint-disable-next-line prefer-spread
-  target.addEventListener.apply(target, getEventListenerArgs(eventName, callback, options));
-}
-
-function off(target, eventName, callback, options) {
-  // eslint-disable-next-line prefer-spread
-  target.removeEventListener.apply(target, getEventListenerArgs(eventName, callback, options));
-}
-
-function forEachListener(props, iteratee) {
-  var children = props.children,
-      target = props.target,
-      eventProps = _objectWithoutProperties(props, ["children", "target"]);
-
-  Object.keys(eventProps).forEach(function (name) {
-    if (name.substring(0, 2) !== 'on') {
-      return;
-    }
-
-    var prop = eventProps[name];
-
-    var type = _typeof(prop);
-
-    var isObject = type === 'object';
-    var isFunction = type === 'function';
-
-    if (!isObject && !isFunction) {
-      return;
-    }
-
-    var capture = name.substr(-7).toLowerCase() === 'capture';
-    var eventName = name.substring(2).toLowerCase();
-    eventName = capture ? eventName.substring(0, eventName.length - 7) : eventName;
-
-    if (isObject) {
-      iteratee(eventName, prop.handler, prop.options);
-    } else {
-      iteratee(eventName, prop, mergeDefaultEventOptions({
-        capture: capture
-      }));
-    }
-  });
-}
-
-function withOptions(handler, options) {
-  "development" !== "production" ? warning(options, 'react-event-listener: should be specified options in withOptions.') : void 0;
-  return {
-    handler: handler,
-    options: mergeDefaultEventOptions(options)
-  };
-}
-
-var EventListener =
-/*#__PURE__*/
-function (_React$PureComponent) {
-  _inherits(EventListener, _React$PureComponent);
-
-  function EventListener() {
-    _classCallCheck(this, EventListener);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(EventListener).apply(this, arguments));
+    return arr2;
   }
+}
 
-  _createClass(EventListener, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this.applyListeners(on);
-    }
-  }, {
-    key: "componentDidUpdate",
-    value: function componentDidUpdate(prevProps) {
-      this.applyListeners(off, prevProps);
-      this.applyListeners(on);
-    }
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {
-      this.applyListeners(off);
-    }
-  }, {
-    key: "applyListeners",
-    value: function applyListeners(onOrOff) {
-      var props = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.props;
-      var target = props.target;
+module.exports = _arrayWithoutHoles;
+},{}],"../../../node_modules/@babel/runtime/helpers/iterableToArray.js":[function(require,module,exports) {
+function _iterableToArray(iter) {
+  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+}
 
-      if (target) {
-        var element = target;
+module.exports = _iterableToArray;
+},{}],"../../../node_modules/@babel/runtime/helpers/nonIterableSpread.js":[function(require,module,exports) {
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance");
+}
 
-        if (typeof target === 'string') {
-          element = window[target];
-        }
+module.exports = _nonIterableSpread;
+},{}],"../../../node_modules/@babel/runtime/helpers/toConsumableArray.js":[function(require,module,exports) {
+var arrayWithoutHoles = require("./arrayWithoutHoles");
 
-        forEachListener(props, onOrOff.bind(null, element));
-      }
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      return this.props.children || null;
-    }
-  }]);
+var iterableToArray = require("./iterableToArray");
 
-  return EventListener;
-}(React.PureComponent);
+var nonIterableSpread = require("./nonIterableSpread");
 
-EventListener.propTypes = "development" !== "production" ? {
-  /**
-   * You can provide a single child too.
-   */
-  children: PropTypes.node,
+function _toConsumableArray(arr) {
+  return arrayWithoutHoles(arr) || iterableToArray(arr) || nonIterableSpread();
+}
 
-  /**
-   * The DOM target to listen to.
-   */
-  target: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired
-} : {};
-exports.withOptions = withOptions;
-exports.default = EventListener;
-},{"@babel/runtime/helpers/classCallCheck":"../../../node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"../../../node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"../../../node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"../../../node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/inherits":"../../../node_modules/@babel/runtime/helpers/inherits.js","@babel/runtime/helpers/typeof":"../../../node_modules/@babel/runtime/helpers/typeof.js","@babel/runtime/helpers/objectWithoutProperties":"../../../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","@babel/runtime/helpers/extends":"../../../node_modules/@babel/runtime/helpers/extends.js","react":"../../../node_modules/react/index.js","prop-types":"../../../node_modules/prop-types/index.js","warning":"../../../node_modules/warning/warning.js"}],"../../../node_modules/@material-ui/core/esm/Grow/Grow.js":[function(require,module,exports) {
+module.exports = _toConsumableArray;
+},{"./arrayWithoutHoles":"../../../node_modules/@babel/runtime/helpers/arrayWithoutHoles.js","./iterableToArray":"../../../node_modules/@babel/runtime/helpers/iterableToArray.js","./nonIterableSpread":"../../../node_modules/@babel/runtime/helpers/nonIterableSpread.js"}],"../../../node_modules/@material-ui/core/esm/Grow/Grow.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -71257,21 +69227,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.getOffsetTop = getOffsetTop;
+exports.getOffsetLeft = getOffsetLeft;
 exports.default = exports.styles = void 0;
 
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 
 var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutProperties"));
-
-var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
-
-var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-
-var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
-
-var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
-
-var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -71283,8 +69245,6 @@ var _warning = _interopRequireDefault(require("warning"));
 
 var _debounce = _interopRequireDefault(require("debounce"));
 
-var _reactEventListener = _interopRequireDefault(require("react-event-listener"));
-
 var _clsx = _interopRequireDefault(require("clsx"));
 
 var _utils = require("@material-ui/utils");
@@ -71294,8 +69254,6 @@ var _ownerDocument = _interopRequireDefault(require("../utils/ownerDocument"));
 var _ownerWindow = _interopRequireDefault(require("../utils/ownerWindow"));
 
 var _helpers = require("../utils/helpers");
-
-var _withForwardedRef = _interopRequireDefault(require("../utils/withForwardedRef"));
 
 var _withStyles = _interopRequireDefault(require("../styles/withStyles"));
 
@@ -71377,278 +69335,237 @@ var styles = {
 };
 exports.styles = styles;
 
-var Popover =
-/*#__PURE__*/
-function (_React$Component) {
-  (0, _inherits2.default)(Popover, _React$Component);
+var Popover = _react.default.forwardRef(function Popover(props, ref) {
+  var action = props.action,
+      anchorEl = props.anchorEl,
+      anchorOrigin = props.anchorOrigin,
+      anchorPosition = props.anchorPosition,
+      anchorReference = props.anchorReference,
+      children = props.children,
+      classes = props.classes,
+      containerProp = props.container,
+      elevation = props.elevation,
+      getContentAnchorEl = props.getContentAnchorEl,
+      marginThreshold = props.marginThreshold,
+      ModalClasses = props.ModalClasses,
+      onEnter = props.onEnter,
+      onEntered = props.onEntered,
+      onEntering = props.onEntering,
+      onExit = props.onExit,
+      onExited = props.onExited,
+      onExiting = props.onExiting,
+      open = props.open,
+      _props$PaperProps = props.PaperProps,
+      PaperProps = _props$PaperProps === void 0 ? {} : _props$PaperProps,
+      transformOrigin = props.transformOrigin,
+      TransitionComponent = props.TransitionComponent,
+      transitionDurationProp = props.transitionDuration,
+      _props$TransitionProp = props.TransitionProps,
+      TransitionProps = _props$TransitionProp === void 0 ? {} : _props$TransitionProp,
+      other = (0, _objectWithoutProperties2.default)(props, ["action", "anchorEl", "anchorOrigin", "anchorPosition", "anchorReference", "children", "classes", "container", "elevation", "getContentAnchorEl", "marginThreshold", "ModalClasses", "onEnter", "onEntered", "onEntering", "onExit", "onExited", "onExiting", "open", "PaperProps", "transformOrigin", "TransitionComponent", "transitionDuration", "TransitionProps"]);
 
-  function Popover() {
-    var _this;
+  var paperRef = _react.default.useRef();
 
-    (0, _classCallCheck2.default)(this, Popover);
-    _this = (0, _possibleConstructorReturn2.default)(this, (0, _getPrototypeOf2.default)(Popover).call(this));
-    _this.handleGetOffsetTop = getOffsetTop;
-    _this.handleGetOffsetLeft = getOffsetLeft;
+  var handleResizeRef = _react.default.useRef(function () {});
 
-    _this.componentWillUnmount = function () {
-      _this.handleResize.clear();
+  _react.default.useImperativeHandle(action, function () {
+    return {
+      updatePosition: handleResizeRef.current
     };
+  }, []); // Returns the top/left offset of the position
+  // to attach to on the anchor element (or body if none is provided)
 
-    _this.setPositioningStyles = function (element) {
-      var positioning = _this.getPositioningStyle(element);
 
-      if (positioning.top !== null) {
-        element.style.top = positioning.top;
-      }
+  var getAnchorOffset = _react.default.useCallback(function (contentAnchorOffset) {
+    if (anchorReference === 'anchorPosition') {
+      "development" !== "production" ? (0, _warning.default)(anchorPosition, 'Material-UI: you need to provide a `anchorPosition` property when using ' + '<Popover anchorReference="anchorPosition" />.') : void 0;
+      return anchorPosition;
+    }
 
-      if (positioning.left !== null) {
-        element.style.left = positioning.left;
-      }
+    var resolvedAnchorEl = getAnchorEl(anchorEl); // If an anchor element wasn't provided, just use the parent body element of this Popover
 
-      element.style.transformOrigin = positioning.transformOrigin;
+    var anchorElement = resolvedAnchorEl instanceof Element ? resolvedAnchorEl : (0, _ownerDocument.default)(paperRef.current).body;
+    var anchorRect = anchorElement.getBoundingClientRect();
+    var anchorVertical = contentAnchorOffset === 0 ? anchorOrigin.vertical : 'center';
+    return {
+      top: anchorRect.top + getOffsetTop(anchorRect, anchorVertical),
+      left: anchorRect.left + getOffsetLeft(anchorRect, anchorOrigin.horizontal)
     };
-
-    _this.getPositioningStyle = function (element) {
-      var _this$props = _this.props,
-          anchorEl = _this$props.anchorEl,
-          anchorReference = _this$props.anchorReference,
-          marginThreshold = _this$props.marginThreshold; // Check if the parent has requested anchoring on an inner content node
-
-      var contentAnchorOffset = _this.getContentAnchorOffset(element);
-
-      var elemRect = {
-        width: element.offsetWidth,
-        height: element.offsetHeight
-      }; // Get the transform origin point on the element itself
-
-      var transformOrigin = _this.getTransformOrigin(elemRect, contentAnchorOffset);
-
-      if (anchorReference === 'none') {
-        return {
-          top: null,
-          left: null,
-          transformOrigin: getTransformOriginValue(transformOrigin)
-        };
-      } // Get the offset of of the anchoring element
+  }, [anchorEl, anchorOrigin.horizontal, anchorOrigin.vertical, anchorPosition, anchorReference]); // Returns the vertical offset of inner content to anchor the transform on if provided
 
 
-      var anchorOffset = _this.getAnchorOffset(contentAnchorOffset); // Calculate element positioning
+  var getContentAnchorOffset = _react.default.useCallback(function (element) {
+    var contentAnchorOffset = 0;
+
+    if (getContentAnchorEl && anchorReference === 'anchorEl') {
+      var contentAnchorEl = getContentAnchorEl(element);
+
+      if (contentAnchorEl && element.contains(contentAnchorEl)) {
+        var scrollTop = getScrollParent(element, contentAnchorEl);
+        contentAnchorOffset = contentAnchorEl.offsetTop + contentAnchorEl.clientHeight / 2 - scrollTop || 0;
+      } // != the default value
 
 
-      var top = anchorOffset.top - transformOrigin.vertical;
-      var left = anchorOffset.left - transformOrigin.horizontal;
-      var bottom = top + elemRect.height;
-      var right = left + elemRect.width; // Use the parent window of the anchorEl if provided
+      "development" !== "production" ? (0, _warning.default)(anchorOrigin.vertical === 'top', ['Material-UI: you can not change the default `anchorOrigin.vertical` value ', 'when also providing the `getContentAnchorEl` property to the popover component.', 'Only use one of the two properties.', 'Set `getContentAnchorEl` to `null | undefined`' + ' or leave `anchorOrigin.vertical` unchanged.'].join('\n')) : void 0;
+    }
 
-      var containerWindow = (0, _ownerWindow.default)(getAnchorEl(anchorEl)); // Window thresholds taking required margin into account
+    return contentAnchorOffset;
+  }, [anchorOrigin.vertical, anchorReference, getContentAnchorEl]); // Return the base transform origin using the element
+  // and taking the content anchor offset into account if in use
 
-      var heightThreshold = containerWindow.innerHeight - marginThreshold;
-      var widthThreshold = containerWindow.innerWidth - marginThreshold; // Check if the vertical axis needs shifting
 
-      if (top < marginThreshold) {
-        var diff = top - marginThreshold;
-        top -= diff;
-        transformOrigin.vertical += diff;
-      } else if (bottom > heightThreshold) {
-        var _diff = bottom - heightThreshold;
+  var getTransformOrigin = _react.default.useCallback(function (elemRect) {
+    var contentAnchorOffset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+    return {
+      vertical: getOffsetTop(elemRect, transformOrigin.vertical) + contentAnchorOffset,
+      horizontal: getOffsetLeft(elemRect, transformOrigin.horizontal)
+    };
+  }, [transformOrigin.horizontal, transformOrigin.vertical]);
 
-        top -= _diff;
-        transformOrigin.vertical += _diff;
-      }
+  var getPositioningStyle = _react.default.useCallback(function (element) {
+    // Check if the parent has requested anchoring on an inner content node
+    var contentAnchorOffset = getContentAnchorOffset(element);
+    var elemRect = {
+      width: element.offsetWidth,
+      height: element.offsetHeight
+    }; // Get the transform origin point on the element itself
 
-      "development" !== "production" ? (0, _warning.default)(elemRect.height <= heightThreshold || !elemRect.height || !heightThreshold, ['Material-UI: the popover component is too tall.', "Some part of it can not be seen on the screen (".concat(elemRect.height - heightThreshold, "px)."), 'Please consider adding a `max-height` to improve the user-experience.'].join('\n')) : void 0; // Check if the horizontal axis needs shifting
+    var elemTransformOrigin = getTransformOrigin(elemRect, contentAnchorOffset);
 
-      if (left < marginThreshold) {
-        var _diff2 = left - marginThreshold;
-
-        left -= _diff2;
-        transformOrigin.horizontal += _diff2;
-      } else if (right > widthThreshold) {
-        var _diff3 = right - widthThreshold;
-
-        left -= _diff3;
-        transformOrigin.horizontal += _diff3;
-      }
-
+    if (anchorReference === 'none') {
       return {
-        top: "".concat(top, "px"),
-        left: "".concat(left, "px"),
-        transformOrigin: getTransformOriginValue(transformOrigin)
+        top: null,
+        left: null,
+        transformOrigin: getTransformOriginValue(elemTransformOrigin)
       };
+    } // Get the offset of of the anchoring element
+
+
+    var anchorOffset = getAnchorOffset(contentAnchorOffset); // Calculate element positioning
+
+    var top = anchorOffset.top - elemTransformOrigin.vertical;
+    var left = anchorOffset.left - elemTransformOrigin.horizontal;
+    var bottom = top + elemRect.height;
+    var right = left + elemRect.width; // Use the parent window of the anchorEl if provided
+
+    var containerWindow = (0, _ownerWindow.default)(getAnchorEl(anchorEl)); // Window thresholds taking required margin into account
+
+    var heightThreshold = containerWindow.innerHeight - marginThreshold;
+    var widthThreshold = containerWindow.innerWidth - marginThreshold; // Check if the vertical axis needs shifting
+
+    if (top < marginThreshold) {
+      var diff = top - marginThreshold;
+      top -= diff;
+      elemTransformOrigin.vertical += diff;
+    } else if (bottom > heightThreshold) {
+      var _diff = bottom - heightThreshold;
+
+      top -= _diff;
+      elemTransformOrigin.vertical += _diff;
+    }
+
+    "development" !== "production" ? (0, _warning.default)(elemRect.height <= heightThreshold || !elemRect.height || !heightThreshold, ['Material-UI: the popover component is too tall.', "Some part of it can not be seen on the screen (".concat(elemRect.height - heightThreshold, "px)."), 'Please consider adding a `max-height` to improve the user-experience.'].join('\n')) : void 0; // Check if the horizontal axis needs shifting
+
+    if (left < marginThreshold) {
+      var _diff2 = left - marginThreshold;
+
+      left -= _diff2;
+      elemTransformOrigin.horizontal += _diff2;
+    } else if (right > widthThreshold) {
+      var _diff3 = right - widthThreshold;
+
+      left -= _diff3;
+      elemTransformOrigin.horizontal += _diff3;
+    }
+
+    return {
+      top: "".concat(top, "px"),
+      left: "".concat(left, "px"),
+      transformOrigin: getTransformOriginValue(elemTransformOrigin)
     };
+  }, [anchorEl, anchorReference, getAnchorOffset, getContentAnchorOffset, getTransformOrigin, marginThreshold]);
 
-    _this.handleEntering = function (element) {
-      if (_this.props.onEntering) {
-        _this.props.onEntering(element);
+  var setPositioningStyles = _react.default.useCallback(function (element) {
+    var positioning = getPositioningStyle(element);
+
+    if (positioning.top !== null) {
+      element.style.top = positioning.top;
+    }
+
+    if (positioning.left !== null) {
+      element.style.left = positioning.left;
+    }
+
+    element.style.transformOrigin = positioning.transformOrigin;
+  }, [getPositioningStyle]);
+
+  var handleEntering = function handleEntering(element) {
+    if (onEntering) {
+      onEntering(element);
+    }
+
+    setPositioningStyles(element);
+  };
+
+  var handlePaperRef = _react.default.useCallback(function (instance) {
+    // #StrictMode ready
+    paperRef.current = _reactDom.default.findDOMNode(instance);
+  }, []);
+
+  _react.default.useEffect(function () {
+    handleResizeRef.current = (0, _debounce.default)(function () {
+      // Because we debounce the event, the open property might no longer be true
+      // when the callback resolves.
+      if (!open) {
+        return;
       }
 
-      _this.setPositioningStyles(element);
+      setPositioningStyles(paperRef.current);
+    }, 166); // Corresponds to 10 frames at 60 Hz.
+
+    window.addEventListener('resize', handleResizeRef.current);
+    return function () {
+      handleResizeRef.current.clear();
+      window.removeEventListener('resize', handleResizeRef.current);
     };
+  }, [open, setPositioningStyles]);
 
-    if (typeof window !== 'undefined') {
-      _this.handleResize = (0, _debounce.default)(function () {
-        // Because we debounce the event, the open property might no longer be true
-        // when the callback resolves.
-        if (!_this.props.open) {
-          return;
-        }
+  var transitionDuration = transitionDurationProp;
 
-        _this.setPositioningStyles(_this.paperRef);
-      }, 166); // Corresponds to 10 frames at 60 Hz.
+  if (transitionDurationProp === 'auto' && !TransitionComponent.muiSupportAuto) {
+    transitionDuration = undefined;
+  } // If the container prop is provided, use that
+  // If the anchorEl prop is provided, use its parent body element as the container
+  // If neither are provided let the Modal take care of choosing the container
+
+
+  var container = containerProp || (anchorEl ? (0, _ownerDocument.default)(getAnchorEl(anchorEl)).body : undefined);
+  return _react.default.createElement(_Modal.default, (0, _extends2.default)({
+    classes: ModalClasses,
+    container: container,
+    open: open,
+    ref: ref,
+    BackdropProps: {
+      invisible: true
     }
-
-    return _this;
-  }
-
-  (0, _createClass2.default)(Popover, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      if (this.props.action) {
-        this.props.action({
-          updatePosition: this.handleResize
-        });
-      }
-    }
-  }, {
-    key: "getAnchorOffset",
-    // Returns the top/left offset of the position
-    // to attach to on the anchor element (or body if none is provided)
-    value: function getAnchorOffset(contentAnchorOffset) {
-      var _this$props2 = this.props,
-          anchorEl = _this$props2.anchorEl,
-          anchorOrigin = _this$props2.anchorOrigin,
-          anchorReference = _this$props2.anchorReference,
-          anchorPosition = _this$props2.anchorPosition;
-
-      if (anchorReference === 'anchorPosition') {
-        "development" !== "production" ? (0, _warning.default)(anchorPosition, 'Material-UI: you need to provide a `anchorPosition` property when using ' + '<Popover anchorReference="anchorPosition" />.') : void 0;
-        return anchorPosition;
-      }
-
-      var resolvedAnchorEl = getAnchorEl(anchorEl); // If an anchor element wasn't provided, just use the parent body element of this Popover
-
-      var anchorElement = resolvedAnchorEl instanceof Element ? resolvedAnchorEl : (0, _ownerDocument.default)(this.paperRef).body;
-      var anchorRect = anchorElement.getBoundingClientRect();
-      var anchorVertical = contentAnchorOffset === 0 ? anchorOrigin.vertical : 'center';
-      return {
-        top: anchorRect.top + this.handleGetOffsetTop(anchorRect, anchorVertical),
-        left: anchorRect.left + this.handleGetOffsetLeft(anchorRect, anchorOrigin.horizontal)
-      };
-    } // Returns the vertical offset of inner content to anchor the transform on if provided
-
-  }, {
-    key: "getContentAnchorOffset",
-    value: function getContentAnchorOffset(element) {
-      var _this$props3 = this.props,
-          getContentAnchorEl = _this$props3.getContentAnchorEl,
-          anchorReference = _this$props3.anchorReference;
-      var contentAnchorOffset = 0;
-
-      if (getContentAnchorEl && anchorReference === 'anchorEl') {
-        var contentAnchorEl = getContentAnchorEl(element);
-
-        if (contentAnchorEl && element.contains(contentAnchorEl)) {
-          var scrollTop = getScrollParent(element, contentAnchorEl);
-          contentAnchorOffset = contentAnchorEl.offsetTop + contentAnchorEl.clientHeight / 2 - scrollTop || 0;
-        } // != the default value
-
-
-        "development" !== "production" ? (0, _warning.default)(this.props.anchorOrigin.vertical === 'top', ['Material-UI: you can not change the default `anchorOrigin.vertical` value ', 'when also providing the `getContentAnchorEl` property to the popover component.', 'Only use one of the two properties.', 'Set `getContentAnchorEl` to `null | undefined`' + ' or leave `anchorOrigin.vertical` unchanged.'].join('\n')) : void 0;
-      }
-
-      return contentAnchorOffset;
-    } // Return the base transform origin using the element
-    // and taking the content anchor offset into account if in use
-
-  }, {
-    key: "getTransformOrigin",
-    value: function getTransformOrigin(elemRect) {
-      var contentAnchorOffset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-      var transformOrigin = this.props.transformOrigin;
-      return {
-        vertical: this.handleGetOffsetTop(elemRect, transformOrigin.vertical) + contentAnchorOffset,
-        horizontal: this.handleGetOffsetLeft(elemRect, transformOrigin.horizontal)
-      };
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this2 = this;
-
-      var _this$props4 = this.props,
-          action = _this$props4.action,
-          anchorEl = _this$props4.anchorEl,
-          anchorOrigin = _this$props4.anchorOrigin,
-          anchorPosition = _this$props4.anchorPosition,
-          anchorReference = _this$props4.anchorReference,
-          children = _this$props4.children,
-          classes = _this$props4.classes,
-          containerProp = _this$props4.container,
-          elevation = _this$props4.elevation,
-          getContentAnchorEl = _this$props4.getContentAnchorEl,
-          innerRef = _this$props4.innerRef,
-          marginThreshold = _this$props4.marginThreshold,
-          ModalClasses = _this$props4.ModalClasses,
-          onEnter = _this$props4.onEnter,
-          onEntered = _this$props4.onEntered,
-          onEntering = _this$props4.onEntering,
-          onExit = _this$props4.onExit,
-          onExited = _this$props4.onExited,
-          onExiting = _this$props4.onExiting,
-          open = _this$props4.open,
-          _this$props4$PaperPro = _this$props4.PaperProps,
-          PaperProps = _this$props4$PaperPro === void 0 ? {} : _this$props4$PaperPro,
-          transformOrigin = _this$props4.transformOrigin,
-          TransitionComponent = _this$props4.TransitionComponent,
-          transitionDurationProp = _this$props4.transitionDuration,
-          _this$props4$Transiti = _this$props4.TransitionProps,
-          TransitionProps = _this$props4$Transiti === void 0 ? {} : _this$props4$Transiti,
-          other = (0, _objectWithoutProperties2.default)(_this$props4, ["action", "anchorEl", "anchorOrigin", "anchorPosition", "anchorReference", "children", "classes", "container", "elevation", "getContentAnchorEl", "innerRef", "marginThreshold", "ModalClasses", "onEnter", "onEntered", "onEntering", "onExit", "onExited", "onExiting", "open", "PaperProps", "transformOrigin", "TransitionComponent", "transitionDuration", "TransitionProps"]);
-      var transitionDuration = transitionDurationProp;
-
-      if (transitionDurationProp === 'auto' && !TransitionComponent.muiSupportAuto) {
-        transitionDuration = undefined;
-      } // If the container prop is provided, use that
-      // If the anchorEl prop is provided, use its parent body element as the container
-      // If neither are provided let the Modal take care of choosing the container
-
-
-      var container = containerProp || (anchorEl ? (0, _ownerDocument.default)(getAnchorEl(anchorEl)).body : undefined);
-      return _react.default.createElement(_Modal.default, (0, _extends2.default)({
-        classes: ModalClasses,
-        container: container,
-        open: open,
-        ref: innerRef,
-        BackdropProps: {
-          invisible: true
-        }
-      }, other), _react.default.createElement(TransitionComponent, (0, _extends2.default)({
-        appear: true,
-        in: open,
-        onEnter: onEnter,
-        onEntered: onEntered,
-        onExit: onExit,
-        onExited: onExited,
-        onExiting: onExiting,
-        timeout: transitionDuration
-      }, TransitionProps, {
-        onEntering: (0, _helpers.createChainedFunction)(this.handleEntering, TransitionProps.onEntering)
-      }), _react.default.createElement(_Paper.default, (0, _extends2.default)({
-        elevation: elevation,
-        ref: function ref(_ref) {
-          // #StrictMode ready
-          _this2.paperRef = _reactDom.default.findDOMNode(_ref);
-        }
-      }, PaperProps, {
-        className: (0, _clsx.default)(classes.paper, PaperProps.className)
-      }), _react.default.createElement(_reactEventListener.default, {
-        target: "window",
-        onResize: this.handleResize
-      }), children)));
-    }
-  }]);
-  return Popover;
-}(_react.default.Component);
+  }, other), _react.default.createElement(TransitionComponent, (0, _extends2.default)({
+    appear: true,
+    in: open,
+    onEnter: onEnter,
+    onEntered: onEntered,
+    onExit: onExit,
+    onExited: onExited,
+    onExiting: onExiting,
+    timeout: transitionDuration
+  }, TransitionProps, {
+    onEntering: (0, _helpers.createChainedFunction)(handleEntering, TransitionProps.onEntering)
+  }), _react.default.createElement(_Paper.default, (0, _extends2.default)({
+    elevation: elevation,
+    ref: handlePaperRef
+  }, PaperProps, {
+    className: (0, _clsx.default)(classes.paper, PaperProps.className)
+  }), children)));
+});
 
 "development" !== "production" ? Popover.propTypes = {
   /**
@@ -71747,12 +69664,6 @@ function (_React$Component) {
    * anchor element.
    */
   getContentAnchorEl: _propTypes.default.func,
-
-  /**
-   * @ignore
-   * from `withForwardRef`
-   */
-  innerRef: _propTypes.default.oneOfType([_propTypes.default.func, _propTypes.default.object]),
 
   /**
    * Specifies how close to the edge of the window the popover can appear.
@@ -71863,10 +69774,10 @@ Popover.defaultProps = {
 
 var _default = (0, _withStyles.default)(styles, {
   name: 'MuiPopover'
-})((0, _withForwardedRef.default)(Popover));
+})(Popover);
 
 exports.default = _default;
-},{"@babel/runtime/helpers/extends":"../../../node_modules/@babel/runtime/helpers/extends.js","@babel/runtime/helpers/objectWithoutProperties":"../../../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","@babel/runtime/helpers/classCallCheck":"../../../node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"../../../node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"../../../node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"../../../node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/inherits":"../../../node_modules/@babel/runtime/helpers/inherits.js","react":"../../../node_modules/react/index.js","prop-types":"../../../node_modules/prop-types/index.js","react-dom":"../../../node_modules/react-dom/index.js","warning":"../../../node_modules/warning/warning.js","debounce":"../../../node_modules/debounce/index.js","react-event-listener":"../../../node_modules/react-event-listener/dist/react-event-listener.cjs.js","clsx":"../../../node_modules/clsx/dist/clsx.m.js","@material-ui/utils":"../../../node_modules/@material-ui/utils/esm/index.js","../utils/ownerDocument":"../../../node_modules/@material-ui/core/esm/utils/ownerDocument.js","../utils/ownerWindow":"../../../node_modules/@material-ui/core/esm/utils/ownerWindow.js","../utils/helpers":"../../../node_modules/@material-ui/core/esm/utils/helpers.js","../utils/withForwardedRef":"../../../node_modules/@material-ui/core/esm/utils/withForwardedRef.js","../styles/withStyles":"../../../node_modules/@material-ui/core/esm/styles/withStyles.js","../Modal":"../../../node_modules/@material-ui/core/esm/Modal/index.js","../Grow":"../../../node_modules/@material-ui/core/esm/Grow/index.js","../Paper":"../../../node_modules/@material-ui/core/esm/Paper/index.js"}],"../../../node_modules/@material-ui/core/esm/Popover/index.js":[function(require,module,exports) {
+},{"@babel/runtime/helpers/extends":"../../../node_modules/@babel/runtime/helpers/extends.js","@babel/runtime/helpers/objectWithoutProperties":"../../../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","react":"../../../node_modules/react/index.js","prop-types":"../../../node_modules/prop-types/index.js","react-dom":"../../../node_modules/react-dom/index.js","warning":"../../../node_modules/warning/warning.js","debounce":"../../../node_modules/debounce/index.js","clsx":"../../../node_modules/clsx/dist/clsx.m.js","@material-ui/utils":"../../../node_modules/@material-ui/utils/esm/index.js","../utils/ownerDocument":"../../../node_modules/@material-ui/core/esm/utils/ownerDocument.js","../utils/ownerWindow":"../../../node_modules/@material-ui/core/esm/utils/ownerWindow.js","../utils/helpers":"../../../node_modules/@material-ui/core/esm/utils/helpers.js","../styles/withStyles":"../../../node_modules/@material-ui/core/esm/styles/withStyles.js","../Modal":"../../../node_modules/@material-ui/core/esm/Modal/index.js","../Grow":"../../../node_modules/@material-ui/core/esm/Grow/index.js","../Paper":"../../../node_modules/@material-ui/core/esm/Paper/index.js"}],"../../../node_modules/@material-ui/core/esm/Popover/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -71972,7 +69883,7 @@ var List = _react.default.forwardRef(function List(props, ref) {
   return _react.default.createElement(_ListContext.default.Provider, {
     value: context
   }, _react.default.createElement(Component, (0, _extends2.default)({
-    className: (0, _clsx.default)(classes.root, dense && classes.dense, !disablePadding && classes.padding, subheader && classes.subheader, className),
+    className: (0, _clsx.default)(classes.root, className, dense && classes.dense, !disablePadding && classes.padding, subheader && classes.subheader),
     ref: ref
   }, other), subheader, children));
 });
@@ -72431,7 +70342,7 @@ var Menu = _react.default.forwardRef(function Menu(props, ref) {
 
     var newChildProps = null;
 
-    if (variant === 'selectedMenu' && firstSelectedIndex === null && child.props.selected && !child.props.disabled) {
+    if (variant !== "menu" && firstSelectedIndex === null && child.props.selected && !child.props.disabled) {
       firstSelectedIndex = index;
       newChildProps = {};
 
@@ -72893,7 +70804,7 @@ var SelectInput = _react.default.forwardRef(function SelectInput(props, ref) {
   return _react.default.createElement("div", {
     className: classes.root
   }, _react.default.createElement("div", (0, _extends2.default)({
-    className: (0, _clsx.default)(classes.select, classes.selectMenu, disabled && classes.disabled, variant === 'filled' && classes.filled, variant === 'outlined' && classes.outlined, className),
+    className: (0, _clsx.default)(classes.select, classes.selectMenu, className, disabled && classes.disabled, variant === 'filled' && classes.filled, variant === 'outlined' && classes.outlined),
     ref: displayRef,
     "aria-pressed": open ? 'true' : 'false',
     tabIndex: tabIndex,
@@ -73185,7 +71096,7 @@ var SvgIcon = _react.default.forwardRef(function SvgIcon(props, ref) {
       viewBox = _props$viewBox === void 0 ? '0 0 24 24' : _props$viewBox,
       other = (0, _objectWithoutProperties2.default)(props, ["children", "classes", "className", "color", "component", "fontSize", "htmlColor", "titleAccess", "viewBox"]);
   return _react.default.createElement(Component, (0, _extends2.default)({
-    className: (0, _clsx.default)(classes.root, color !== 'inherit' && classes["color".concat((0, _helpers.capitalize)(color))], fontSize !== 'default' && classes["fontSize".concat((0, _helpers.capitalize)(fontSize))], className),
+    className: (0, _clsx.default)(classes.root, className, color !== 'inherit' && classes["color".concat((0, _helpers.capitalize)(color))], fontSize !== 'default' && classes["fontSize".concat((0, _helpers.capitalize)(fontSize))]),
     focusable: "false",
     viewBox: viewBox,
     color: htmlColor,
@@ -73368,7 +71279,7 @@ var NativeSelectInput = _react.default.forwardRef(function NativeSelectInput(pro
   return _react.default.createElement("div", {
     className: classes.root
   }, _react.default.createElement("select", (0, _extends2.default)({
-    className: (0, _clsx.default)(classes.select, variant === 'filled' && classes.filled, variant === 'outlined' && classes.outlined, disabled && classes.disabled, className),
+    className: (0, _clsx.default)(classes.select, className, variant === 'filled' && classes.filled, variant === 'outlined' && classes.outlined, disabled && classes.disabled),
     name: name,
     disabled: disabled,
     onChange: onChange,
@@ -74371,7 +72282,7 @@ var Icon = _react.default.forwardRef(function Icon(props, ref) {
       fontSize = _props$fontSize === void 0 ? 'default' : _props$fontSize,
       other = (0, _objectWithoutProperties2.default)(props, ["classes", "className", "color", "component", "fontSize"]);
   return _react.default.createElement(Component, (0, _extends2.default)({
-    className: (0, _clsx.default)('material-icons', classes.root, color !== 'inherit' && classes["color".concat((0, _helpers.capitalize)(color))], fontSize !== 'default' && classes["fontSize".concat((0, _helpers.capitalize)(fontSize))], className),
+    className: (0, _clsx.default)('material-icons', classes.root, className, color !== 'inherit' && classes["color".concat((0, _helpers.capitalize)(color))], fontSize !== 'default' && classes["fontSize".concat((0, _helpers.capitalize)(fontSize))]),
     "aria-hidden": true,
     ref: ref
   }, other));
@@ -74433,7 +72344,1245 @@ Object.defineProperty(exports, "default", {
 var _Icon = _interopRequireDefault(require("./Icon"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./Icon":"../../../node_modules/@material-ui/core/esm/Icon/Icon.js"}],"../../../node_modules/@material-ui/core/esm/Fab/Fab.js":[function(require,module,exports) {
+},{"./Icon":"../../../node_modules/@material-ui/core/esm/Icon/Icon.js"}],"../../../node_modules/@material-ui/core/esm/NoSsr/NoSsr.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
+
+var _react = _interopRequireDefault(require("react"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _utils = require("@material-ui/utils");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var useEnhancedEffect = typeof window !== 'undefined' && "development" !== 'test' ? _react.default.useLayoutEffect : _react.default.useEffect;
+/**
+ * NoSsr purposely removes components from the subject of Server Side Rendering (SSR).
+ *
+ * This component can be useful in a variety of situations:
+ * - Escape hatch for broken dependencies not supporting SSR.
+ * - Improve the time-to-first paint on the client by only rendering above the fold.
+ * - Reduce the rendering time on the server.
+ * - Under too heavy server load, you can turn on service degradation.
+ */
+
+function NoSsr(props) {
+  var children = props.children,
+      _props$defer = props.defer,
+      defer = _props$defer === void 0 ? false : _props$defer,
+      _props$fallback = props.fallback,
+      fallback = _props$fallback === void 0 ? null : _props$fallback;
+
+  var _React$useState = _react.default.useState(false),
+      _React$useState2 = (0, _slicedToArray2.default)(_React$useState, 2),
+      mountedState = _React$useState2[0],
+      setMountedState = _React$useState2[1];
+
+  useEnhancedEffect(function () {
+    if (!defer) {
+      setMountedState(true);
+    }
+  }, [defer]);
+
+  _react.default.useEffect(function () {
+    if (defer) {
+      setMountedState(true);
+    }
+  }, [defer]); // We need the Fragment here to force react-docgen to recognise NoSsr as a component.
+
+
+  return _react.default.createElement(_react.default.Fragment, null, mountedState ? children : fallback);
+}
+
+"development" !== "production" ? NoSsr.propTypes = {
+  /**
+   * You can wrap a node.
+   */
+  children: _propTypes.default.node.isRequired,
+
+  /**
+   * If `true`, the component will not only prevent server-side rendering.
+   * It will also defer the rendering of the children into a different screen frame.
+   */
+  defer: _propTypes.default.bool,
+
+  /**
+   * The fallback content to display.
+   */
+  fallback: _propTypes.default.node
+} : void 0;
+
+if ("development" !== 'production') {
+  // eslint-disable-next-line
+  NoSsr['propTypes' + ''] = (0, _utils.exactProp)(NoSsr.propTypes);
+}
+
+var _default = NoSsr;
+exports.default = _default;
+},{"@babel/runtime/helpers/slicedToArray":"../../../node_modules/@babel/runtime/helpers/slicedToArray.js","react":"../../../node_modules/react/index.js","prop-types":"../../../node_modules/prop-types/index.js","@material-ui/utils":"../../../node_modules/@material-ui/utils/esm/index.js"}],"../../../node_modules/@material-ui/core/esm/NoSsr/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function () {
+    return _NoSsr.default;
+  }
+});
+
+var _NoSsr = _interopRequireDefault(require("./NoSsr"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+},{"./NoSsr":"../../../node_modules/@material-ui/core/esm/NoSsr/NoSsr.js"}],"../../../node_modules/@material-ui/core/esm/utils/focusVisible.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.prepare = prepare;
+exports.teardown = teardown;
+exports.isFocusVisible = isFocusVisible;
+exports.handleBlurVisible = handleBlurVisible;
+exports.useIsFocusVisible = useIsFocusVisible;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _reactDom = _interopRequireDefault(require("react-dom"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// based on https://github.com/WICG/focus-visible/blob/v4.1.5/src/focus-visible.js
+var hadKeyboardEvent = true;
+var hadFocusVisibleRecently = false;
+var hadFocusVisibleRecentlyTimeout = null;
+var inputTypesWhitelist = {
+  text: true,
+  search: true,
+  url: true,
+  tel: true,
+  email: true,
+  password: true,
+  number: true,
+  date: true,
+  month: true,
+  week: true,
+  time: true,
+  datetime: true,
+  'datetime-local': true
+};
+/**
+ * Computes whether the given element should automatically trigger the
+ * `focus-visible` class being added, i.e. whether it should always match
+ * `:focus-visible` when focused.
+ * @param {Element} node
+ * @return {boolean}
+ */
+
+function focusTriggersKeyboardModality(node) {
+  var type = node.type,
+      tagName = node.tagName;
+
+  if (tagName === 'INPUT' && inputTypesWhitelist[type] && !node.readOnly) {
+    return true;
+  }
+
+  if (tagName === 'TEXTAREA' && !node.readOnly) {
+    return true;
+  }
+
+  if (node.isContentEditable) {
+    return true;
+  }
+
+  return false;
+}
+
+function handleKeyDown() {
+  hadKeyboardEvent = true;
+}
+/**
+ * If at any point a user clicks with a pointing device, ensure that we change
+ * the modality away from keyboard.
+ * This avoids the situation where a user presses a key on an already focused
+ * element, and then clicks on a different element, focusing it with a
+ * pointing device, while we still think we're in keyboard modality.
+ * @param {Event} e
+ */
+
+
+function handlePointerDown() {
+  hadKeyboardEvent = false;
+}
+
+function handleVisibilityChange() {
+  if (this.visibilityState === 'hidden') {
+    // If the tab becomes active again, the browser will handle calling focus
+    // on the element (Safari actually calls it twice).
+    // If this tab change caused a blur on an element with focus-visible,
+    // re-apply the class when the user switches back to the tab.
+    if (hadFocusVisibleRecently) {
+      hadKeyboardEvent = true;
+    }
+  }
+}
+
+function prepare(ownerDocument) {
+  ownerDocument.addEventListener('keydown', handleKeyDown, true);
+  ownerDocument.addEventListener('mousedown', handlePointerDown, true);
+  ownerDocument.addEventListener('pointerdown', handlePointerDown, true);
+  ownerDocument.addEventListener('touchstart', handlePointerDown, true);
+  ownerDocument.addEventListener('visibilitychange', handleVisibilityChange, true);
+}
+
+function teardown(ownerDocument) {
+  ownerDocument.removeEventListener('keydown', handleKeyDown, true);
+  ownerDocument.removeEventListener('mousedown', handlePointerDown, true);
+  ownerDocument.removeEventListener('pointerdown', handlePointerDown, true);
+  ownerDocument.removeEventListener('touchstart', handlePointerDown, true);
+  ownerDocument.removeEventListener('visibilitychange', handleVisibilityChange, true);
+}
+
+function isFocusVisible(event) {
+  var target = event.target;
+
+  try {
+    return target.matches(':focus-visible');
+  } catch (error) {} // browsers not implementing :focus-visible will throw a SyntaxError
+  // we use our own heuristic for those browsers
+  // rethrow might be better if it's not the expected error but do we really
+  // want to crash if focus-visible malfunctioned?
+  // no need for validFocusTarget check. the user does that by attaching it to
+  // focusable events only
+
+
+  return hadKeyboardEvent || focusTriggersKeyboardModality(target);
+}
+/**
+ * Should be called if a blur event is fired on a focus-visible element
+ */
+
+
+function handleBlurVisible() {
+  // To detect a tab/window switch, we look for a blur event followed
+  // rapidly by a visibility change.
+  // If we don't see a visibility change within 100ms, it's probably a
+  // regular focus change.
+  hadFocusVisibleRecently = true;
+  window.clearTimeout(hadFocusVisibleRecentlyTimeout);
+  hadFocusVisibleRecentlyTimeout = window.setTimeout(function () {
+    hadFocusVisibleRecently = false;
+    window.clearTimeout(hadFocusVisibleRecentlyTimeout);
+  }, 100);
+}
+
+function useIsFocusVisible() {
+  var ref = _react.default.useCallback(function (instance) {
+    var node = _reactDom.default.findDOMNode(instance);
+
+    if (node != null) {
+      prepare(node.ownerDocument);
+    }
+  }, []);
+
+  return {
+    isFocusVisible: isFocusVisible,
+    onBlurVisible: handleBlurVisible,
+    ref: ref
+  };
+}
+},{"react":"../../../node_modules/react/index.js","react-dom":"../../../node_modules/react-dom/index.js"}],"../../../node_modules/@material-ui/core/esm/ButtonBase/Ripple.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
+
+var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
+
+var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutProperties"));
+
+var _react = _interopRequireDefault(require("react"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _clsx = _interopRequireDefault(require("clsx"));
+
+var _reactTransitionGroup = require("react-transition-group");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * @ignore - internal component.
+ */
+function Ripple(props) {
+  var classes = props.classes,
+      className = props.className,
+      _props$pulsate = props.pulsate,
+      pulsate = _props$pulsate === void 0 ? false : _props$pulsate,
+      rippleX = props.rippleX,
+      rippleY = props.rippleY,
+      rippleSize = props.rippleSize,
+      other = (0, _objectWithoutProperties2.default)(props, ["classes", "className", "pulsate", "rippleX", "rippleY", "rippleSize"]);
+
+  var _React$useState = _react.default.useState(false),
+      _React$useState2 = (0, _slicedToArray2.default)(_React$useState, 2),
+      visible = _React$useState2[0],
+      setVisible = _React$useState2[1];
+
+  var _React$useState3 = _react.default.useState(false),
+      _React$useState4 = (0, _slicedToArray2.default)(_React$useState3, 2),
+      leaving = _React$useState4[0],
+      setLeaving = _React$useState4[1];
+
+  var handleEnter = function handleEnter() {
+    setVisible(true);
+  };
+
+  var handleExit = function handleExit() {
+    setLeaving(true);
+  };
+
+  var rippleClassName = (0, _clsx.default)(classes.ripple, className, visible && classes.rippleVisible, pulsate && classes.ripplePulsate);
+  var rippleStyles = {
+    width: rippleSize,
+    height: rippleSize,
+    top: -(rippleSize / 2) + rippleY,
+    left: -(rippleSize / 2) + rippleX
+  };
+  var childClassName = (0, _clsx.default)(classes.child, leaving && classes.childLeaving, pulsate && classes.childPulsate);
+  return _react.default.createElement(_reactTransitionGroup.Transition, (0, _extends2.default)({
+    onEnter: handleEnter,
+    onExit: handleExit
+  }, other), _react.default.createElement("span", {
+    className: rippleClassName,
+    style: rippleStyles
+  }, _react.default.createElement("span", {
+    className: childClassName
+  })));
+}
+
+"development" !== "production" ? Ripple.propTypes = {
+  /**
+   * Override or extend the styles applied to the component.
+   * See [CSS API](#css) below for more details.
+   */
+  classes: _propTypes.default.object.isRequired,
+
+  /**
+   * @ignore
+   */
+  className: _propTypes.default.string,
+
+  /**
+   * If `true`, the ripple pulsates, typically indicating the keyboard focus state of an element.
+   */
+  pulsate: _propTypes.default.bool,
+
+  /**
+   * Diameter of the ripple.
+   */
+  rippleSize: _propTypes.default.number,
+
+  /**
+   * Horizontal position of the ripple center.
+   */
+  rippleX: _propTypes.default.number,
+
+  /**
+   * Vertical position of the ripple center.
+   */
+  rippleY: _propTypes.default.number
+} : void 0;
+var _default = Ripple;
+exports.default = _default;
+},{"@babel/runtime/helpers/extends":"../../../node_modules/@babel/runtime/helpers/extends.js","@babel/runtime/helpers/slicedToArray":"../../../node_modules/@babel/runtime/helpers/slicedToArray.js","@babel/runtime/helpers/objectWithoutProperties":"../../../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","react":"../../../node_modules/react/index.js","prop-types":"../../../node_modules/prop-types/index.js","clsx":"../../../node_modules/clsx/dist/clsx.m.js","react-transition-group":"../../../node_modules/react-transition-group/esm/index.js"}],"../../../node_modules/@material-ui/core/esm/ButtonBase/TouchRipple.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.styles = exports.DELAY_RIPPLE = void 0;
+
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
+
+var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutProperties"));
+
+var _toConsumableArray2 = _interopRequireDefault(require("@babel/runtime/helpers/toConsumableArray"));
+
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
+
+var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
+
+var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
+
+var _getPrototypeOf3 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
+
+var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
+
+var _react = _interopRequireDefault(require("react"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _reactTransitionGroup = require("react-transition-group");
+
+var _clsx = _interopRequireDefault(require("clsx"));
+
+var _withStyles = _interopRequireDefault(require("../styles/withStyles"));
+
+var _Ripple = _interopRequireDefault(require("./Ripple"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var DURATION = 550;
+var DELAY_RIPPLE = 80;
+exports.DELAY_RIPPLE = DELAY_RIPPLE;
+
+var styles = function styles(theme) {
+  return {
+    /* Styles applied to the root element. */
+    root: {
+      display: 'block',
+      position: 'absolute',
+      overflow: 'hidden',
+      borderRadius: 'inherit',
+      width: '100%',
+      height: '100%',
+      left: 0,
+      top: 0,
+      pointerEvents: 'none',
+      zIndex: 0
+    },
+
+    /* Styles applied to the internal `Ripple` components `ripple` class. */
+    ripple: {
+      opacity: 0,
+      position: 'absolute'
+    },
+
+    /* Styles applied to the internal `Ripple` components `rippleVisible` class. */
+    rippleVisible: {
+      opacity: 0.3,
+      transform: 'scale(1)',
+      animation: "mui-ripple-enter ".concat(DURATION, "ms ").concat(theme.transitions.easing.easeInOut),
+      // Backward compatible logic between JSS v9 and v10.
+      // To remove with the release of Material-UI v4
+      animationName: '$mui-ripple-enter'
+    },
+
+    /* Styles applied to the internal `Ripple` components `ripplePulsate` class. */
+    ripplePulsate: {
+      animationDuration: "".concat(theme.transitions.duration.shorter, "ms")
+    },
+
+    /* Styles applied to the internal `Ripple` components `child` class. */
+    child: {
+      opacity: 1,
+      display: 'block',
+      width: '100%',
+      height: '100%',
+      borderRadius: '50%',
+      backgroundColor: 'currentColor'
+    },
+
+    /* Styles applied to the internal `Ripple` components `childLeaving` class. */
+    childLeaving: {
+      opacity: 0,
+      animation: "mui-ripple-exit ".concat(DURATION, "ms ").concat(theme.transitions.easing.easeInOut),
+      // Backward compatible logic between JSS v9 and v10.
+      // To remove with the release of Material-UI v4
+      animationName: '$mui-ripple-exit'
+    },
+
+    /* Styles applied to the internal `Ripple` components `childPulsate` class. */
+    childPulsate: {
+      position: 'absolute',
+      left: 0,
+      top: 0,
+      animation: "mui-ripple-pulsate 2500ms ".concat(theme.transitions.easing.easeInOut, " 200ms infinite"),
+      // Backward compatible logic between JSS v9 and v10.
+      // To remove with the release of Material-UI v4
+      animationName: '$mui-ripple-pulsate'
+    },
+    '@keyframes mui-ripple-enter': {
+      '0%': {
+        transform: 'scale(0)',
+        opacity: 0.1
+      },
+      '100%': {
+        transform: 'scale(1)',
+        opacity: 0.3
+      }
+    },
+    '@keyframes mui-ripple-exit': {
+      '0%': {
+        opacity: 1
+      },
+      '100%': {
+        opacity: 0
+      }
+    },
+    '@keyframes mui-ripple-pulsate': {
+      '0%': {
+        transform: 'scale(1)'
+      },
+      '50%': {
+        transform: 'scale(0.92)'
+      },
+      '100%': {
+        transform: 'scale(1)'
+      }
+    }
+  };
+};
+
+exports.styles = styles;
+
+var TouchRipple =
+/*#__PURE__*/
+function (_React$PureComponent) {
+  (0, _inherits2.default)(TouchRipple, _React$PureComponent);
+
+  function TouchRipple() {
+    var _getPrototypeOf2;
+
+    var _this;
+
+    (0, _classCallCheck2.default)(this, TouchRipple);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = (0, _possibleConstructorReturn2.default)(this, (_getPrototypeOf2 = (0, _getPrototypeOf3.default)(TouchRipple)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    _this.state = {
+      nextKey: 0,
+      ripples: []
+    };
+    _this.container = _react.default.createRef();
+
+    _this.pulsate = function () {
+      _this.start({}, {
+        pulsate: true
+      });
+    };
+
+    _this.start = function () {
+      var event = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var cb = arguments.length > 2 ? arguments[2] : undefined;
+      var _options$pulsate = options.pulsate,
+          pulsate = _options$pulsate === void 0 ? false : _options$pulsate,
+          _options$center = options.center,
+          center = _options$center === void 0 ? _this.props.center || options.pulsate : _options$center,
+          _options$fakeElement = options.fakeElement,
+          fakeElement = _options$fakeElement === void 0 ? false : _options$fakeElement;
+
+      if (event.type === 'mousedown' && _this.ignoringMouseDown) {
+        _this.ignoringMouseDown = false;
+        return;
+      }
+
+      if (event.type === 'touchstart') {
+        _this.ignoringMouseDown = true;
+      }
+
+      var element = fakeElement ? null : _this.container.current;
+      var rect = element ? element.getBoundingClientRect() : {
+        width: 0,
+        height: 0,
+        left: 0,
+        top: 0
+      }; // Get the size of the ripple
+
+      var rippleX;
+      var rippleY;
+      var rippleSize;
+
+      if (center || event.clientX === 0 && event.clientY === 0 || !event.clientX && !event.touches) {
+        rippleX = Math.round(rect.width / 2);
+        rippleY = Math.round(rect.height / 2);
+      } else {
+        var clientX = event.clientX ? event.clientX : event.touches[0].clientX;
+        var clientY = event.clientY ? event.clientY : event.touches[0].clientY;
+        rippleX = Math.round(clientX - rect.left);
+        rippleY = Math.round(clientY - rect.top);
+      }
+
+      if (center) {
+        rippleSize = Math.sqrt((2 * Math.pow(rect.width, 2) + Math.pow(rect.height, 2)) / 3); // For some reason the animation is broken on Mobile Chrome if the size if even.
+
+        if (rippleSize % 2 === 0) {
+          rippleSize += 1;
+        }
+      } else {
+        var sizeX = Math.max(Math.abs((element ? element.clientWidth : 0) - rippleX), rippleX) * 2 + 2;
+        var sizeY = Math.max(Math.abs((element ? element.clientHeight : 0) - rippleY), rippleY) * 2 + 2;
+        rippleSize = Math.sqrt(Math.pow(sizeX, 2) + Math.pow(sizeY, 2));
+      } // Touche devices
+
+
+      if (event.touches) {
+        // Prepare the ripple effect.
+        _this.startTimerCommit = function () {
+          _this.startCommit({
+            pulsate: pulsate,
+            rippleX: rippleX,
+            rippleY: rippleY,
+            rippleSize: rippleSize,
+            cb: cb
+          });
+        }; // Delay the execution of the ripple effect.
+
+
+        _this.startTimer = setTimeout(function () {
+          if (_this.startTimerCommit) {
+            _this.startTimerCommit();
+
+            _this.startTimerCommit = null;
+          }
+        }, DELAY_RIPPLE); // We have to make a tradeoff with this value.
+      } else {
+        _this.startCommit({
+          pulsate: pulsate,
+          rippleX: rippleX,
+          rippleY: rippleY,
+          rippleSize: rippleSize,
+          cb: cb
+        });
+      }
+    };
+
+    _this.startCommit = function (params) {
+      var pulsate = params.pulsate,
+          rippleX = params.rippleX,
+          rippleY = params.rippleY,
+          rippleSize = params.rippleSize,
+          cb = params.cb;
+
+      _this.setState(function (state) {
+        return {
+          nextKey: state.nextKey + 1,
+          ripples: [].concat((0, _toConsumableArray2.default)(state.ripples), [_react.default.createElement(_Ripple.default, {
+            key: state.nextKey,
+            classes: _this.props.classes,
+            timeout: {
+              exit: DURATION,
+              enter: DURATION
+            },
+            pulsate: pulsate,
+            rippleX: rippleX,
+            rippleY: rippleY,
+            rippleSize: rippleSize
+          })])
+        };
+      }, cb);
+    };
+
+    _this.stop = function (event, cb) {
+      clearTimeout(_this.startTimer);
+      var ripples = _this.state.ripples; // The touch interaction occurs too quickly.
+      // We still want to show ripple effect.
+
+      if (event.type === 'touchend' && _this.startTimerCommit) {
+        event.persist();
+
+        _this.startTimerCommit();
+
+        _this.startTimerCommit = null;
+        _this.startTimer = setTimeout(function () {
+          _this.stop(event, cb);
+        });
+        return;
+      }
+
+      _this.startTimerCommit = null;
+
+      if (ripples && ripples.length) {
+        _this.setState({
+          ripples: ripples.slice(1)
+        }, cb);
+      }
+    };
+
+    return _this;
+  }
+
+  (0, _createClass2.default)(TouchRipple, [{
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      clearTimeout(this.startTimer);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$props = this.props,
+          center = _this$props.center,
+          classes = _this$props.classes,
+          className = _this$props.className,
+          other = (0, _objectWithoutProperties2.default)(_this$props, ["center", "classes", "className"]);
+      return _react.default.createElement("span", (0, _extends2.default)({
+        className: (0, _clsx.default)(classes.root, className),
+        ref: this.container
+      }, other), _react.default.createElement(_reactTransitionGroup.TransitionGroup, {
+        component: null,
+        enter: true,
+        exit: true
+      }, this.state.ripples));
+    }
+  }]);
+  return TouchRipple;
+}(_react.default.PureComponent);
+
+"development" !== "production" ? TouchRipple.propTypes = {
+  /**
+   * If `true`, the ripple starts at the center of the component
+   * rather than at the point of interaction.
+   */
+  center: _propTypes.default.bool,
+
+  /**
+   * Override or extend the styles applied to the component.
+   * See [CSS API](#css) below for more details.
+   */
+  classes: _propTypes.default.object.isRequired,
+
+  /**
+   * @ignore
+   */
+  className: _propTypes.default.string
+} : void 0;
+TouchRipple.defaultProps = {
+  center: false
+};
+
+var _default = (0, _withStyles.default)(styles, {
+  flip: false,
+  name: 'MuiTouchRipple'
+})(TouchRipple);
+
+exports.default = _default;
+},{"@babel/runtime/helpers/extends":"../../../node_modules/@babel/runtime/helpers/extends.js","@babel/runtime/helpers/objectWithoutProperties":"../../../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","@babel/runtime/helpers/toConsumableArray":"../../../node_modules/@babel/runtime/helpers/toConsumableArray.js","@babel/runtime/helpers/classCallCheck":"../../../node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"../../../node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"../../../node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"../../../node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/inherits":"../../../node_modules/@babel/runtime/helpers/inherits.js","react":"../../../node_modules/react/index.js","prop-types":"../../../node_modules/prop-types/index.js","react-transition-group":"../../../node_modules/react-transition-group/esm/index.js","clsx":"../../../node_modules/clsx/dist/clsx.m.js","../styles/withStyles":"../../../node_modules/@material-ui/core/esm/styles/withStyles.js","./Ripple":"../../../node_modules/@material-ui/core/esm/ButtonBase/Ripple.js"}],"../../../node_modules/@material-ui/core/esm/ButtonBase/ButtonBase.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.styles = void 0;
+
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
+
+var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
+
+var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutProperties"));
+
+var _react = _interopRequireDefault(require("react"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _reactDom = _interopRequireDefault(require("react-dom"));
+
+var _clsx = _interopRequireDefault(require("clsx"));
+
+var _utils = require("@material-ui/utils");
+
+var _reactHelpers = require("../utils/reactHelpers");
+
+var _withStyles = _interopRequireDefault(require("../styles/withStyles"));
+
+var _NoSsr = _interopRequireDefault(require("../NoSsr"));
+
+var _focusVisible = require("../utils/focusVisible");
+
+var _TouchRipple = _interopRequireDefault(require("./TouchRipple"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var styles = {
+  /* Styles applied to the root element. */
+  root: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+    // Remove grey highlight
+    WebkitTapHighlightColor: 'transparent',
+    backgroundColor: 'transparent',
+    // Reset default value
+    // We disable the focus ring for mouse, touch and keyboard users.
+    outline: 'none',
+    border: 0,
+    margin: 0,
+    // Remove the margin in Safari
+    borderRadius: 0,
+    padding: 0,
+    // Remove the padding in Firefox
+    cursor: 'pointer',
+    userSelect: 'none',
+    verticalAlign: 'middle',
+    '-moz-appearance': 'none',
+    // Reset
+    '-webkit-appearance': 'none',
+    // Reset
+    textDecoration: 'none',
+    // So we take precedent over the style of a native <a /> element.
+    color: 'inherit',
+    '&::-moz-focus-inner': {
+      borderStyle: 'none' // Remove Firefox dotted outline.
+
+    },
+    '&$disabled': {
+      pointerEvents: 'none',
+      // Disable link interactions
+      cursor: 'default'
+    }
+  },
+
+  /* Styles applied to the root element if `disabled={true}`. */
+  disabled: {},
+
+  /* Styles applied to the root element if keyboard focused. */
+  focusVisible: {}
+};
+exports.styles = styles;
+var useEnhancedEffect = typeof window !== 'undefined' ? _react.default.useLayoutEffect : _react.default.useEffect;
+/**
+ * https://github.com/facebook/react/issues/14099#issuecomment-440013892
+ *
+ * @param {function} fn
+ */
+
+function useEventCallback(fn) {
+  var ref = _react.default.useRef(fn);
+
+  useEnhancedEffect(function () {
+    ref.current = fn;
+  });
+  return _react.default.useCallback(function (event) {
+    return (0, ref.current)(event);
+  }, []);
+}
+/**
+ * `ButtonBase` contains as few styles as possible.
+ * It aims to be a simple building block for creating a button.
+ * It contains a load of style reset and some focus/ripple logic.
+ */
+
+
+var ButtonBase = _react.default.forwardRef(function ButtonBase(props, ref) {
+  var action = props.action,
+      buttonRefProp = props.buttonRef,
+      _props$centerRipple = props.centerRipple,
+      centerRipple = _props$centerRipple === void 0 ? false : _props$centerRipple,
+      children = props.children,
+      classes = props.classes,
+      classNameProp = props.className,
+      _props$component = props.component,
+      component = _props$component === void 0 ? 'button' : _props$component,
+      disabled = props.disabled,
+      _props$disableRipple = props.disableRipple,
+      disableRipple = _props$disableRipple === void 0 ? false : _props$disableRipple,
+      _props$disableTouchRi = props.disableTouchRipple,
+      disableTouchRipple = _props$disableTouchRi === void 0 ? false : _props$disableTouchRi,
+      _props$focusRipple = props.focusRipple,
+      focusRipple = _props$focusRipple === void 0 ? false : _props$focusRipple,
+      focusVisibleClassName = props.focusVisibleClassName,
+      onBlur = props.onBlur,
+      onClick = props.onClick,
+      onFocus = props.onFocus,
+      onFocusVisible = props.onFocusVisible,
+      onKeyDown = props.onKeyDown,
+      onKeyUp = props.onKeyUp,
+      onMouseDown = props.onMouseDown,
+      onMouseLeave = props.onMouseLeave,
+      onMouseUp = props.onMouseUp,
+      onTouchEnd = props.onTouchEnd,
+      onTouchMove = props.onTouchMove,
+      onTouchStart = props.onTouchStart,
+      _props$tabIndex = props.tabIndex,
+      tabIndex = _props$tabIndex === void 0 ? 0 : _props$tabIndex,
+      TouchRippleProps = props.TouchRippleProps,
+      _props$type = props.type,
+      type = _props$type === void 0 ? 'button' : _props$type,
+      other = (0, _objectWithoutProperties2.default)(props, ["action", "buttonRef", "centerRipple", "children", "classes", "className", "component", "disabled", "disableRipple", "disableTouchRipple", "focusRipple", "focusVisibleClassName", "onBlur", "onClick", "onFocus", "onFocusVisible", "onKeyDown", "onKeyUp", "onMouseDown", "onMouseLeave", "onMouseUp", "onTouchEnd", "onTouchMove", "onTouchStart", "tabIndex", "TouchRippleProps", "type"]);
+
+  var buttonRef = _react.default.useRef(null);
+
+  function getButtonNode() {
+    // #StrictMode ready
+    return _reactDom.default.findDOMNode(buttonRef.current);
+  }
+
+  var rippleRef = _react.default.useRef(null);
+
+  var _React$useState = _react.default.useState(false),
+      _React$useState2 = (0, _slicedToArray2.default)(_React$useState, 2),
+      focusVisible = _React$useState2[0],
+      setFocusVisible = _React$useState2[1];
+
+  if (disabled && focusVisible) {
+    setFocusVisible(false);
+  }
+
+  var _useIsFocusVisible = (0, _focusVisible.useIsFocusVisible)(),
+      isFocusVisible = _useIsFocusVisible.isFocusVisible,
+      onBlurVisible = _useIsFocusVisible.onBlurVisible,
+      focusVisibleRef = _useIsFocusVisible.ref;
+
+  _react.default.useImperativeHandle(action, function () {
+    return {
+      focusVisible: function focusVisible() {
+        setFocusVisible(true);
+        buttonRef.current.focus();
+      }
+    };
+  }, []);
+
+  _react.default.useEffect(function () {
+    if (focusVisible && focusRipple && !disableRipple) {
+      rippleRef.current.pulsate();
+    }
+  }, [disableRipple, focusRipple, focusVisible]);
+
+  function useRippleHandler(rippleAction, eventCallback) {
+    var skipRippleAction = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : disableTouchRipple;
+    return useEventCallback(function (event) {
+      if (eventCallback) {
+        eventCallback(event);
+      }
+
+      var ignore = event.defaultPrevented || skipRippleAction;
+
+      if (!ignore && rippleRef.current) {
+        rippleRef.current[rippleAction](event);
+      }
+
+      return true;
+    });
+  }
+
+  var handleMouseDown = useRippleHandler('start', onMouseDown);
+  var handleMouseUp = useRippleHandler('stop', onMouseUp);
+  var handleMouseLeave = useRippleHandler('stop', function (event) {
+    if (focusVisible) {
+      event.preventDefault();
+    }
+
+    if (onMouseLeave) {
+      onMouseLeave(event);
+    }
+  });
+  var handleTouchStart = useRippleHandler('start', onTouchStart);
+  var handleTouchEnd = useRippleHandler('stop', onTouchEnd);
+  var handleTouchMove = useRippleHandler('stop', onTouchMove);
+  var handleBlur = useRippleHandler('stop', function (event) {
+    if (focusVisible) {
+      onBlurVisible(event);
+      setFocusVisible(false);
+    }
+
+    if (onBlur) {
+      onBlur(event);
+    }
+  }, false);
+  var handleFocus = useEventCallback(function (event) {
+    if (disabled) {
+      return;
+    } // Fix for https://github.com/facebook/react/issues/7769
+
+
+    if (!buttonRef.current) {
+      buttonRef.current = event.currentTarget;
+    }
+
+    if (isFocusVisible(event)) {
+      setFocusVisible(true);
+
+      if (onFocusVisible) {
+        onFocusVisible(event);
+      }
+    }
+
+    if (onFocus) {
+      onFocus(event);
+    }
+  });
+
+  var keydownRef = _react.default.useRef(false);
+
+  var handleKeyDown = useEventCallback(function (event) {
+    // Check if key is already down to avoid repeats being counted as multiple activations
+    if (focusRipple && !keydownRef.current && focusVisible && rippleRef.current && event.key === ' ') {
+      keydownRef.current = true;
+      event.persist();
+      rippleRef.current.stop(event, function () {
+        rippleRef.current.start(event);
+      });
+    }
+
+    if (onKeyDown) {
+      onKeyDown(event);
+    }
+
+    var button = getButtonNode(); // Keyboard accessibility for non interactive elements
+
+    if (event.target === event.currentTarget && component && component !== 'button' && (event.key === ' ' || event.key === 'Enter') && !(button.tagName === 'A' && button.href)) {
+      event.preventDefault();
+
+      if (onClick) {
+        onClick(event);
+      }
+    }
+  });
+  var handleKeyUp = useEventCallback(function (event) {
+    if (focusRipple && event.key === ' ' && rippleRef.current && focusVisible) {
+      keydownRef.current = false;
+      event.persist();
+      rippleRef.current.stop(event, function () {
+        rippleRef.current.pulsate(event);
+      });
+    }
+
+    if (onKeyUp) {
+      onKeyUp(event);
+    }
+  });
+  var className = (0, _clsx.default)(classes.root, classNameProp, focusVisible && [classes.focusVisible, focusVisibleClassName], disabled && classes.disabled);
+  var ComponentProp = component;
+
+  if (ComponentProp === 'button' && other.href) {
+    ComponentProp = 'a';
+  }
+
+  var buttonProps = {};
+
+  if (ComponentProp === 'button') {
+    buttonProps.type = type;
+    buttonProps.disabled = disabled;
+  } else {
+    buttonProps.role = 'button';
+    buttonProps['aria-disabled'] = disabled;
+  }
+
+  var handleUserRef = (0, _reactHelpers.useForkRef)(buttonRefProp, ref);
+  var handleOwnRef = (0, _reactHelpers.useForkRef)(focusVisibleRef, buttonRef);
+  var handleRef = (0, _reactHelpers.useForkRef)(handleUserRef, handleOwnRef);
+  return _react.default.createElement(ComponentProp, (0, _extends2.default)({
+    className: className,
+    onBlur: handleBlur,
+    onClick: onClick,
+    onFocus: handleFocus,
+    onKeyDown: handleKeyDown,
+    onKeyUp: handleKeyUp,
+    onMouseDown: handleMouseDown,
+    onMouseLeave: handleMouseLeave,
+    onMouseUp: handleMouseUp,
+    onTouchEnd: handleTouchEnd,
+    onTouchMove: handleTouchMove,
+    onTouchStart: handleTouchStart,
+    ref: handleRef,
+    tabIndex: disabled ? -1 : tabIndex
+  }, buttonProps, other), children, !disableRipple && !disabled ? _react.default.createElement(_NoSsr.default, null, _react.default.createElement(_TouchRipple.default, (0, _extends2.default)({
+    ref: rippleRef,
+    center: centerRipple
+  }, TouchRippleProps))) : null);
+});
+
+"development" !== "production" ? ButtonBase.propTypes = {
+  /**
+   * Callback fired when the component mounts.
+   * This is useful when you want to trigger an action programmatically.
+   * It currently only supports `focusVisible()` action.
+   *
+   * @param {object} actions This object contains all possible actions
+   * that can be triggered programmatically.
+   */
+  action: _propTypes.default.func,
+
+  /**
+   * Use that property to pass a ref callback to the native button component.
+   * @deprecated Use `ref` instead
+   */
+  buttonRef: _propTypes.default.oneOfType([_propTypes.default.func, _propTypes.default.object]),
+
+  /**
+   * If `true`, the ripples will be centered.
+   * They won't start at the cursor interaction position.
+   */
+  centerRipple: _propTypes.default.bool,
+
+  /**
+   * The content of the component.
+   */
+  children: _propTypes.default.node,
+
+  /**
+   * Override or extend the styles applied to the component.
+   * See [CSS API](#css) below for more details.
+   */
+  classes: _propTypes.default.object.isRequired,
+
+  /**
+   * @ignore
+   */
+  className: _propTypes.default.string,
+
+  /**
+   * The component used for the root node.
+   * Either a string to use a DOM element or a component.
+   */
+  component: _utils.elementTypeAcceptingRef,
+
+  /**
+   * If `true`, the base button will be disabled.
+   */
+  disabled: _propTypes.default.bool,
+
+  /**
+   * If `true`, the ripple effect will be disabled.
+   *
+   * ⚠️ Without a ripple there is no styling for :focus-visible by default. Be sure
+   * to highlight the element by applying separate styles with the `focusVisibleClassName`.
+   */
+  disableRipple: _propTypes.default.bool,
+
+  /**
+   * If `true`, the touch ripple effect will be disabled.
+   */
+  disableTouchRipple: _propTypes.default.bool,
+
+  /**
+   * If `true`, the base button will have a keyboard focus ripple.
+   * `disableRipple` must also be `false`.
+   */
+  focusRipple: _propTypes.default.bool,
+
+  /**
+   * This property can help a person know which element has the keyboard focus.
+   * The class name will be applied when the element gain the focus through a keyboard interaction.
+   * It's a polyfill for the [CSS :focus-visible selector](https://drafts.csswg.org/selectors-4/#the-focus-visible-pseudo).
+   * The rationale for using this feature [is explained here](https://github.com/WICG/focus-visible/blob/master/explainer.md).
+   * A [polyfill can be used](https://github.com/WICG/focus-visible) to apply a `focus-visible` class to other components
+   * if needed.
+   */
+  focusVisibleClassName: _propTypes.default.string,
+
+  /**
+   * @ignore
+   */
+  onBlur: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  onClick: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  onFocus: _propTypes.default.func,
+
+  /**
+   * Callback fired when the component is focused with a keyboard.
+   * We trigger a `onFocus` callback too.
+   */
+  onFocusVisible: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  onKeyDown: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  onKeyUp: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  onMouseDown: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  onMouseLeave: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  onMouseUp: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  onTouchEnd: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  onTouchMove: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  onTouchStart: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  role: _propTypes.default.string,
+
+  /**
+   * @ignore
+   */
+  tabIndex: _propTypes.default.oneOfType([_propTypes.default.number, _propTypes.default.string]),
+
+  /**
+   * Properties applied to the `TouchRipple` element.
+   */
+  TouchRippleProps: _propTypes.default.object,
+
+  /**
+   * Used to control the button's purpose.
+   * This property passes the value to the `type` attribute of the native button component.
+   */
+  type: _propTypes.default.oneOf(['submit', 'reset', 'button'])
+} : void 0;
+
+var _default = (0, _withStyles.default)(styles, {
+  name: 'MuiButtonBase'
+})(ButtonBase);
+
+exports.default = _default;
+},{"@babel/runtime/helpers/extends":"../../../node_modules/@babel/runtime/helpers/extends.js","@babel/runtime/helpers/slicedToArray":"../../../node_modules/@babel/runtime/helpers/slicedToArray.js","@babel/runtime/helpers/objectWithoutProperties":"../../../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","react":"../../../node_modules/react/index.js","prop-types":"../../../node_modules/prop-types/index.js","react-dom":"../../../node_modules/react-dom/index.js","clsx":"../../../node_modules/clsx/dist/clsx.m.js","@material-ui/utils":"../../../node_modules/@material-ui/utils/esm/index.js","../utils/reactHelpers":"../../../node_modules/@material-ui/core/esm/utils/reactHelpers.js","../styles/withStyles":"../../../node_modules/@material-ui/core/esm/styles/withStyles.js","../NoSsr":"../../../node_modules/@material-ui/core/esm/NoSsr/index.js","../utils/focusVisible":"../../../node_modules/@material-ui/core/esm/utils/focusVisible.js","./TouchRipple":"../../../node_modules/@material-ui/core/esm/ButtonBase/TouchRipple.js"}],"../../../node_modules/@material-ui/core/esm/ButtonBase/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function () {
+    return _ButtonBase.default;
+  }
+});
+
+var _ButtonBase = _interopRequireDefault(require("./ButtonBase"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+},{"./ButtonBase":"../../../node_modules/@material-ui/core/esm/ButtonBase/ButtonBase.js"}],"../../../node_modules/@material-ui/core/esm/Fab/Fab.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -74605,7 +73754,7 @@ var Fab = _react.default.forwardRef(function Fab(props, ref) {
       variant = _props$variant === void 0 ? 'round' : _props$variant,
       other = (0, _objectWithoutProperties2.default)(props, ["children", "classes", "className", "color", "component", "disabled", "disableFocusRipple", "focusVisibleClassName", "size", "variant"]);
   return _react.default.createElement(_ButtonBase.default, (0, _extends2.default)({
-    className: (0, _clsx.default)(classes.root, variant === 'extended' && classes.extended, color === 'primary' && classes.primary, color === 'secondary' && classes.secondary, size !== 'large' && classes["size".concat((0, _helpers.capitalize)(size))], disabled && classes.disabled, color === 'inherit' && classes.colorInherit, className),
+    className: (0, _clsx.default)(classes.root, className, variant !== "round" && classes.extended, color === 'primary' && classes.primary, color === 'secondary' && classes.secondary, size !== 'large' && classes["size".concat((0, _helpers.capitalize)(size))], disabled && classes.disabled, color === 'inherit' && classes.colorInherit),
     component: component,
     disabled: disabled,
     focusRipple: !disableFocusRipple,
@@ -74717,7 +73866,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   background: "#fff",
-  button: "linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)"
+  button: "linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)",
+  snack: "rgba(238, 238, 238, 0.6)",
+  shadow: '0 3px 5px 2px rgba(33, 203, 243, .3)'
 };
 },{}],"../components/ChatFooter.tsx":[function(require,module,exports) {
 "use strict";
@@ -74794,7 +73945,8 @@ var useStyles = styles_1.makeStyles(function (theme) {
     },
     button: {
       margin: theme.spacing(1),
-      background: theme_1.default.button
+      background: theme_1.default.button,
+      boxShadow: theme_1.default.shadow
     },
     rightIcon: {
       marginLeft: theme.spacing(1)
@@ -79491,7 +78643,442 @@ var global = arguments[3];
 
 })));
 
-},{}],"../../../node_modules/react-spring/renderprops.js":[function(require,module,exports) {
+},{}],"../../../node_modules/react-sticky/lib/Sticky.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require("react-dom");
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _propTypes = require("prop-types");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Sticky = function (_Component) {
+  _inherits(Sticky, _Component);
+
+  function Sticky() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, Sticky);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Sticky.__proto__ || Object.getPrototypeOf(Sticky)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+      isSticky: false,
+      wasSticky: false,
+      style: {}
+    }, _this.handleContainerEvent = function (_ref2) {
+      var distanceFromTop = _ref2.distanceFromTop,
+          distanceFromBottom = _ref2.distanceFromBottom,
+          eventSource = _ref2.eventSource;
+
+      var parent = _this.context.getParent();
+
+      var preventingStickyStateChanges = false;
+      if (_this.props.relative) {
+        preventingStickyStateChanges = eventSource !== parent;
+        distanceFromTop = -(eventSource.scrollTop + eventSource.offsetTop) + _this.placeholder.offsetTop;
+      }
+
+      var placeholderClientRect = _this.placeholder.getBoundingClientRect();
+      var contentClientRect = _this.content.getBoundingClientRect();
+      var calculatedHeight = contentClientRect.height;
+
+      var bottomDifference = distanceFromBottom - _this.props.bottomOffset - calculatedHeight;
+
+      var wasSticky = !!_this.state.isSticky;
+      var isSticky = preventingStickyStateChanges ? wasSticky : distanceFromTop <= -_this.props.topOffset && distanceFromBottom > -_this.props.bottomOffset;
+
+      distanceFromBottom = (_this.props.relative ? parent.scrollHeight - parent.scrollTop : distanceFromBottom) - calculatedHeight;
+
+      var style = !isSticky ? {} : {
+        position: "fixed",
+        top: bottomDifference > 0 ? _this.props.relative ? parent.offsetTop - parent.offsetParent.scrollTop : 0 : bottomDifference,
+        left: placeholderClientRect.left,
+        width: placeholderClientRect.width
+      };
+
+      if (!_this.props.disableHardwareAcceleration) {
+        style.transform = "translateZ(0)";
+      }
+
+      _this.setState({
+        isSticky: isSticky,
+        wasSticky: wasSticky,
+        distanceFromTop: distanceFromTop,
+        distanceFromBottom: distanceFromBottom,
+        calculatedHeight: calculatedHeight,
+        style: style
+      });
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  _createClass(Sticky, [{
+    key: "componentWillMount",
+    value: function componentWillMount() {
+      if (!this.context.subscribe) throw new TypeError("Expected Sticky to be mounted within StickyContainer");
+
+      this.context.subscribe(this.handleContainerEvent);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      this.context.unsubscribe(this.handleContainerEvent);
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {
+      this.placeholder.style.paddingBottom = this.props.disableCompensation ? 0 : (this.state.isSticky ? this.state.calculatedHeight : 0) + "px";
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      var element = _react2.default.cloneElement(this.props.children({
+        isSticky: this.state.isSticky,
+        wasSticky: this.state.wasSticky,
+        distanceFromTop: this.state.distanceFromTop,
+        distanceFromBottom: this.state.distanceFromBottom,
+        calculatedHeight: this.state.calculatedHeight,
+        style: this.state.style
+      }), {
+        ref: function ref(content) {
+          _this2.content = _reactDom2.default.findDOMNode(content);
+        }
+      });
+
+      return _react2.default.createElement(
+        "div",
+        null,
+        _react2.default.createElement("div", { ref: function ref(placeholder) {
+            return _this2.placeholder = placeholder;
+          } }),
+        element
+      );
+    }
+  }]);
+
+  return Sticky;
+}(_react.Component);
+
+Sticky.propTypes = {
+  topOffset: _propTypes2.default.number,
+  bottomOffset: _propTypes2.default.number,
+  relative: _propTypes2.default.bool,
+  children: _propTypes2.default.func.isRequired
+};
+Sticky.defaultProps = {
+  relative: false,
+  topOffset: 0,
+  bottomOffset: 0,
+  disableCompensation: false,
+  disableHardwareAcceleration: false
+};
+Sticky.contextTypes = {
+  subscribe: _propTypes2.default.func,
+  unsubscribe: _propTypes2.default.func,
+  getParent: _propTypes2.default.func
+};
+exports.default = Sticky;
+},{"react":"../../../node_modules/react/index.js","react-dom":"../../../node_modules/react-dom/index.js","prop-types":"../../../node_modules/prop-types/index.js"}],"../../../node_modules/performance-now/lib/performance-now.js":[function(require,module,exports) {
+var process = require("process");
+// Generated by CoffeeScript 1.12.2
+(function() {
+  var getNanoSeconds, hrtime, loadTime, moduleLoadTime, nodeLoadTime, upTime;
+
+  if ((typeof performance !== "undefined" && performance !== null) && performance.now) {
+    module.exports = function() {
+      return performance.now();
+    };
+  } else if ((typeof process !== "undefined" && process !== null) && process.hrtime) {
+    module.exports = function() {
+      return (getNanoSeconds() - nodeLoadTime) / 1e6;
+    };
+    hrtime = process.hrtime;
+    getNanoSeconds = function() {
+      var hr;
+      hr = hrtime();
+      return hr[0] * 1e9 + hr[1];
+    };
+    moduleLoadTime = getNanoSeconds();
+    upTime = process.uptime() * 1e9;
+    nodeLoadTime = moduleLoadTime - upTime;
+  } else if (Date.now) {
+    module.exports = function() {
+      return Date.now() - loadTime;
+    };
+    loadTime = Date.now();
+  } else {
+    module.exports = function() {
+      return new Date().getTime() - loadTime;
+    };
+    loadTime = new Date().getTime();
+  }
+
+}).call(this);
+
+
+
+},{"process":"../../../node_modules/process/browser.js"}],"../../../node_modules/raf/index.js":[function(require,module,exports) {
+var global = arguments[3];
+var now = require('performance-now')
+  , root = typeof window === 'undefined' ? global : window
+  , vendors = ['moz', 'webkit']
+  , suffix = 'AnimationFrame'
+  , raf = root['request' + suffix]
+  , caf = root['cancel' + suffix] || root['cancelRequest' + suffix]
+
+for(var i = 0; !raf && i < vendors.length; i++) {
+  raf = root[vendors[i] + 'Request' + suffix]
+  caf = root[vendors[i] + 'Cancel' + suffix]
+      || root[vendors[i] + 'CancelRequest' + suffix]
+}
+
+// Some versions of FF have rAF but not cAF
+if(!raf || !caf) {
+  var last = 0
+    , id = 0
+    , queue = []
+    , frameDuration = 1000 / 60
+
+  raf = function(callback) {
+    if(queue.length === 0) {
+      var _now = now()
+        , next = Math.max(0, frameDuration - (_now - last))
+      last = next + _now
+      setTimeout(function() {
+        var cp = queue.slice(0)
+        // Clear queue here to prevent
+        // callbacks from appending listeners
+        // to the current frame's queue
+        queue.length = 0
+        for(var i = 0; i < cp.length; i++) {
+          if(!cp[i].cancelled) {
+            try{
+              cp[i].callback(last)
+            } catch(e) {
+              setTimeout(function() { throw e }, 0)
+            }
+          }
+        }
+      }, Math.round(next))
+    }
+    queue.push({
+      handle: ++id,
+      callback: callback,
+      cancelled: false
+    })
+    return id
+  }
+
+  caf = function(handle) {
+    for(var i = 0; i < queue.length; i++) {
+      if(queue[i].handle === handle) {
+        queue[i].cancelled = true
+      }
+    }
+  }
+}
+
+module.exports = function(fn) {
+  // Wrap in a new function to prevent
+  // `cancel` potentially being assigned
+  // to the native rAF function
+  return raf.call(root, fn)
+}
+module.exports.cancel = function() {
+  caf.apply(root, arguments)
+}
+module.exports.polyfill = function(object) {
+  if (!object) {
+    object = root;
+  }
+  object.requestAnimationFrame = raf
+  object.cancelAnimationFrame = caf
+}
+
+},{"performance-now":"../../../node_modules/performance-now/lib/performance-now.js"}],"../../../node_modules/react-sticky/lib/Container.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = require("prop-types");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _raf = require("raf");
+
+var _raf2 = _interopRequireDefault(_raf);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Container = function (_PureComponent) {
+  _inherits(Container, _PureComponent);
+
+  function Container() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, Container);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Container.__proto__ || Object.getPrototypeOf(Container)).call.apply(_ref, [this].concat(args))), _this), _this.events = ["resize", "scroll", "touchstart", "touchmove", "touchend", "pageshow", "load"], _this.subscribers = [], _this.rafHandle = null, _this.subscribe = function (handler) {
+      _this.subscribers = _this.subscribers.concat(handler);
+    }, _this.unsubscribe = function (handler) {
+      _this.subscribers = _this.subscribers.filter(function (current) {
+        return current !== handler;
+      });
+    }, _this.notifySubscribers = function (evt) {
+      if (!_this.framePending) {
+        var currentTarget = evt.currentTarget;
+
+
+        _this.rafHandle = (0, _raf2.default)(function () {
+          _this.framePending = false;
+
+          var _this$node$getBoundin = _this.node.getBoundingClientRect(),
+              top = _this$node$getBoundin.top,
+              bottom = _this$node$getBoundin.bottom;
+
+          _this.subscribers.forEach(function (handler) {
+            return handler({
+              distanceFromTop: top,
+              distanceFromBottom: bottom,
+              eventSource: currentTarget === window ? document.body : _this.node
+            });
+          });
+        });
+        _this.framePending = true;
+      }
+    }, _this.getParent = function () {
+      return _this.node;
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  _createClass(Container, [{
+    key: "getChildContext",
+    value: function getChildContext() {
+      return {
+        subscribe: this.subscribe,
+        unsubscribe: this.unsubscribe,
+        getParent: this.getParent
+      };
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      this.events.forEach(function (event) {
+        return window.addEventListener(event, _this2.notifySubscribers);
+      });
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      var _this3 = this;
+
+      if (this.rafHandle) {
+        _raf2.default.cancel(this.rafHandle);
+        this.rafHandle = null;
+      }
+
+      this.events.forEach(function (event) {
+        return window.removeEventListener(event, _this3.notifySubscribers);
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this4 = this;
+
+      return _react2.default.createElement("div", _extends({}, this.props, {
+        ref: function ref(node) {
+          return _this4.node = node;
+        },
+        onScroll: this.notifySubscribers,
+        onTouchStart: this.notifySubscribers,
+        onTouchMove: this.notifySubscribers,
+        onTouchEnd: this.notifySubscribers
+      }));
+    }
+  }]);
+
+  return Container;
+}(_react.PureComponent);
+
+Container.childContextTypes = {
+  subscribe: _propTypes2.default.func,
+  unsubscribe: _propTypes2.default.func,
+  getParent: _propTypes2.default.func
+};
+exports.default = Container;
+},{"react":"../../../node_modules/react/index.js","prop-types":"../../../node_modules/prop-types/index.js","raf":"../../../node_modules/raf/index.js"}],"../../../node_modules/react-sticky/lib/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.StickyContainer = exports.Sticky = undefined;
+
+var _Sticky = require("./Sticky");
+
+var _Sticky2 = _interopRequireDefault(_Sticky);
+
+var _Container = require("./Container");
+
+var _Container2 = _interopRequireDefault(_Container);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.Sticky = _Sticky2.default;
+exports.StickyContainer = _Container2.default;
+exports.default = _Sticky2.default;
+},{"./Sticky":"../../../node_modules/react-sticky/lib/Sticky.js","./Container":"../../../node_modules/react-sticky/lib/Container.js"}],"../../../node_modules/react-spring/renderprops.js":[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -81509,7 +81096,182 @@ exports.animated = extendedAnimated;
 exports.interpolate = interpolate$1;
 exports.Globals = Globals;
 
-},{"@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"../../../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","@babel/runtime/helpers/esm/extends":"../../../node_modules/@babel/runtime/helpers/esm/extends.js","react":"../../../node_modules/react/index.js","react-dom":"../../../node_modules/react-dom/index.js"}],"../../../node_modules/@material-ui/core/esm/Typography/Typography.js":[function(require,module,exports) {
+},{"@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"../../../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","@babel/runtime/helpers/esm/extends":"../../../node_modules/@babel/runtime/helpers/esm/extends.js","react":"../../../node_modules/react/index.js","react-dom":"../../../node_modules/react-dom/index.js"}],"../../../node_modules/@material-ui/core/esm/ClickAwayListener/ClickAwayListener.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _reactDom = _interopRequireDefault(require("react-dom"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _ownerDocument = _interopRequireDefault(require("../utils/ownerDocument"));
+
+var _reactHelpers = require("../utils/reactHelpers");
+
+var _utils = require("@material-ui/utils");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function useMountedRef() {
+  var mountedRef = _react.default.useRef(false);
+
+  _react.default.useEffect(function () {
+    mountedRef.current = true;
+    return function () {
+      mountedRef.current = false;
+    };
+  }, []);
+
+  return mountedRef;
+}
+
+function mapEventPropToEvent(eventProp) {
+  return eventProp.substring(2).toLowerCase();
+}
+/**
+ * Listen for click events that occur somewhere in the document, outside of the element itself.
+ * For instance, if you need to hide a menu when people click anywhere else on your page.
+ */
+
+
+function ClickAwayListener(props) {
+  var children = props.children,
+      _props$mouseEvent = props.mouseEvent,
+      mouseEvent = _props$mouseEvent === void 0 ? 'onClick' : _props$mouseEvent,
+      _props$touchEvent = props.touchEvent,
+      touchEvent = _props$touchEvent === void 0 ? 'onTouchEnd' : _props$touchEvent,
+      onClickAway = props.onClickAway;
+  var mountedRef = useMountedRef();
+
+  var movedRef = _react.default.useRef(false);
+
+  var nodeRef = _react.default.useRef(null); // can be removed once we drop support for non ref forwarding class components
+
+
+  var handleOwnRef = _react.default.useCallback(function (instance) {
+    // #StrictMode ready
+    nodeRef.current = _reactDom.default.findDOMNode(instance);
+  }, []);
+
+  var handleRef = (0, _reactHelpers.useForkRef)(children.ref, handleOwnRef);
+
+  var handleClickAway = _react.default.useCallback(function (event) {
+    // Ignore events that have been `event.preventDefault()` marked.
+    if (event.defaultPrevented) {
+      return;
+    } // IE 11 support, which trigger the handleClickAway even after the unbind
+
+
+    if (!mountedRef.current) {
+      return;
+    } // Do not act if user performed touchmove
+
+
+    if (movedRef.current) {
+      movedRef.current = false;
+      return;
+    }
+
+    var node = nodeRef.current; // The child might render null.
+
+    if (!node) {
+      return;
+    }
+
+    var doc = (0, _ownerDocument.default)(node);
+
+    if (doc.documentElement && doc.documentElement.contains(event.target) && !node.contains(event.target)) {
+      onClickAway(event);
+    }
+  }, [mountedRef, onClickAway]);
+
+  var handleTouchMove = _react.default.useCallback(function () {
+    movedRef.current = true;
+  }, []);
+
+  _react.default.useEffect(function () {
+    if (touchEvent !== false) {
+      var mappedTouchEvent = mapEventPropToEvent(touchEvent);
+      document.addEventListener(mappedTouchEvent, handleClickAway);
+      document.addEventListener('touchmove', handleTouchMove);
+      return function () {
+        document.removeEventListener(mappedTouchEvent, handleClickAway);
+        document.removeEventListener('touchmove', handleTouchMove);
+      };
+    }
+
+    return undefined;
+  }, [handleClickAway, handleTouchMove, touchEvent]);
+
+  _react.default.useEffect(function () {
+    if (mouseEvent !== false) {
+      var mappedMouseEvent = mapEventPropToEvent(mouseEvent);
+      document.addEventListener(mappedMouseEvent, handleClickAway);
+      return function () {
+        document.removeEventListener(mappedMouseEvent, handleClickAway);
+      };
+    }
+
+    return undefined;
+  }, [handleClickAway, mouseEvent]);
+
+  return _react.default.createElement(_react.default.Fragment, null, _react.default.cloneElement(children, {
+    ref: handleRef
+  }));
+}
+
+"development" !== "production" ? ClickAwayListener.propTypes = {
+  /**
+   * The wrapped element.
+   */
+  children: _utils.elementAcceptingRef.isRequired,
+
+  /**
+   * The mouse event to listen to. You can disable the listener by providing `false`.
+   */
+  mouseEvent: _propTypes.default.oneOf(['onClick', 'onMouseDown', 'onMouseUp', false]),
+
+  /**
+   * Callback fired when a "click away" event is detected.
+   */
+  onClickAway: _propTypes.default.func.isRequired,
+
+  /**
+   * The touch event to listen to. You can disable the listener by providing `false`.
+   */
+  touchEvent: _propTypes.default.oneOf(['onTouchStart', 'onTouchEnd', false])
+} : void 0;
+
+if ("development" !== 'production') {
+  // eslint-disable-next-line
+  ClickAwayListener['propTypes' + ''] = (0, _utils.exactProp)(ClickAwayListener.propTypes);
+}
+
+var _default = ClickAwayListener;
+exports.default = _default;
+},{"react":"../../../node_modules/react/index.js","react-dom":"../../../node_modules/react-dom/index.js","prop-types":"../../../node_modules/prop-types/index.js","../utils/ownerDocument":"../../../node_modules/@material-ui/core/esm/utils/ownerDocument.js","../utils/reactHelpers":"../../../node_modules/@material-ui/core/esm/utils/reactHelpers.js","@material-ui/utils":"../../../node_modules/@material-ui/utils/esm/index.js"}],"../../../node_modules/@material-ui/core/esm/ClickAwayListener/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function () {
+    return _ClickAwayListener.default;
+  }
+});
+
+var _ClickAwayListener = _interopRequireDefault(require("./ClickAwayListener"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+},{"./ClickAwayListener":"../../../node_modules/@material-ui/core/esm/ClickAwayListener/ClickAwayListener.js"}],"../../../node_modules/@material-ui/core/esm/Typography/Typography.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -81704,7 +81466,7 @@ var Typography = _react.default.forwardRef(function Typography(props, ref) {
       other = (0, _objectWithoutProperties2.default)(props, ["align", "classes", "className", "color", "component", "display", "gutterBottom", "noWrap", "paragraph", "theme", "variant", "variantMapping"]);
   var Component = component || (paragraph ? 'p' : variantMapping[variant] || defaultVariantMapping[variant]) || 'span';
   return _react.default.createElement(Component, (0, _extends2.default)({
-    className: (0, _clsx.default)(classes.root, variant !== 'inherit' && classes[variant], color !== 'initial' && classes["color".concat((0, _helpers.capitalize)(color))], noWrap && classes.noWrap, gutterBottom && classes.gutterBottom, paragraph && classes.paragraph, align !== 'inherit' && classes["align".concat((0, _helpers.capitalize)(align))], display !== 'initial' && classes["display".concat((0, _helpers.capitalize)(display))], className),
+    className: (0, _clsx.default)(classes.root, className, variant !== 'inherit' && classes[variant], color !== 'initial' && classes["color".concat((0, _helpers.capitalize)(color))], noWrap && classes.noWrap, gutterBottom && classes.gutterBottom, paragraph && classes.paragraph, align !== 'inherit' && classes["align".concat((0, _helpers.capitalize)(align))], display !== 'initial' && classes["display".concat((0, _helpers.capitalize)(display))]),
     ref: ref
   }, other));
 });
@@ -81804,8 +81566,848 @@ Object.defineProperty(exports, "default", {
 var _Typography = _interopRequireDefault(require("./Typography"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./Typography":"../../../node_modules/@material-ui/core/esm/Typography/Typography.js"}],"../components/Messages.tsx":[function(require,module,exports) {
+},{"./Typography":"../../../node_modules/@material-ui/core/esm/Typography/Typography.js"}],"../../../node_modules/@material-ui/core/esm/SnackbarContent/SnackbarContent.js":[function(require,module,exports) {
 "use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.styles = void 0;
+
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
+
+var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutProperties"));
+
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+
+var _react = _interopRequireDefault(require("react"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _clsx = _interopRequireDefault(require("clsx"));
+
+var _withStyles = _interopRequireDefault(require("../styles/withStyles"));
+
+var _Paper = _interopRequireDefault(require("../Paper"));
+
+var _Typography = _interopRequireDefault(require("../Typography"));
+
+var _colorManipulator = require("../styles/colorManipulator");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var styles = function styles(theme) {
+  var emphasis = theme.palette.type === 'light' ? 0.8 : 0.98;
+  var backgroundColor = (0, _colorManipulator.emphasize)(theme.palette.background.default, emphasis);
+  return {
+    /* Styles applied to the root element. */
+    root: (0, _defineProperty2.default)({
+      color: theme.palette.getContrastText(backgroundColor),
+      backgroundColor: backgroundColor,
+      display: 'flex',
+      alignItems: 'center',
+      flexWrap: 'wrap',
+      padding: '6px 16px',
+      borderRadius: theme.shape.borderRadius,
+      flexGrow: 1
+    }, theme.breakpoints.up('sm'), {
+      flexGrow: 'initial',
+      minWidth: 288
+    }),
+
+    /* Styles applied to the message wrapper element. */
+    message: {
+      padding: '8px 0'
+    },
+
+    /* Styles applied to the action wrapper element if `action` is provided. */
+    action: {
+      display: 'flex',
+      alignItems: 'center',
+      marginLeft: 'auto',
+      paddingLeft: 16,
+      marginRight: -8
+    }
+  };
+};
+
+exports.styles = styles;
+
+var SnackbarContent = _react.default.forwardRef(function SnackbarContent(props, ref) {
+  var action = props.action,
+      classes = props.classes,
+      className = props.className,
+      message = props.message,
+      other = (0, _objectWithoutProperties2.default)(props, ["action", "classes", "className", "message"]);
+  return _react.default.createElement(_Paper.default, (0, _extends2.default)({
+    component: _Typography.default,
+    variant: "body2",
+    variantMapping: {
+      body1: 'div',
+      body2: 'div'
+    },
+    role: "alertdialog",
+    square: true,
+    elevation: 6,
+    className: (0, _clsx.default)(classes.root, className),
+    ref: ref
+  }, other), _react.default.createElement("div", {
+    className: classes.message
+  }, message), action ? _react.default.createElement("div", {
+    className: classes.action
+  }, action) : null);
+});
+
+"development" !== "production" ? SnackbarContent.propTypes = {
+  /**
+   * The action to display.
+   */
+  action: _propTypes.default.node,
+
+  /**
+   * Override or extend the styles applied to the component.
+   * See [CSS API](#css) below for more details.
+   */
+  classes: _propTypes.default.object.isRequired,
+
+  /**
+   * @ignore
+   */
+  className: _propTypes.default.string,
+
+  /**
+   * The message to display.
+   */
+  message: _propTypes.default.node
+} : void 0;
+
+var _default = (0, _withStyles.default)(styles, {
+  name: 'MuiSnackbarContent'
+})(SnackbarContent);
+
+exports.default = _default;
+},{"@babel/runtime/helpers/extends":"../../../node_modules/@babel/runtime/helpers/extends.js","@babel/runtime/helpers/objectWithoutProperties":"../../../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","@babel/runtime/helpers/defineProperty":"../../../node_modules/@babel/runtime/helpers/defineProperty.js","react":"../../../node_modules/react/index.js","prop-types":"../../../node_modules/prop-types/index.js","clsx":"../../../node_modules/clsx/dist/clsx.m.js","../styles/withStyles":"../../../node_modules/@material-ui/core/esm/styles/withStyles.js","../Paper":"../../../node_modules/@material-ui/core/esm/Paper/index.js","../Typography":"../../../node_modules/@material-ui/core/esm/Typography/index.js","../styles/colorManipulator":"../../../node_modules/@material-ui/core/esm/styles/colorManipulator.js"}],"../../../node_modules/@material-ui/core/esm/SnackbarContent/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function () {
+    return _SnackbarContent.default;
+  }
+});
+
+var _SnackbarContent = _interopRequireDefault(require("./SnackbarContent"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+},{"./SnackbarContent":"../../../node_modules/@material-ui/core/esm/SnackbarContent/SnackbarContent.js"}],"../../../node_modules/@material-ui/core/esm/Snackbar/Snackbar.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.styles = void 0;
+
+var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
+
+var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutProperties"));
+
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
+
+var _react = _interopRequireDefault(require("react"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _clsx = _interopRequireDefault(require("clsx"));
+
+var _withStyles = _interopRequireDefault(require("../styles/withStyles"));
+
+var _transitions = require("../styles/transitions");
+
+var _ClickAwayListener = _interopRequireDefault(require("../ClickAwayListener"));
+
+var _helpers = require("../utils/helpers");
+
+var _Grow = _interopRequireDefault(require("../Grow"));
+
+var _SnackbarContent = _interopRequireDefault(require("../SnackbarContent"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var styles = function styles(theme) {
+  var top1 = {
+    top: 8
+  };
+  var bottom1 = {
+    bottom: 8
+  };
+  var right = {
+    justifyContent: 'flex-end'
+  };
+  var left = {
+    justifyContent: 'flex-start'
+  };
+  var top3 = {
+    top: 24
+  };
+  var bottom3 = {
+    bottom: 24
+  };
+  var right3 = {
+    right: 24
+  };
+  var left3 = {
+    left: 24
+  };
+  var center = {
+    left: '50%',
+    right: 'auto',
+    transform: 'translateX(-50%)'
+  };
+  return {
+    /* Styles applied to the root element. */
+    root: {
+      zIndex: theme.zIndex.snackbar,
+      position: 'fixed',
+      display: 'flex',
+      left: 8,
+      right: 8,
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
+
+    /* Styles applied to the root element if `anchorOrigin={{ 'top', 'center' }}`. */
+    anchorOriginTopCenter: (0, _extends2.default)({}, top1, (0, _defineProperty2.default)({}, theme.breakpoints.up('sm'), (0, _extends2.default)({}, top3, center))),
+
+    /* Styles applied to the root element if `anchorOrigin={{ 'bottom', 'center' }}`. */
+    anchorOriginBottomCenter: (0, _extends2.default)({}, bottom1, (0, _defineProperty2.default)({}, theme.breakpoints.up('sm'), (0, _extends2.default)({}, bottom3, center))),
+
+    /* Styles applied to the root element if `anchorOrigin={{ 'top', 'right' }}`. */
+    anchorOriginTopRight: (0, _extends2.default)({}, top1, right, (0, _defineProperty2.default)({}, theme.breakpoints.up('sm'), (0, _extends2.default)({
+      left: 'auto'
+    }, top3, right3))),
+
+    /* Styles applied to the root element if `anchorOrigin={{ 'bottom', 'right' }}`. */
+    anchorOriginBottomRight: (0, _extends2.default)({}, bottom1, right, (0, _defineProperty2.default)({}, theme.breakpoints.up('sm'), (0, _extends2.default)({
+      left: 'auto'
+    }, bottom3, right3))),
+
+    /* Styles applied to the root element if `anchorOrigin={{ 'top', 'left' }}`. */
+    anchorOriginTopLeft: (0, _extends2.default)({}, top1, left, (0, _defineProperty2.default)({}, theme.breakpoints.up('sm'), (0, _extends2.default)({
+      right: 'auto'
+    }, top3, left3))),
+
+    /* Styles applied to the root element if `anchorOrigin={{ 'bottom', 'left' }}`. */
+    anchorOriginBottomLeft: (0, _extends2.default)({}, bottom1, left, (0, _defineProperty2.default)({}, theme.breakpoints.up('sm'), (0, _extends2.default)({
+      right: 'auto'
+    }, bottom3, left3)))
+  };
+};
+
+exports.styles = styles;
+
+var Snackbar = _react.default.forwardRef(function Snackbar(props, ref) {
+  var action = props.action,
+      _props$anchorOrigin = props.anchorOrigin,
+      vertical = _props$anchorOrigin.vertical,
+      horizontal = _props$anchorOrigin.horizontal,
+      autoHideDuration = props.autoHideDuration,
+      children = props.children,
+      classes = props.classes,
+      className = props.className,
+      ClickAwayListenerProps = props.ClickAwayListenerProps,
+      ContentProps = props.ContentProps,
+      disableWindowBlurListener = props.disableWindowBlurListener,
+      message = props.message,
+      onClose = props.onClose,
+      onEnter = props.onEnter,
+      onEntered = props.onEntered,
+      onEntering = props.onEntering,
+      onExit = props.onExit,
+      onExited = props.onExited,
+      onExiting = props.onExiting,
+      onMouseEnter = props.onMouseEnter,
+      onMouseLeave = props.onMouseLeave,
+      open = props.open,
+      resumeHideDuration = props.resumeHideDuration,
+      TransitionComponent = props.TransitionComponent,
+      transitionDuration = props.transitionDuration,
+      TransitionProps = props.TransitionProps,
+      other = (0, _objectWithoutProperties2.default)(props, ["action", "anchorOrigin", "autoHideDuration", "children", "classes", "className", "ClickAwayListenerProps", "ContentProps", "disableWindowBlurListener", "message", "onClose", "onEnter", "onEntered", "onEntering", "onExit", "onExited", "onExiting", "onMouseEnter", "onMouseLeave", "open", "resumeHideDuration", "TransitionComponent", "transitionDuration", "TransitionProps"]);
+
+  var timerAutoHide = _react.default.useRef();
+
+  var _React$useState = _react.default.useState(!open),
+      _React$useState2 = (0, _slicedToArray2.default)(_React$useState, 2),
+      exited = _React$useState2[0],
+      setExited = _React$useState2[1]; // Timer that controls delay before snackbar auto hides
+
+
+  var setAutoHideTimer = _react.default.useCallback(function (autoHideDurationParam) {
+    var autoHideDurationBefore = autoHideDurationParam != null ? autoHideDurationParam : autoHideDuration;
+
+    if (!onClose || autoHideDurationBefore == null) {
+      return;
+    }
+
+    clearTimeout(timerAutoHide.current);
+    timerAutoHide.current = setTimeout(function () {
+      var autoHideDurationAfter = autoHideDurationParam != null ? autoHideDurationParam : autoHideDuration;
+
+      if (!onClose || autoHideDurationAfter == null) {
+        return;
+      }
+
+      onClose(null, 'timeout');
+    }, autoHideDurationBefore);
+  }, [autoHideDuration, onClose]);
+
+  _react.default.useEffect(function () {
+    if (open) setAutoHideTimer();
+    return function () {
+      clearTimeout(timerAutoHide.current);
+    };
+  }, [open, setAutoHideTimer]); // Pause the timer when the user is interacting with the Snackbar
+  // or when the user hide the window.
+
+
+  var handlePause = function handlePause() {
+    clearTimeout(timerAutoHide.current);
+  }; // Restart the timer when the user is no longer interacting with the Snackbar
+  // or when the window is shown back.
+
+
+  var handleResume = _react.default.useCallback(function () {
+    if (autoHideDuration != null) {
+      if (resumeHideDuration != null) {
+        setAutoHideTimer(resumeHideDuration);
+        return;
+      }
+
+      setAutoHideTimer(autoHideDuration * 0.5);
+    }
+  }, [autoHideDuration, resumeHideDuration, setAutoHideTimer]);
+
+  var handleMouseEnter = function handleMouseEnter(event) {
+    if (onMouseEnter) {
+      onMouseEnter(event);
+    }
+
+    handlePause();
+  };
+
+  var handleMouseLeave = function handleMouseLeave(event) {
+    if (onMouseLeave) {
+      onMouseLeave(event);
+    }
+
+    handleResume();
+  };
+
+  var handleClickAway = function handleClickAway(event) {
+    if (onClose) {
+      onClose(event, 'clickaway');
+    }
+  };
+
+  var handleExited = function handleExited() {
+    setExited(true);
+  };
+
+  var handleEnter = function handleEnter() {
+    setExited(false);
+  };
+
+  _react.default.useEffect(function () {
+    if (!disableWindowBlurListener) {
+      window.addEventListener('focus', handleResume);
+      window.addEventListener('blur', handlePause);
+      return function () {
+        window.removeEventListener('focus', handleResume);
+        window.removeEventListener('blur', handlePause);
+      };
+    }
+
+    return undefined;
+  }, [disableWindowBlurListener, handleResume]); // So we only render active snackbars.
+
+
+  if (!open && exited) {
+    return null;
+  }
+
+  return _react.default.createElement(_ClickAwayListener.default, (0, _extends2.default)({
+    onClickAway: handleClickAway
+  }, ClickAwayListenerProps), _react.default.createElement("div", (0, _extends2.default)({
+    className: (0, _clsx.default)(classes.root, classes["anchorOrigin".concat((0, _helpers.capitalize)(vertical)).concat((0, _helpers.capitalize)(horizontal))], className),
+    onMouseEnter: handleMouseEnter,
+    onMouseLeave: handleMouseLeave,
+    ref: ref
+  }, other), _react.default.createElement(TransitionComponent, (0, _extends2.default)({
+    appear: true,
+    in: open,
+    onEnter: (0, _helpers.createChainedFunction)(handleEnter, onEnter),
+    onEntered: onEntered,
+    onEntering: onEntering,
+    onExit: onExit,
+    onExited: (0, _helpers.createChainedFunction)(handleExited, onExited),
+    onExiting: onExiting,
+    timeout: transitionDuration,
+    direction: vertical === 'top' ? 'down' : 'up'
+  }, TransitionProps), children || _react.default.createElement(_SnackbarContent.default, (0, _extends2.default)({
+    message: message,
+    action: action
+  }, ContentProps)))));
+});
+
+"development" !== "production" ? Snackbar.propTypes = {
+  /**
+   * The action to display.
+   */
+  action: _propTypes.default.node,
+
+  /**
+   * The anchor of the `Snackbar`.
+   */
+  anchorOrigin: _propTypes.default.shape({
+    horizontal: _propTypes.default.oneOf(['left', 'center', 'right']).isRequired,
+    vertical: _propTypes.default.oneOf(['top', 'bottom']).isRequired
+  }),
+
+  /**
+   * The number of milliseconds to wait before automatically calling the
+   * `onClose` function. `onClose` should then set the state of the `open`
+   * prop to hide the Snackbar. This behavior is disabled by default with
+   * the `null` value.
+   */
+  autoHideDuration: _propTypes.default.number,
+
+  /**
+   * Replace the `SnackbarContent` component.
+   */
+  children: _propTypes.default.element,
+
+  /**
+   * Override or extend the styles applied to the component.
+   * See [CSS API](#css) below for more details.
+   */
+  classes: _propTypes.default.object.isRequired,
+
+  /**
+   * @ignore
+   */
+  className: _propTypes.default.string,
+
+  /**
+   * Properties applied to the `ClickAwayListener` element.
+   */
+  ClickAwayListenerProps: _propTypes.default.object,
+
+  /**
+   * Properties applied to the [`SnackbarContent`](/api/snackbar-content/) element.
+   */
+  ContentProps: _propTypes.default.object,
+
+  /**
+   * If `true`, the `autoHideDuration` timer will expire even if the window is not focused.
+   */
+  disableWindowBlurListener: _propTypes.default.bool,
+
+  /**
+   * When displaying multiple consecutive Snackbars from a parent rendering a single
+   * <Snackbar/>, add the key property to ensure independent treatment of each message.
+   * e.g. <Snackbar key={message} />, otherwise, the message may update-in-place and
+   * features such as autoHideDuration may be canceled.
+   */
+  key: _propTypes.default.any,
+
+  /**
+   * The message to display.
+   */
+  message: _propTypes.default.node,
+
+  /**
+   * Callback fired when the component requests to be closed.
+   * Typically `onClose` is used to set state in the parent component,
+   * which is used to control the `Snackbar` `open` prop.
+   * The `reason` parameter can optionally be used to control the response to `onClose`,
+   * for example ignoring `clickaway`.
+   *
+   * @param {object} event The event source of the callback
+   * @param {string} reason Can be:`"timeout"` (`autoHideDuration` expired) or: `"clickaway"`
+   */
+  onClose: _propTypes.default.func,
+
+  /**
+   * Callback fired before the transition is entering.
+   */
+  onEnter: _propTypes.default.func,
+
+  /**
+   * Callback fired when the transition has entered.
+   */
+  onEntered: _propTypes.default.func,
+
+  /**
+   * Callback fired when the transition is entering.
+   */
+  onEntering: _propTypes.default.func,
+
+  /**
+   * Callback fired before the transition is exiting.
+   */
+  onExit: _propTypes.default.func,
+
+  /**
+   * Callback fired when the transition has exited.
+   */
+  onExited: _propTypes.default.func,
+
+  /**
+   * Callback fired when the transition is exiting.
+   */
+  onExiting: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  onMouseEnter: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  onMouseLeave: _propTypes.default.func,
+
+  /**
+   * If true, `Snackbar` is open.
+   */
+  open: _propTypes.default.bool,
+
+  /**
+   * The number of milliseconds to wait before dismissing after user interaction.
+   * If `autoHideDuration` property isn't specified, it does nothing.
+   * If `autoHideDuration` property is specified but `resumeHideDuration` isn't,
+   * we default to `autoHideDuration / 2` ms.
+   */
+  resumeHideDuration: _propTypes.default.number,
+
+  /**
+   * The component used for the transition.
+   */
+  TransitionComponent: _propTypes.default.elementType,
+
+  /**
+   * The duration for the transition, in milliseconds.
+   * You may specify a single timeout for all transitions, or individually with an object.
+   */
+  transitionDuration: _propTypes.default.oneOfType([_propTypes.default.number, _propTypes.default.shape({
+    enter: _propTypes.default.number,
+    exit: _propTypes.default.number
+  })]),
+
+  /**
+   * Properties applied to the `Transition` element.
+   */
+  TransitionProps: _propTypes.default.object
+} : void 0;
+Snackbar.defaultProps = {
+  anchorOrigin: {
+    vertical: 'bottom',
+    horizontal: 'center'
+  },
+  disableWindowBlurListener: false,
+  TransitionComponent: _Grow.default,
+  transitionDuration: {
+    enter: _transitions.duration.enteringScreen,
+    exit: _transitions.duration.leavingScreen
+  }
+};
+
+var _default = (0, _withStyles.default)(styles, {
+  flip: false,
+  name: 'MuiSnackbar'
+})(Snackbar);
+
+exports.default = _default;
+},{"@babel/runtime/helpers/slicedToArray":"../../../node_modules/@babel/runtime/helpers/slicedToArray.js","@babel/runtime/helpers/objectWithoutProperties":"../../../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","@babel/runtime/helpers/defineProperty":"../../../node_modules/@babel/runtime/helpers/defineProperty.js","@babel/runtime/helpers/extends":"../../../node_modules/@babel/runtime/helpers/extends.js","react":"../../../node_modules/react/index.js","prop-types":"../../../node_modules/prop-types/index.js","clsx":"../../../node_modules/clsx/dist/clsx.m.js","../styles/withStyles":"../../../node_modules/@material-ui/core/esm/styles/withStyles.js","../styles/transitions":"../../../node_modules/@material-ui/core/esm/styles/transitions.js","../ClickAwayListener":"../../../node_modules/@material-ui/core/esm/ClickAwayListener/index.js","../utils/helpers":"../../../node_modules/@material-ui/core/esm/utils/helpers.js","../Grow":"../../../node_modules/@material-ui/core/esm/Grow/index.js","../SnackbarContent":"../../../node_modules/@material-ui/core/esm/SnackbarContent/index.js"}],"../../../node_modules/@material-ui/core/esm/Snackbar/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function () {
+    return _Snackbar.default;
+  }
+});
+
+var _Snackbar = _interopRequireDefault(require("./Snackbar"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+},{"./Snackbar":"../../../node_modules/@material-ui/core/esm/Snackbar/Snackbar.js"}],"../../../node_modules/@material-ui/core/esm/IconButton/IconButton.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.styles = void 0;
+
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
+
+var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutProperties"));
+
+var _react = _interopRequireDefault(require("react"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _clsx = _interopRequireDefault(require("clsx"));
+
+var _utils = require("@material-ui/utils");
+
+var _withStyles = _interopRequireDefault(require("../styles/withStyles"));
+
+var _colorManipulator = require("../styles/colorManipulator");
+
+var _ButtonBase = _interopRequireDefault(require("../ButtonBase"));
+
+var _helpers = require("../utils/helpers");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var styles = function styles(theme) {
+  return {
+    /* Styles applied to the root element. */
+    root: {
+      textAlign: 'center',
+      flex: '0 0 auto',
+      fontSize: theme.typography.pxToRem(24),
+      padding: 12,
+      borderRadius: '50%',
+      overflow: 'visible',
+      // Explicitly set the default value to solve a bug on IE 11.
+      color: theme.palette.action.active,
+      transition: theme.transitions.create('background-color', {
+        duration: theme.transitions.duration.shortest
+      }),
+      '&:hover': {
+        backgroundColor: (0, _colorManipulator.fade)(theme.palette.action.active, theme.palette.action.hoverOpacity),
+        // Reset on touch devices, it doesn't add specificity
+        '@media (hover: none)': {
+          backgroundColor: 'transparent'
+        }
+      },
+      '&$disabled': {
+        backgroundColor: 'transparent',
+        color: theme.palette.action.disabled
+      }
+    },
+
+    /* Styles applied to the root element if `edge="start"`. */
+    edgeStart: {
+      marginLeft: -12,
+      '$sizeSmall&': {
+        marginLeft: -3
+      }
+    },
+
+    /* Styles applied to the root element if `edge="end"`. */
+    edgeEnd: {
+      marginRight: -12,
+      '$sizeSmall&': {
+        marginRight: -3
+      }
+    },
+
+    /* Styles applied to the root element if `color="inherit"`. */
+    colorInherit: {
+      color: 'inherit'
+    },
+
+    /* Styles applied to the root element if `color="primary"`. */
+    colorPrimary: {
+      color: theme.palette.primary.main,
+      '&:hover': {
+        backgroundColor: (0, _colorManipulator.fade)(theme.palette.primary.main, theme.palette.action.hoverOpacity),
+        // Reset on touch devices, it doesn't add specificity
+        '@media (hover: none)': {
+          backgroundColor: 'transparent'
+        }
+      }
+    },
+
+    /* Styles applied to the root element if `color="secondary"`. */
+    colorSecondary: {
+      color: theme.palette.secondary.main,
+      '&:hover': {
+        backgroundColor: (0, _colorManipulator.fade)(theme.palette.secondary.main, theme.palette.action.hoverOpacity),
+        // Reset on touch devices, it doesn't add specificity
+        '@media (hover: none)': {
+          backgroundColor: 'transparent'
+        }
+      }
+    },
+
+    /* Styles applied to the root element if `disabled={true}`. */
+    disabled: {},
+
+    /* Styles applied to the root element if `size="small"`. */
+    sizeSmall: {
+      padding: 3,
+      fontSize: theme.typography.pxToRem(18)
+    },
+
+    /* Styles applied to the children container element. */
+    label: {
+      width: '100%',
+      display: 'flex',
+      alignItems: 'inherit',
+      justifyContent: 'inherit'
+    }
+  };
+};
+/**
+ * Refer to the [Icons](/components/icons/) section of the documentation
+ * regarding the available icon options.
+ */
+
+
+exports.styles = styles;
+
+var IconButton = _react.default.forwardRef(function IconButton(props, ref) {
+  var _props$edge = props.edge,
+      edge = _props$edge === void 0 ? false : _props$edge,
+      children = props.children,
+      classes = props.classes,
+      className = props.className,
+      _props$color = props.color,
+      color = _props$color === void 0 ? 'default' : _props$color,
+      _props$disabled = props.disabled,
+      disabled = _props$disabled === void 0 ? false : _props$disabled,
+      _props$disableFocusRi = props.disableFocusRipple,
+      disableFocusRipple = _props$disableFocusRi === void 0 ? false : _props$disableFocusRi,
+      _props$size = props.size,
+      size = _props$size === void 0 ? 'medium' : _props$size,
+      other = (0, _objectWithoutProperties2.default)(props, ["edge", "children", "classes", "className", "color", "disabled", "disableFocusRipple", "size"]);
+  return _react.default.createElement(_ButtonBase.default, (0, _extends2.default)({
+    className: (0, _clsx.default)(classes.root, className, color !== 'default' && classes["color".concat((0, _helpers.capitalize)(color))], disabled && classes.disabled, size === "small" && classes["size".concat((0, _helpers.capitalize)(size))], edge === 'start' && classes.edgeStart, edge === 'end' && classes.edgeEnd),
+    centerRipple: true,
+    focusRipple: !disableFocusRipple,
+    disabled: disabled,
+    ref: ref
+  }, other), _react.default.createElement("span", {
+    className: classes.label
+  }, children));
+});
+
+"development" !== "production" ? IconButton.propTypes = {
+  /**
+   * The icon element.
+   */
+  children: (0, _utils.chainPropTypes)(_propTypes.default.node, function (props) {
+    var found = _react.default.Children.toArray(props.children).some(function (child) {
+      return _react.default.isValidElement(child) && child.props.onClick;
+    });
+
+    if (found) {
+      return new Error(['Material-UI: you are providing an onClick event listener ' + 'to a child of a button element.', 'Firefox will never trigger the event.', 'You should move the onClick listener to the parent button element.', 'https://github.com/mui-org/material-ui/issues/13957'].join('\n'));
+    }
+
+    return null;
+  }),
+
+  /**
+   * Override or extend the styles applied to the component.
+   * See [CSS API](#css) below for more details.
+   */
+  classes: _propTypes.default.object.isRequired,
+
+  /**
+   * @ignore
+   */
+  className: _propTypes.default.string,
+
+  /**
+   * The color of the component. It supports those theme colors that make sense for this component.
+   */
+  color: _propTypes.default.oneOf(['default', 'inherit', 'primary', 'secondary']),
+
+  /**
+   * If `true`, the button will be disabled.
+   */
+  disabled: _propTypes.default.bool,
+
+  /**
+   * If `true`, the  keyboard focus ripple will be disabled.
+   * `disableRipple` must also be true.
+   */
+  disableFocusRipple: _propTypes.default.bool,
+
+  /**
+   * If `true`, the ripple effect will be disabled.
+   */
+  disableRipple: _propTypes.default.bool,
+
+  /**
+   * If given, uses a negative margin to counteract the padding on one
+   * side (this is often helpful for aligning the left or right
+   * side of the icon with content above or below, without ruining the border
+   * size and shape).
+   */
+  edge: _propTypes.default.oneOf(['start', 'end', false]),
+
+  /**
+   * The size of the button.
+   * `small` is equivalent to the dense button styling.
+   */
+  size: _propTypes.default.oneOf(['small', 'medium'])
+} : void 0;
+
+var _default = (0, _withStyles.default)(styles, {
+  name: 'MuiIconButton'
+})(IconButton);
+
+exports.default = _default;
+},{"@babel/runtime/helpers/extends":"../../../node_modules/@babel/runtime/helpers/extends.js","@babel/runtime/helpers/objectWithoutProperties":"../../../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","react":"../../../node_modules/react/index.js","prop-types":"../../../node_modules/prop-types/index.js","clsx":"../../../node_modules/clsx/dist/clsx.m.js","@material-ui/utils":"../../../node_modules/@material-ui/utils/esm/index.js","../styles/withStyles":"../../../node_modules/@material-ui/core/esm/styles/withStyles.js","../styles/colorManipulator":"../../../node_modules/@material-ui/core/esm/styles/colorManipulator.js","../ButtonBase":"../../../node_modules/@material-ui/core/esm/ButtonBase/index.js","../utils/helpers":"../../../node_modules/@material-ui/core/esm/utils/helpers.js"}],"../../../node_modules/@material-ui/core/esm/IconButton/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function () {
+    return _IconButton.default;
+  }
+});
+
+var _IconButton = _interopRequireDefault(require("./IconButton"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+},{"./IconButton":"../../../node_modules/@material-ui/core/esm/IconButton/IconButton.js"}],"../components/Messages.tsx":[function(require,module,exports) {
+"use strict";
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var __assign = this && this.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
 
 var __importStar = this && this.__importStar || function (mod) {
   if (mod && mod.__esModule) return mod;
@@ -81833,11 +82435,19 @@ var React = __importStar(require("react"));
 
 var moment_1 = __importDefault(require("moment"));
 
+var react_sticky_1 = require("react-sticky");
+
 var react_apollo_1 = require("react-apollo");
 
 var react_scroll_1 = require("react-scroll");
 
 var renderprops_1 = require("react-spring/renderprops");
+
+var Snackbar_1 = __importDefault(require("@material-ui/core/Snackbar"));
+
+var IconButton_1 = __importDefault(require("@material-ui/core/IconButton"));
+
+var Icon_1 = __importDefault(require("@material-ui/core/Icon"));
 
 var queries_1 = require("../store/hoc/queries");
 
@@ -81849,11 +82459,11 @@ var Typography_1 = __importDefault(require("@material-ui/core/Typography"));
 
 var Paper_1 = __importDefault(require("@material-ui/core/Paper"));
 
-var Avatar_1 = __importDefault(require("@material-ui/core/Avatar"));
-
 var theme_1 = __importDefault(require("../lib/theme"));
 
 var useStyles = styles_1.makeStyles(function (theme) {
+  var _avatar;
+
   return {
     messages: {
       width: '100%',
@@ -81880,9 +82490,12 @@ var useStyles = styles_1.makeStyles(function (theme) {
     },
     ownMessage: {
       background: theme_1.default.button,
+      boxShadow: theme_1.default.shadow,
       color: "#fff"
     },
-    avatar: {},
+    avatar: (_avatar = {
+      position: '-webkit-sticky'
+    }, _defineProperty(_avatar, "position", 'sticky'), _defineProperty(_avatar, "top", 0), _avatar),
     avatarPlaceholder: {
       width: 40
     },
@@ -81900,9 +82513,24 @@ var useStyles = styles_1.makeStyles(function (theme) {
     },
     skeletonMessage: {
       background: "#eeeeee"
+    },
+    snack: {
+      bottom: '150px !important',
+      '& div.MuiTypography-root': {
+        background: theme_1.default.snack,
+        color: '#333'
+      }
     }
   };
 });
+
+function usePrevious(value) {
+  var ref = React.useRef();
+  React.useEffect(function () {
+    ref.current = value;
+  });
+  return ref.current;
+}
 
 var Messages = function Messages(_a) {
   var messages = _a.messages,
@@ -81927,6 +82555,10 @@ var Messages = function Messages(_a) {
       scrollPosition = _c[0],
       setScrollPosition = _c[1];
 
+  var _d = React.useState(false),
+      isNewMessages = _d[0],
+      setIsNewMessages = _d[1];
+
   React.useEffect(function () {
     subscribeToNewMessages();
     subscribeToUserTyping();
@@ -81948,6 +82580,30 @@ var Messages = function Messages(_a) {
   }, [{
     fetchingMessages: fetchingMessages
   }]);
+  var prev = usePrevious({
+    messages: messages
+  });
+  React.useEffect(function () {
+    if (prev && prev !== null) {
+      var prevLastMsg = prev.messages[prev.messages.length - 1];
+      var currLastMsg = messages[messages.length - 1];
+
+      if (prevLastMsg._id !== currLastMsg._id && currLastMsg.user !== userId) {
+        setIsNewMessages(true);
+      }
+    }
+  }, [{
+    messages: messages
+  }]);
+  React.useEffect(function () {
+    if (isNewMessages) {
+      setTimeout(function () {
+        setIsNewMessages(false);
+      }, 3000);
+    }
+  }, [{
+    isNewMessages: isNewMessages
+  }]);
 
   var handleInfiniteScroll = function handleInfiniteScroll(e) {
     if (e.target.scrollTop < scrollPosition) {
@@ -81955,7 +82611,9 @@ var Messages = function Messages(_a) {
         setFetchingMessages(true);
       }
     } else {
-      setScrollPosition(e.target.scrollTop);
+      setTimeout(function () {
+        setScrollPosition(e.target.scrollTop);
+      }, 1000);
     }
   };
 
@@ -81988,11 +82646,19 @@ var Messages = function Messages(_a) {
       return React.createElement("div", {
         style: styleProps,
         className: classes.messageContainer + " " + (user === userId && classes.ownMessageContainer)
-      }, key === 0 || messages[key - 1].user !== user ? React.createElement(Avatar_1.default, {
-        className: classes.avatar,
-        alt: users[user].avatar,
-        src: users[user].avatar
-      }) : React.createElement("div", {
+      }, key === 0 || messages[key - 1].user !== user ? React.createElement(react_sticky_1.StickyContainer, null, React.createElement(react_sticky_1.Sticky, {
+        topOffset: 80
+      }, function (_a) {
+        var style = _a.style;
+        return React.createElement("img", {
+          style: __assign({}, style, {
+            width: 40,
+            height: 40,
+            borderRadius: '50%'
+          }),
+          src: users[user].avatar
+        });
+      })) : React.createElement("div", {
         className: classes.avatarPlaceholder
       }), React.createElement(Paper_1.default, {
         key: id,
@@ -82013,11 +82679,398 @@ var Messages = function Messages(_a) {
     ref: function ref(scrollTarget) {
       _this.scrollTarget = scrollTarget;
     }
+  }), React.createElement(Snackbar_1.default, {
+    variant: "info",
+    autoHideDuration: 6000,
+    className: classes.snack,
+    anchorOrigin: {
+      vertical: 'bottom',
+      horizontal: 'center'
+    },
+    key: 'bottom' + "," + 'center',
+    open: isNewMessages,
+    ContentProps: {
+      'aria-describedby': 'message-id'
+    },
+    message: React.createElement("span", null, "New Message Below"),
+    action: [React.createElement(IconButton_1.default, {
+      onClick: function onClick() {
+        setIsNewMessages(false);
+        return react_scroll_1.scroller.scrollTo('scrollTarget', {
+          duration: 1000,
+          smooth: true,
+          containerId: 'scrollContainer'
+        });
+      }
+    }, React.createElement(Icon_1.default, null, "vertical_align_bottom"))]
   })) || null;
 };
 
 exports.default = react_apollo_1.compose(react_apollo_1.withApollo, queries_1.withTyping, queries_1.withMessages)(Messages);
-},{"react":"../../../node_modules/react/index.js","moment":"../../../node_modules/moment/moment.js","react-apollo":"../../../node_modules/react-apollo/react-apollo.esm.js","react-scroll":"../../../node_modules/react-scroll/modules/index.js","react-spring/renderprops":"../../../node_modules/react-spring/renderprops.js","../store/hoc/queries":"../store/hoc/queries/index.ts","@material-ui/core/styles":"../../../node_modules/@material-ui/core/esm/styles/index.js","@material-ui/core/Container":"../../../node_modules/@material-ui/core/esm/Container/index.js","@material-ui/core/Typography":"../../../node_modules/@material-ui/core/esm/Typography/index.js","@material-ui/core/Paper":"../../../node_modules/@material-ui/core/esm/Paper/index.js","@material-ui/core/Avatar":"../../../node_modules/@material-ui/core/esm/Avatar/index.js","../lib/theme":"../lib/theme.ts"}],"../components/AuthForm.tsx":[function(require,module,exports) {
+},{"react":"../../../node_modules/react/index.js","moment":"../../../node_modules/moment/moment.js","react-sticky":"../../../node_modules/react-sticky/lib/index.js","react-apollo":"../../../node_modules/react-apollo/react-apollo.esm.js","react-scroll":"../../../node_modules/react-scroll/modules/index.js","react-spring/renderprops":"../../../node_modules/react-spring/renderprops.js","@material-ui/core/Snackbar":"../../../node_modules/@material-ui/core/esm/Snackbar/index.js","@material-ui/core/IconButton":"../../../node_modules/@material-ui/core/esm/IconButton/index.js","@material-ui/core/Icon":"../../../node_modules/@material-ui/core/esm/Icon/index.js","../store/hoc/queries":"../store/hoc/queries/index.ts","@material-ui/core/styles":"../../../node_modules/@material-ui/core/esm/styles/index.js","@material-ui/core/Container":"../../../node_modules/@material-ui/core/esm/Container/index.js","@material-ui/core/Typography":"../../../node_modules/@material-ui/core/esm/Typography/index.js","@material-ui/core/Paper":"../../../node_modules/@material-ui/core/esm/Paper/index.js","../lib/theme":"../lib/theme.ts"}],"../../../node_modules/@material-ui/core/esm/Button/Button.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.styles = void 0;
+
+var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutProperties"));
+
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
+
+var _react = _interopRequireDefault(require("react"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _clsx = _interopRequireDefault(require("clsx"));
+
+var _withStyles = _interopRequireDefault(require("../styles/withStyles"));
+
+var _colorManipulator = require("../styles/colorManipulator");
+
+var _ButtonBase = _interopRequireDefault(require("../ButtonBase"));
+
+var _helpers = require("../utils/helpers");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var styles = function styles(theme) {
+  return {
+    /* Styles applied to the root element. */
+    root: (0, _extends2.default)({
+      lineHeight: 1.75
+    }, theme.typography.button, {
+      boxSizing: 'border-box',
+      minWidth: 64,
+      padding: '6px 16px',
+      borderRadius: theme.shape.borderRadius,
+      color: theme.palette.text.primary,
+      transition: theme.transitions.create(['background-color', 'box-shadow', 'border'], {
+        duration: theme.transitions.duration.short
+      }),
+      '&:hover': {
+        textDecoration: 'none',
+        backgroundColor: (0, _colorManipulator.fade)(theme.palette.text.primary, theme.palette.action.hoverOpacity),
+        // Reset on touch devices, it doesn't add specificity
+        '@media (hover: none)': {
+          backgroundColor: 'transparent'
+        },
+        '&$disabled': {
+          backgroundColor: 'transparent'
+        }
+      },
+      '&$disabled': {
+        color: theme.palette.action.disabled
+      }
+    }),
+
+    /* Styles applied to the span element that wraps the children. */
+    label: {
+      width: '100%',
+      // Ensure the correct width for iOS Safari
+      display: 'inherit',
+      alignItems: 'inherit',
+      justifyContent: 'inherit'
+    },
+
+    /* Styles applied to the root element if `variant="text"`. */
+    text: {
+      padding: '6px 8px'
+    },
+
+    /* Styles applied to the root element if `variant="text"` and `color="primary"`. */
+    textPrimary: {
+      color: theme.palette.primary.main,
+      '&:hover': {
+        backgroundColor: (0, _colorManipulator.fade)(theme.palette.primary.main, theme.palette.action.hoverOpacity),
+        // Reset on touch devices, it doesn't add specificity
+        '@media (hover: none)': {
+          backgroundColor: 'transparent'
+        }
+      }
+    },
+
+    /* Styles applied to the root element if `variant="text"` and `color="secondary"`. */
+    textSecondary: {
+      color: theme.palette.secondary.main,
+      '&:hover': {
+        backgroundColor: (0, _colorManipulator.fade)(theme.palette.secondary.main, theme.palette.action.hoverOpacity),
+        // Reset on touch devices, it doesn't add specificity
+        '@media (hover: none)': {
+          backgroundColor: 'transparent'
+        }
+      }
+    },
+
+    /* Styles applied to the root element if `variant="outlined"`. */
+    outlined: {
+      padding: '5px 16px',
+      border: "1px solid ".concat(theme.palette.type === 'light' ? 'rgba(0, 0, 0, 0.23)' : 'rgba(255, 255, 255, 0.23)'),
+      '&$disabled': {
+        border: "1px solid ".concat(theme.palette.action.disabled)
+      }
+    },
+
+    /* Styles applied to the root element if `variant="outlined"` and `color="primary"`. */
+    outlinedPrimary: {
+      color: theme.palette.primary.main,
+      border: "1px solid ".concat((0, _colorManipulator.fade)(theme.palette.primary.main, 0.5)),
+      '&:hover': {
+        border: "1px solid ".concat(theme.palette.primary.main),
+        backgroundColor: (0, _colorManipulator.fade)(theme.palette.primary.main, theme.palette.action.hoverOpacity),
+        // Reset on touch devices, it doesn't add specificity
+        '@media (hover: none)': {
+          backgroundColor: 'transparent'
+        }
+      }
+    },
+
+    /* Styles applied to the root element if `variant="outlined"` and `color="secondary"`. */
+    outlinedSecondary: {
+      color: theme.palette.secondary.main,
+      border: "1px solid ".concat((0, _colorManipulator.fade)(theme.palette.secondary.main, 0.5)),
+      '&:hover': {
+        border: "1px solid ".concat(theme.palette.secondary.main),
+        backgroundColor: (0, _colorManipulator.fade)(theme.palette.secondary.main, theme.palette.action.hoverOpacity),
+        // Reset on touch devices, it doesn't add specificity
+        '@media (hover: none)': {
+          backgroundColor: 'transparent'
+        }
+      },
+      '&$disabled': {
+        border: "1px solid ".concat(theme.palette.action.disabled)
+      }
+    },
+
+    /* Styles applied to the root element if `variant="contained"`. */
+    contained: {
+      color: theme.palette.getContrastText(theme.palette.grey[300]),
+      backgroundColor: theme.palette.grey[300],
+      boxShadow: theme.shadows[2],
+      '&$focusVisible': {
+        boxShadow: theme.shadows[6]
+      },
+      '&:active': {
+        boxShadow: theme.shadows[8]
+      },
+      '&$disabled': {
+        color: theme.palette.action.disabled,
+        boxShadow: theme.shadows[0],
+        backgroundColor: theme.palette.action.disabledBackground
+      },
+      '&:hover': {
+        backgroundColor: theme.palette.grey.A100,
+        // Reset on touch devices, it doesn't add specificity
+        '@media (hover: none)': {
+          backgroundColor: theme.palette.grey[300]
+        },
+        '&$disabled': {
+          backgroundColor: theme.palette.action.disabledBackground
+        }
+      }
+    },
+
+    /* Styles applied to the root element if `variant="contained"` and `color="primary"`. */
+    containedPrimary: {
+      color: theme.palette.primary.contrastText,
+      backgroundColor: theme.palette.primary.main,
+      '&:hover': {
+        backgroundColor: theme.palette.primary.dark,
+        // Reset on touch devices, it doesn't add specificity
+        '@media (hover: none)': {
+          backgroundColor: theme.palette.primary.main
+        }
+      }
+    },
+
+    /* Styles applied to the root element if `variant="contained"` and `color="secondary"`. */
+    containedSecondary: {
+      color: theme.palette.secondary.contrastText,
+      backgroundColor: theme.palette.secondary.main,
+      '&:hover': {
+        backgroundColor: theme.palette.secondary.dark,
+        // Reset on touch devices, it doesn't add specificity
+        '@media (hover: none)': {
+          backgroundColor: theme.palette.secondary.main
+        }
+      }
+    },
+
+    /* Styles applied to the ButtonBase root element if the button is keyboard focused. */
+    focusVisible: {},
+
+    /* Styles applied to the root element if `disabled={true}`. */
+    disabled: {},
+
+    /* Styles applied to the root element if `color="inherit"`. */
+    colorInherit: {
+      color: 'inherit',
+      borderColor: 'currentColor'
+    },
+
+    /* Styles applied to the root element if `size="small"`. */
+    sizeSmall: {
+      padding: '4px 8px',
+      minWidth: 64,
+      fontSize: theme.typography.pxToRem(13)
+    },
+
+    /* Styles applied to the root element if `size="large"`. */
+    sizeLarge: {
+      padding: '8px 24px',
+      fontSize: theme.typography.pxToRem(15)
+    },
+
+    /* Styles applied to the root element if `fullWidth={true}`. */
+    fullWidth: {
+      width: '100%'
+    }
+  };
+};
+
+exports.styles = styles;
+
+var Button = _react.default.forwardRef(function Button(props, ref) {
+  var children = props.children,
+      classes = props.classes,
+      classNameProp = props.className,
+      _props$color = props.color,
+      color = _props$color === void 0 ? 'default' : _props$color,
+      _props$component = props.component,
+      component = _props$component === void 0 ? 'button' : _props$component,
+      _props$disabled = props.disabled,
+      disabled = _props$disabled === void 0 ? false : _props$disabled,
+      _props$disableFocusRi = props.disableFocusRipple,
+      disableFocusRipple = _props$disableFocusRi === void 0 ? false : _props$disableFocusRi,
+      focusVisibleClassName = props.focusVisibleClassName,
+      _props$fullWidth = props.fullWidth,
+      fullWidth = _props$fullWidth === void 0 ? false : _props$fullWidth,
+      _props$size = props.size,
+      size = _props$size === void 0 ? 'medium' : _props$size,
+      _props$type = props.type,
+      type = _props$type === void 0 ? 'button' : _props$type,
+      _props$variant = props.variant,
+      variant = _props$variant === void 0 ? 'text' : _props$variant,
+      other = (0, _objectWithoutProperties2.default)(props, ["children", "classes", "className", "color", "component", "disabled", "disableFocusRipple", "focusVisibleClassName", "fullWidth", "size", "type", "variant"]);
+  var contained = variant === 'contained';
+  var text = variant === 'text';
+  var className = (0, _clsx.default)(classes.root, classNameProp, text && [classes.text, color === 'primary' && classes.textPrimary, color === 'secondary' && classes.textSecondary], contained && [classes.contained, color === 'primary' && classes.containedPrimary, color === 'secondary' && classes.containedSecondary], variant === 'outlined' && [classes.outlined, color === 'primary' && classes.outlinedPrimary, color === 'secondary' && classes.outlinedSecondary], size !== 'medium' && classes["size".concat((0, _helpers.capitalize)(size))], disabled && classes.disabled, fullWidth && classes.fullWidth, color === 'inherit' && classes.colorInherit);
+  return _react.default.createElement(_ButtonBase.default, (0, _extends2.default)({
+    className: className,
+    component: component,
+    disabled: disabled,
+    focusRipple: !disableFocusRipple,
+    focusVisibleClassName: (0, _clsx.default)(classes.focusVisible, focusVisibleClassName),
+    ref: ref,
+    type: type
+  }, other), _react.default.createElement("span", {
+    className: classes.label
+  }, children));
+});
+
+"development" !== "production" ? Button.propTypes = {
+  /**
+   * The content of the button.
+   */
+  children: _propTypes.default.node.isRequired,
+
+  /**
+   * Override or extend the styles applied to the component.
+   * See [CSS API](#css) below for more details.
+   */
+  classes: _propTypes.default.object.isRequired,
+
+  /**
+   * @ignore
+   */
+  className: _propTypes.default.string,
+
+  /**
+   * The color of the component. It supports those theme colors that make sense for this component.
+   */
+  color: _propTypes.default.oneOf(['default', 'inherit', 'primary', 'secondary']),
+
+  /**
+   * The component used for the root node.
+   * Either a string to use a DOM element or a component.
+   */
+  component: _propTypes.default.elementType,
+
+  /**
+   * If `true`, the button will be disabled.
+   */
+  disabled: _propTypes.default.bool,
+
+  /**
+   * If `true`, the  keyboard focus ripple will be disabled.
+   * `disableRipple` must also be true.
+   */
+  disableFocusRipple: _propTypes.default.bool,
+
+  /**
+   * If `true`, the ripple effect will be disabled.
+   *
+   * ⚠️ Without a ripple there is no styling for :focus-visible by default. Be sure
+   * to highlight the element by applying separate styles with the `focusVisibleClassName`.
+   */
+  disableRipple: _propTypes.default.bool,
+
+  /**
+   * @ignore
+   */
+  focusVisibleClassName: _propTypes.default.string,
+
+  /**
+   * If `true`, the button will take up the full width of its container.
+   */
+  fullWidth: _propTypes.default.bool,
+
+  /**
+   * The URL to link to when the button is clicked.
+   * If defined, an `a` element will be used as the root node.
+   */
+  href: _propTypes.default.string,
+
+  /**
+   * The size of the button.
+   * `small` is equivalent to the dense button styling.
+   */
+  size: _propTypes.default.oneOf(['small', 'medium', 'large']),
+
+  /**
+   * @ignore
+   */
+  type: _propTypes.default.string,
+
+  /**
+   * The variant to use.
+   */
+  variant: _propTypes.default.oneOf(['text', 'outlined', 'contained'])
+} : void 0;
+
+var _default = (0, _withStyles.default)(styles, {
+  name: 'MuiButton'
+})(Button);
+
+exports.default = _default;
+},{"@babel/runtime/helpers/objectWithoutProperties":"../../../node_modules/@babel/runtime/helpers/objectWithoutProperties.js","@babel/runtime/helpers/extends":"../../../node_modules/@babel/runtime/helpers/extends.js","react":"../../../node_modules/react/index.js","prop-types":"../../../node_modules/prop-types/index.js","clsx":"../../../node_modules/clsx/dist/clsx.m.js","../styles/withStyles":"../../../node_modules/@material-ui/core/esm/styles/withStyles.js","../styles/colorManipulator":"../../../node_modules/@material-ui/core/esm/styles/colorManipulator.js","../ButtonBase":"../../../node_modules/@material-ui/core/esm/ButtonBase/index.js","../utils/helpers":"../../../node_modules/@material-ui/core/esm/utils/helpers.js"}],"../../../node_modules/@material-ui/core/esm/Button/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function () {
+    return _Button.default;
+  }
+});
+
+var _Button = _interopRequireDefault(require("./Button"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+},{"./Button":"../../../node_modules/@material-ui/core/esm/Button/Button.js"}],"../components/AuthForm.tsx":[function(require,module,exports) {
 "use strict";
 
 var __assign = this && this.__assign || function () {
@@ -82371,8 +83424,6 @@ var CssBaseline_1 = __importDefault(require("@material-ui/core/CssBaseline"));
 
 var Container_1 = __importDefault(require("@material-ui/core/Container"));
 
-var ChatHeader_1 = __importDefault(require("../components/ChatHeader"));
-
 var ChatFooter_1 = __importDefault(require("../components/ChatFooter"));
 
 var Messages_1 = __importDefault(require("../components/Messages"));
@@ -82448,9 +83499,7 @@ var Chat = function Chat(_a) {
   }, React.createElement(AuthForm_1.default, null)) || React.createElement(Container_1.default, {
     className: classes.content,
     maxWidth: "sm"
-  }, React.createElement(ChatHeader_1.default, {
-    users: allUsers
-  }), React.createElement(Messages_1.default, {
+  }, React.createElement(Messages_1.default, {
     users: users,
     userId: User._id,
     waitingOnMessage: state.waitingOnMessage
@@ -82466,7 +83515,7 @@ var Chat = function Chat(_a) {
 };
 
 exports.default = react_apollo_1.compose(queries_1.withUsers)(Chat);
-},{"react":"../../../node_modules/react/index.js","react-apollo":"../../../node_modules/react-apollo/react-apollo.esm.js","../store/hoc/queries":"../store/hoc/queries/index.ts","@material-ui/core/styles":"../../../node_modules/@material-ui/core/esm/styles/index.js","@material-ui/core/Drawer":"../../../node_modules/@material-ui/core/esm/Drawer/index.js","@material-ui/core/CssBaseline":"../../../node_modules/@material-ui/core/esm/CssBaseline/index.js","@material-ui/core/Container":"../../../node_modules/@material-ui/core/esm/Container/index.js","../components/ChatHeader":"../components/ChatHeader.tsx","../components/ChatFooter":"../components/ChatFooter.tsx","../components/Messages":"../components/Messages.tsx","../components/AuthForm":"../components/AuthForm.tsx"}],"../containers/Login.tsx":[function(require,module,exports) {
+},{"react":"../../../node_modules/react/index.js","react-apollo":"../../../node_modules/react-apollo/react-apollo.esm.js","../store/hoc/queries":"../store/hoc/queries/index.ts","@material-ui/core/styles":"../../../node_modules/@material-ui/core/esm/styles/index.js","@material-ui/core/Drawer":"../../../node_modules/@material-ui/core/esm/Drawer/index.js","@material-ui/core/CssBaseline":"../../../node_modules/@material-ui/core/esm/CssBaseline/index.js","@material-ui/core/Container":"../../../node_modules/@material-ui/core/esm/Container/index.js","../components/ChatFooter":"../components/ChatFooter.tsx","../components/Messages":"../components/Messages.tsx","../components/AuthForm":"../components/AuthForm.tsx"}],"../containers/Login.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importStar = this && this.__importStar || function (mod) {
@@ -82640,7 +83689,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50899" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64029" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

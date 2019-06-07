@@ -1,8 +1,12 @@
 import * as React from 'react';
 import moment from "moment";
+import { Sticky, StickyContainer } from "react-sticky";
 import { compose, withApollo } from 'react-apollo';
 import { Events, Element, animateScroll as scroll, scroller } from 'react-scroll'
 import { Trail } from 'react-spring/renderprops'
+import Snackbar, { SnackbarOrigin } from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import Icon from '@material-ui/core/Icon';
 
 import { withMessages, withTyping } from '../store/hoc/queries';
 
@@ -42,10 +46,13 @@ const useStyles = makeStyles(theme => ({
   },
   ownMessage: {
     background: customTheme.button,
+    boxShadow: customTheme.shadow
     color: "#fff"
   },
   avatar: {
-
+    position: '-webkit-sticky',
+    position: 'sticky',
+    top: 0
   },
   avatarPlaceholder: {
     width: 40
@@ -64,8 +71,23 @@ const useStyles = makeStyles(theme => ({
   },
   skeletonMessage: {
     background: "#eeeeee"
+  },
+  snack: {
+    bottom: '150px !important',
+    '& div.MuiTypography-root': {
+      background: customTheme.snack,
+      color: '#333'
+    }
   }
 }));
+
+function usePrevious(value) {
+  const ref = React.useRef();
+  React.useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}
 
 const Messages: React.FunctionComponent<{
   messages: [];
@@ -89,6 +111,7 @@ const Messages: React.FunctionComponent<{
 
   const [fetchingMessages, setFetchingMessages] = React.useState(false);
   const [scrollPosition, setScrollPosition] = React.useState(0);
+  const [isNewMessages, setIsNewMessages] = React.useState(false);
 
   React.useEffect(() => {
     subscribeToNewMessages();
@@ -112,6 +135,28 @@ const Messages: React.FunctionComponent<{
     }
   }, [{fetchingMessages}]);
 
+  const prev = usePrevious({messages});
+
+  React.useEffect(() => {
+    if (prev && prev !== null) {
+      const prevLastMsg = prev.messages[prev.messages.length - 1];
+      const currLastMsg = messages[messages.length - 1];
+
+      if (prevLastMsg._id !== currLastMsg._id && currLastMsg.user !== userId) {
+        // new message son
+        setIsNewMessages(true);
+      }
+    }
+  }, [{messages}])
+
+  React.useEffect(() => {
+    if (isNewMessages) {
+      setTimeout(() => {
+        setIsNewMessages(false);
+      }, 3000);
+    }
+  }, [{isNewMessages}])
+
   const handleInfiniteScroll = e => {
     if (e.target.scrollTop < scrollPosition) {
       // moving up
@@ -120,7 +165,9 @@ const Messages: React.FunctionComponent<{
         setFetchingMessages(true);
       }
     } else {
-      setScrollPosition(e.target.scrollTop)
+      setTimeout(() => {
+        setScrollPosition(e.target.scrollTop)
+      }, 1000)
     }
   }
 
@@ -147,7 +194,21 @@ const Messages: React.FunctionComponent<{
             className={`${classes.messageContainer} ${(user === userId) && classes.ownMessageContainer}`}
           >
             {(key === 0 || messages[key-1].user !== user) ? (
-              <Avatar className={classes.avatar} alt={users[user].avatar} src={users[user].avatar} />
+              <StickyContainer>
+                <Sticky topOffset={80}>
+                {({ style }) => (
+                  <img
+                    style={{
+                      ...style,
+                      width: 40,
+                      height: 40,
+                      borderRadius: '50%'
+                    }}
+                    src={users[user].avatar}
+                  />
+                )}
+                </Sticky>
+              </StickyContainer>
             ) : (
               <div className={classes.avatarPlaceholder} />
             )}
@@ -176,7 +237,37 @@ const Messages: React.FunctionComponent<{
         name="scrollTarget"
         ref={scrollTarget => { this.scrollTarget = scrollTarget; }}
       />
-      </Container>
+      <Snackbar
+        variant="info"
+        autoHideDuration={6000}
+        className={classes.snack}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        key={`${'bottom'},${'center'}`}
+        open={isNewMessages}
+        ContentProps={{
+          'aria-describedby': 'message-id',
+        }}
+        message={(
+          <span>New Message Below</span>
+        )}
+        action={[
+          (
+            <IconButton
+              onClick={() => {
+                setIsNewMessages(false);
+                return scroller.scrollTo('scrollTarget', {
+                  duration: 1000,
+                  smooth: true,
+                  containerId: 'scrollContainer'
+                })
+              }}
+            >
+              <Icon>vertical_align_bottom</Icon>
+            </IconButton>
+          )
+        ]}
+      />
+    </Container>
   ) || null;
 };
 

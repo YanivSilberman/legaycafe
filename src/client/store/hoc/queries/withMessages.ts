@@ -9,7 +9,7 @@ export default graphql(messagesGql, {
     skip: true
   }),
   fetchPolicy: 'no-cache',
-  props: ({ messages: { error, loading, messages, messageCount, fetchMore, subscribeToMore } }) => {
+  props: ({ ownProps: { userId }, messages: { error, loading, messages, messageCount, fetchMore, subscribeToMore } }) => {
     if (error) return null;
 
     return {

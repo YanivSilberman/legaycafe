@@ -29,7 +29,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     button: {
       margin: theme.spacing(1),
-      background: customTheme.button
+      background: customTheme.button,
+      boxShadow: customTheme.shadow
     },
     rightIcon: {
       marginLeft: theme.spacing(1)

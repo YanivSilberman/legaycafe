@@ -7,8 +7,6 @@ import { NUM_MESSAGES } from '../constants';
 
 const pubsub = new PubSub();
 
-export const secret = "RvvnOnrSHWBwW9Ohz-EbmqClaSibKwoFuHSlZa68Rc_EWUVF6YOpTMlXgt07pVsPAvH89J9uO39fyFclkt0wqNmS2k4rxZ5vItRHRqivGLVFO1ECqStppvhv-MN5uvEJ_twcDz7kL8rb8xoapfKltcmHkO6z79yfOjrkNjMmycVOJXc0vb61S1LC49r3Cu-YRh6k0n_sU16DzfOfqktvCgAsYyR-LcHYNlxUo08yVLuifv773K41SrVc5GYBkcgdvO4ojBjtWt-BqlV9uQCQBp4_GFry3T4PZLKS-XvEd70m8T8T3uPR5DTKYFqPk5RKR04iKVcYdx1U71gKmsskcQ";
-
 const MESSAGE_CREATED = 'MESSAGE_CREATED', USER_TYPING = 'USER_TYPING';
 
 const resolvers: IResolvers = {
@@ -22,7 +20,7 @@ const resolvers: IResolvers = {
       if (user && user !== null) {
         // @ts-ignore
         const isMatch = await user.comparePassword(args.password);
-        return isMatch ? jwt.sign({ sub: user._id }, secret) : false;
+        return isMatch ? jwt.sign({ sub: user._id }, process.env.JWT_SECRET) : false;
       }
 
       return false;
@@ -31,7 +29,7 @@ const resolvers: IResolvers = {
       const user = new User(args);
       await user.save((err) => err && console.log('User create error', err));
       if (user) {
-        return jwt.sign({ sub: user._id }, secret);
+        return jwt.sign({ sub: user._id }, process.env.JWT_SECRET);
       }
       return false;
     },

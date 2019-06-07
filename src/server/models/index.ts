@@ -2,7 +2,7 @@ import Mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import moment from "moment";
 
-Mongoose.connect("mongodb+srv://yaniv:1296yyy1296@legaycafe-uurrn.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true });
+Mongoose.connect(process.env.MONGO, { useNewUrlParser: true });
 
 var db = Mongoose.connection;
 //Bind connection to error event (to get notification of connection errors)
