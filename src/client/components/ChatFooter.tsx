@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { EditorState, convertFromRaw, convertToRaw } from 'draft-js';
+
 import { compose } from 'react-apollo';
 import { scroller } from 'react-scroll'
 import { withCreateMessage, withToggleTyping } from '../store/hoc/mutations';
@@ -10,6 +12,7 @@ import Icon from '@material-ui/core/Icon';
 import Button from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
 
+import Editor from './Editor';
 
 import customTheme from '../lib/theme';
 
@@ -45,20 +48,17 @@ const ChatFooter: React.FunctionComponent<{
 }> = ({ waitingOnMessage, userId, createMessageMutation, toggleUserTypingMutation, setIsWaitingOnMessage }) => {
   const classes = useStyles();
 
-  const [values, setValues] = React.useState({
-    value: ''
-  });
-
-  const handleChange = name => event => {
-    setValues({ ...values, [name]: event.target.value });
-  };
+  const [ editorState, setEditorState ] = React.useState(EditorState.createEmpty());
 
   React.useEffect(() => {
      if (waitingOnMessage) {
        // just sent message
-       createMessageMutation({ text: values.value, userId }, () => {
+       const text = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
+
+       createMessageMutation({ text, userId }, () => {
          setIsWaitingOnMessage(false);
-         setValues({ ...values, value: '' })
+         setEditorState(EditorState.createEmpty());
+
          scroller.scrollTo('scrollTarget', {
            duration: 1000,
            smooth: true,
@@ -76,14 +76,9 @@ const ChatFooter: React.FunctionComponent<{
 
   return (
     <Container className={classes.chatFooter}>
-      <TextField
-        id="standard-multiline-flexible"
-        multiline
-        value={values.value}
-        onChange={handleChange('value')}
-        className={classes.textField}
-        margin="normal"
-        placeholder="Say something here..."
+      <Editor
+        editorState={editorState}
+        setEditorState={setEditorState}
         onFocus={() => toggleUserTypingMutation({_id:userId, isTyping:true})}
         onBlur={() => toggleUserTypingMutation({_id:userId, isTyping:false})}
       />
@@ -99,5 +94,20 @@ const ChatFooter: React.FunctionComponent<{
     </Container>
   );
 };
+
+/*
+{
+  <TextField
+    id="standard-multiline-flexible"
+    multiline
+    value={values.value}
+    onChange={handleChange('value')}
+    className={classes.textField}
+    margin="normal"
+    placeholder="Say something here..."
+
+  />
+}
+*/
 
 export default compose(withCreateMessage, withToggleTyping)(ChatFooter);

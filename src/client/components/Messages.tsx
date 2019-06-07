@@ -1,6 +1,5 @@
 import * as React from 'react';
 import moment from "moment";
-import { Sticky, StickyContainer } from "react-sticky";
 import { compose, withApollo } from 'react-apollo';
 import { Events, Element, animateScroll as scroll, scroller } from 'react-scroll'
 import { Trail } from 'react-spring/renderprops'
@@ -8,14 +7,15 @@ import Snackbar, { SnackbarOrigin } from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
 
-import { withMessages, withTyping } from '../store/hoc/queries';
-
 import { makeStyles } from '@material-ui/core/styles';
 
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Avatar from '@material-ui/core/Avatar';
+
+import { withMessages, withTyping } from '../store/hoc/queries';
+import Editor from './Editor';
 
 import customTheme from '../lib/theme';
 
@@ -50,9 +50,6 @@ const useStyles = makeStyles(theme => ({
     color: "#fff"
   },
   avatar: {
-    position: '-webkit-sticky',
-    position: 'sticky',
-    top: 0
   },
   avatarPlaceholder: {
     width: 40
@@ -119,7 +116,7 @@ const Messages: React.FunctionComponent<{
 
     scroller.scrollTo('scrollTarget', {
       duration: 5000,
-      delay: 1000,
+      delay: 4000,
       smooth: true,
       containerId: 'scrollContainer'
     })
@@ -138,7 +135,7 @@ const Messages: React.FunctionComponent<{
   const prev = usePrevious({messages});
 
   React.useEffect(() => {
-    if (prev && prev !== null) {
+    if (prev && prev !== null && prev.messages.length > 0) {
       const prevLastMsg = prev.messages[prev.messages.length - 1];
       const currLastMsg = messages[messages.length - 1];
 
@@ -165,9 +162,7 @@ const Messages: React.FunctionComponent<{
         setFetchingMessages(true);
       }
     } else {
-      setTimeout(() => {
-        setScrollPosition(e.target.scrollTop)
-      }, 1000)
+      setScrollPosition(e.target.scrollTop)
     }
   }
 
@@ -194,21 +189,14 @@ const Messages: React.FunctionComponent<{
             className={`${classes.messageContainer} ${(user === userId) && classes.ownMessageContainer}`}
           >
             {(key === 0 || messages[key-1].user !== user) ? (
-              <StickyContainer>
-                <Sticky topOffset={80}>
-                {({ style }) => (
-                  <img
-                    style={{
-                      ...style,
-                      width: 40,
-                      height: 40,
-                      borderRadius: '50%'
-                    }}
-                    src={users[user].avatar}
-                  />
-                )}
-                </Sticky>
-              </StickyContainer>
+              <img
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: '50%'
+                }}
+                src={users[user].avatar}
+              />
             ) : (
               <div className={classes.avatarPlaceholder} />
             )}
@@ -217,7 +205,7 @@ const Messages: React.FunctionComponent<{
               className={`${classes.message} ${(user === userId) && classes.ownMessage}`}
             >
               <Typography component="p">
-                {text}
+                <Editor readOnly text={text} />
               </Typography>
             </Paper>
             <span className={classes.date}>

@@ -35,12 +35,12 @@ const resolvers: IResolvers = {
     },
     async createMessage(root: any, args: any, context: any) {
       const messageCreated = new Message({ ...args, user: args.userId });
+      console.log({ messageCreated });
       await messageCreated.save((err) => err && console.log('Message create error', err));
       pubsub.publish(MESSAGE_CREATED, { messageCreated });
       return messageCreated;
     },
     toggleUserTyping(root: any, args: any, context: any) {
-      console.log({ args });
       const userIsTyping = args;
       pubsub.publish(USER_TYPING, { userIsTyping });
       return true;
