@@ -1,8 +1,11 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import { BrowserRouter, Route, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect, __RouterContext } from "react-router-dom";
+
 import { ApolloProvider, Query } from "react-apollo";
 import { ThemeProvider } from '@material-ui/styles';
+
+import {useTransition, animated} from 'react-spring';
 
 import { userGql } from './store/gql/queries';
 import client from './lib/apollo';
@@ -21,22 +24,67 @@ const PrivateRoute = ({ User, Component, ...rest }) => (
   }} />
 )
 
-const App = () => (
-  <ApolloProvider client={client}>
-    <Query query={userGql}>
-      {({ data: { error, loading, User } }) => {
-        if (error) throw ('Initial user query error, fuck', error);
-        if (loading || User === undefined) return 'Verifying auth...';
+const pages = {
+  chat: ({ style, history, User }) => (
+    <animated.div style={{ ...style }}>
+      <PrivateRoute User={User} path="/" exact Component={Chat} />
+    </animated.div>
+  ),
+  login: ({ style, history }) => (
+    <animated.div style={{ ...style }}>
+      <Route path="/login" exact component={Login} />
+    </animated.div>
+  ),
+}
 
-        return (
-          <BrowserRouter>
-            <PrivateRoute User={User} exact path="/" Component={Chat} />
-            <Route path="/login" exact component={Login} />
-          </BrowserRouter>
-        )
-      }}
-    </Query>
-  </ApolloProvider>
-)
+const RouterApp = ({ User }) => {
+  const { location, history } = React.useContext(__RouterContext)
+
+  const [index, set] = React.useState('chat')
+
+  React.useEffect(
+    () => {
+      if (location.pathname === '/') set('chat');
+      if (location.pathname === '/login') set('login');
+    },
+    [location.pathname],
+  )
+
+  const transitions = useTransition(index, p => p, {
+    from: { opacity: 0, transform: 'translate3d(100%,0,0)' },
+    enter: { opacity: 1, transform: 'translate3d(0%,0,0)' },
+    leave: { opacity: 0, transform: 'translate3d(-50%,0,0)' },
+  })
+
+  return (
+    <div>
+      {transitions.map(({ item, props, key }) => {
+        const Page = pages[item];
+        return <Page User={User} key={key} style={props} history={history} />;
+      })}
+    </div>
+  )
+}
+
+const App = () => {
+  return (
+    <ApolloProvider client={client}>
+      <Query query={userGql}>
+        {({ data: { error, loading, User } }) => {
+          if (error) throw ('Initial user query error, fuck', error);
+          if (loading || User === undefined) return null;
+
+          return (
+            <BrowserRouter>
+              <RouterApp User={User} />
+            </BrowserRouter>
+          )
+        }}
+      </Query>
+    </ApolloProvider>
+  )
+}
+
+
 
 render(<App />, document.getElementById('main'));

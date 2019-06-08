@@ -1,34 +1,14 @@
 import * as React from 'react';
 import { withRouter } from "react-router-dom";
 import { withApollo, compose } from 'react-apollo';
-import { withLoginUser } from '../store/hoc/mutations';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-import customTheme from '../lib/theme';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    authForm: {
-      height: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center'
-    },
-    textField: {},
-    button: {
-      color: '#fff',
-      margin: theme.spacing(2),
-      padding: theme.spacing(1, 4),
-      background: customTheme.button
-    }
-  }),
-);
+import { withLoginUser } from '../../store/hoc/mutations';
+import useStyles from './styles';
 
 const AuthForm: React.FunctionComponent<> = ({
   loginUserMutation,

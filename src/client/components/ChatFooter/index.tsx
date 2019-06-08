@@ -3,43 +3,16 @@ import { EditorState, convertFromRaw, convertToRaw } from 'draft-js';
 
 import { compose } from 'react-apollo';
 import { scroller } from 'react-scroll'
-import { withCreateMessage, withToggleTyping } from '../store/hoc/mutations';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
-import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import Icon from '@material-ui/core/Icon';
 import Button from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
 
-import Editor from './Editor';
+import Editor from '../Editor';
+import useStyles from './styles';
 
-import customTheme from '../lib/theme';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    chatFooter: {
-      width: '100%',
-      height: 130,
-      padding: theme.spacing(3, 5),
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center'
-    },
-    textField: {
-      flex: 1,
-      marginRight: 40
-    },
-    button: {
-      margin: theme.spacing(1),
-      background: customTheme.button,
-      boxShadow: customTheme.shadow
-    },
-    rightIcon: {
-      marginLeft: theme.spacing(1)
-    }
-  }),
-);
+import { withCreateMessage, withToggleTyping } from '../../store/hoc/mutations';
 
 const ChatFooter: React.FunctionComponent<{
   createMessageMutation: function;
@@ -95,19 +68,5 @@ const ChatFooter: React.FunctionComponent<{
   );
 };
 
-/*
-{
-  <TextField
-    id="standard-multiline-flexible"
-    multiline
-    value={values.value}
-    onChange={handleChange('value')}
-    className={classes.textField}
-    margin="normal"
-    placeholder="Say something here..."
-
-  />
-}
-*/
 
 export default compose(withCreateMessage, withToggleTyping)(ChatFooter);

@@ -1,41 +1,11 @@
 import * as React from 'react';
 import Editor from 'draft-js-plugins-editor';
 import { EditorState, convertFromRaw, convertToRaw } from 'draft-js';
-import { makeStyles } from '@material-ui/core/styles';
 
-import createLinkifyPlugin from 'draft-js-linkify-plugin';
-import createEmojiPlugin from 'draft-js-emoji-plugin';
-
-import 'draft-js-linkify-plugin/lib/plugin.css';
-import 'draft-js-emoji-plugin/lib/plugin.css';
-
-import customTheme from '../lib/theme';
-
-const linkifyPlugin = createLinkifyPlugin();
-const emojiPlugin = createEmojiPlugin();
+import useStyles from './styles';
+import plugins, { emojiPlugin } from './plugins';
 
 const { EmojiSuggestions, EmojiSelect } = emojiPlugin;
-
-const plugins = [
-  linkifyPlugin,
-  emojiPlugin
-];
-
-const useStyles = makeStyles(theme => ({
-  container: {
-    display: 'flex'
-  },
-  readContainer: {
-
-  },
-  editorContainer: {
-    borderBottom: `1px solid #bdbdbd`,
-    maxWidth: 400,
-    minWidth: 200,
-    minHeight: 50,
-    margin: '0 30px'
-  }
-}));
 
 const LegayEditor: React.FunctionComponent<> = ({
   editorState,
@@ -59,18 +29,23 @@ const LegayEditor: React.FunctionComponent<> = ({
     )
   }
 
+  const editorRef = React.useRef(null);
+
   return (
-    <div>
+    <div className={classes.footerSubsection}>
       <div className={classes.container}>
-        <EmojiSelect />
-        <div className={classes.editorContainer}>
+        <div className={classes.emojiSelect}>
+          <EmojiSelect />
+        </div>
+        <div className={classes.editorContainer} onClick={() => editorRef.current.focus()}>
           <Editor
             editorState={editorState}
             onChange={s => setEditorState(s)}
             plugins={plugins}
             placeholder="Write message here..."
             onFocus={onFocus}
-            onBlue={onBlur}
+            onBlur={onBlur}
+            ref={editorRef}
           />
         </div>
       </div>
