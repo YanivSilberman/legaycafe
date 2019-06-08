@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ChatFooter component test component loads 1`] = `
+<ChatHeader
+  allUsers={Array []}
+  classes={
+    Object {
+      "avatar": "ChatHeader-avatar-2",
+      "chatHeader": "ChatHeader-chatHeader-1",
+    }
+  }
+/>
+`;
+
+exports[`ChatHeader component test component loads 1`] = `
+<ChatHeader
+  allUsers={Array []}
+  classes={
+    Object {
+      "avatar": "ChatHeader-avatar-2",
+      "chatHeader": "ChatHeader-chatHeader-1",
+    }
+  }
+/>
+`;

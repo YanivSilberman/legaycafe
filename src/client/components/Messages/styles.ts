@@ -1,12 +1,12 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 
 import customTheme from '../../lib/theme';
 
-export default makeStyles(theme => ({
+export default comp => withStyles({
   messages: {
     width: '100%',
     flex: 1,
-    padding: theme.spacing(3, 5),
+    padding: '3px 5px',
     display: 'flex',
     flexDirection: 'column',
     overflow: 'scroll'
@@ -16,7 +16,7 @@ export default makeStyles(theme => ({
     minHeight: 40,
     marginBottom: 15,
     display: 'flex'
-  }
+  },
   ownMessageContainer: {
     flexDirection: 'row-reverse'
   },
@@ -48,4 +48,4 @@ export default makeStyles(theme => ({
       background: customTheme.button,
     }
   }
-}));
+})(comp);

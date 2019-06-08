@@ -2,21 +2,30 @@ import * as React from 'react';
 import Editor from 'draft-js-plugins-editor';
 import { EditorState, convertFromRaw, convertToRaw } from 'draft-js';
 
-import useStyles from './styles';
+import withStyles from './styles';
 import plugins, { emojiPlugin } from './plugins';
 
 const { EmojiSuggestions, EmojiSelect } = emojiPlugin;
 
-const LegayEditor: React.FunctionComponent<> = ({
+interface EditorProps {
+  editorState?: any;
+  setEditorState?: any;
+  onFocus?: any;
+  onBlur?: any;
+  readOnly?: boolean;
+  text?: string;
+  classes: any;
+}
+
+const LegayEditor: React.FunctionComponent<EditorProps> = ({
   editorState,
   setEditorState,
   onFocus,
   onBlur,
   readOnly,
-  text
+  text,
+  classes
 }) => {
-  const classes = useStyles();
-
   if (readOnly) {
     return (
       <div className={classes.readContainer}>
@@ -24,6 +33,7 @@ const LegayEditor: React.FunctionComponent<> = ({
           readOnly
           editorState={EditorState.createWithContent(convertFromRaw(JSON.parse(text)))}
           plugins={plugins}
+          onChange={() => null}
         />
       </div>
     )
@@ -56,4 +66,4 @@ const LegayEditor: React.FunctionComponent<> = ({
   );
 };
 
-export default LegayEditor;
+export default withStyles(LegayEditor);

@@ -1,12 +1,12 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 
 import customTheme from '../../lib/theme';
 
-export default makeStyles(theme => ({
+export default comp => withStyles({
   chatHeader: {
     width: '100%',
     height: 70,
-    padding: theme.spacing(3, 5),
+    padding: '3px 5px',
 
     display: 'flex',
     alignItems: 'center'
@@ -14,12 +14,5 @@ export default makeStyles(theme => ({
   avatar: {
     marginRight: 20,
     display: 'inline-block'
-  },
-  buttonContainer: {
-    flex: 1,
-    textAlign: 'right'
-  },
-  button: {
-    color: customTheme.blue
   }
-}));
+})(comp);

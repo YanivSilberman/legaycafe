@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AuthForm component test component loads 1`] = `
+<withRouter(withApollo(Apollo(AuthForm)))
+  classes={
+    Object {
+      "authForm": "withRouter(withApollo(Apollo(AuthForm)))-authForm-1",
+      "button": "withRouter(withApollo(Apollo(AuthForm)))-button-3",
+      "textField": "withRouter(withApollo(Apollo(AuthForm)))-textField-2",
+    }
+  }
+/>
+`;

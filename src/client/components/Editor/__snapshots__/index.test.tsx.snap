@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Editor component test component loads for editing 1`] = `
+<LegayEditor
+  classes={
+    Object {
+      "container": "LegayEditor-container-2",
+      "editorContainer": "LegayEditor-editorContainer-4",
+      "emojiSelect": "LegayEditor-emojiSelect-5",
+      "footerSubsection": "LegayEditor-footerSubsection-1",
+      "readContainer": "LegayEditor-readContainer-3",
+    }
+  }
+  editorState={Object {}}
+  onBlur={[Function]}
+  onFocus={[Function]}
+  setEditorState={[Function]}
+/>
+`;
+
+exports[`Editor component test component loads read only 1`] = `
+<LegayEditor
+  classes={
+    Object {
+      "container": "LegayEditor-container-2",
+      "editorContainer": "LegayEditor-editorContainer-4",
+      "emojiSelect": "LegayEditor-emojiSelect-5",
+      "footerSubsection": "LegayEditor-footerSubsection-1",
+      "readContainer": "LegayEditor-readContainer-3",
+    }
+  }
+  readOnly={true}
+  text="test 123"
+/>
+`;

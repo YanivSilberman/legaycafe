@@ -5,20 +5,23 @@ import { NUM_MESSAGES } from '../../../../server/constants';
 
 export default graphql(messagesGql, {
   name: 'messages',
-  options: () => ({
-    skip: true
+  options: (props:any) => ({
+    variables: { skip: true },
+    fetchPolicy: 'no-cache'
   }),
-  fetchPolicy: 'no-cache',
-  props: ({ ownProps: { userId }, messages: { error, loading, messages, messageCount, fetchMore, subscribeToMore } }) => {
+  props: ({
+    ownProps: { userId },
+    messages: { error, loading, messages, messageCount, fetchMore, subscribeToMore }
+  }:any) => {
     if (error) return null;
 
     return {
       loading,
       messages,
       isMoreMessages: messages && messageCount > messages.length || false,
-      moreMessages: (skip, cb) => fetchMore({
+      moreMessages: (skip:number, cb:any) => fetchMore({
         variables: { skip },
-        updateQuery: (previousResult, { fetchMoreResult }) => {
+        updateQuery: (previousResult:any, { fetchMoreResult }: any) => {
           if (!fetchMoreResult) {
             return previousResult;
           }
@@ -32,7 +35,7 @@ export default graphql(messagesGql, {
       subscribeToNewMessages: () => subscribeToMore({
         document: newMessageSubscriptionGql,
         // variables: { chatId: Chat && Chat.id },
-        updateQuery: (prev, { subscriptionData }) => {
+        updateQuery: (prev:any, { subscriptionData }: any) => {
           if (!subscriptionData.data) return prev;
           return Object.assign({}, prev, {
             messages: [ ...prev.messages, subscriptionData.data.messageCreated ]

@@ -1,22 +1,20 @@
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 
 import customTheme from '../../lib/theme';
 
-export default makeStyles((theme: Theme) =>
-  createStyles({
-    authForm: {
-      height: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center'
-    },
-    textField: {},
-    button: {
-      color: '#fff',
-      margin: theme.spacing(2),
-      padding: theme.spacing(1, 4),
-      background: customTheme.button
-    }
-  })
-);
+export default comp => withStyles({
+  authForm: {
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  textField: {},
+  button: {
+    color: '#fff',
+    margin: '2px 2px',
+    padding: '1px 4px',
+    background: customTheme.button
+  }
+})(comp);

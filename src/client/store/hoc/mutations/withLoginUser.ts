@@ -3,7 +3,7 @@ import { loginUserGql } from '../../gql/mutations';
 
 export default graphql(loginUserGql, {
   name: "loginUser",
-  props: ({ loginUser }) => ({
-    loginUserMutation: variables => loginUser({ variables })
+  props: ({ loginUser }:any) => ({
+    loginUserMutation: (variables: object) => loginUser({ variables })
   })
 })

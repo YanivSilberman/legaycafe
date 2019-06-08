@@ -20,7 +20,7 @@ import { withMessages, withTyping } from '../../store/hoc/queries';
 import Editor from '../Editor';
 import Message from '../Message';
 
-import useStyles from './styles';
+import withStyles from './styles';
 
 function usePrevious(value) {
   const ref = React.useRef();
@@ -30,10 +30,22 @@ function usePrevious(value) {
   return ref.current;
 }
 
-const Messages: React.FunctionComponent<{
-  messages: [];
-  usersTyping: [];
-}> = ({
+interface MessagesProps {
+  messages: Message[];
+  waitingOnMessage: boolean;
+  usersTyping: User[];
+  subscribeToNewMessages: () => any;
+  subscribeToUserTyping: () => any;
+  isMoreMessages: boolean;
+  moreMessages: (length: number, cb: any) => any;
+  loading: boolean;
+  userId: string;
+  client: any;
+  users: any;
+  classes: any;
+}
+
+const Messages: React.FunctionComponent<MessagesProps> = ({
   messages,
   waitingOnMessage,
   usersTyping,
@@ -44,15 +56,15 @@ const Messages: React.FunctionComponent<{
   loading,
   userId,
   client,
-  users
+  users,
+  classes
 }) => {
-
-  const classes = useStyles();
 
   const [fetchingMessages, setFetchingMessages] = React.useState(false);
   const [scrollPosition, setScrollPosition] = React.useState(0);
   const [isNewMessages, setIsNewMessages] = React.useState(false);
 
+  // componentDidMount
   React.useEffect(() => {
     subscribeToNewMessages();
     subscribeToUserTyping();
@@ -64,6 +76,7 @@ const Messages: React.FunctionComponent<{
     })
   }, []);
 
+  // if fetching new messages
   React.useEffect(() => {
     if (fetchingMessages) {
       setTimeout(() => {
@@ -74,16 +87,22 @@ const Messages: React.FunctionComponent<{
     }
   }, [{fetchingMessages}]);
 
-  const prev = usePrevious({messages});
+  const prev = usePrevious({messages}) as any;
 
   React.useEffect(() => {
-    if (messages && prev && prev !== null && prev.messages && prev.messages.length > 0) {
-      const prevLastMsg = prev.messages[prev.messages.length - 1];
-      const currLastMsg = messages[messages.length - 1];
+    if (messages) {
+      if (prev !== undefined) {
+        if (prev.messages) {
+          if (prev.messages.length > 0) {
+            const prevLastMsg = prev && prev.messages[prev.messages.length - 1];
+            const currLastMsg = messages[messages.length - 1];
 
-      if (prevLastMsg._id !== currLastMsg._id && currLastMsg.user !== userId) {
-        // new message son
-        setIsNewMessages(true);
+            if (prevLastMsg._id !== currLastMsg._id && currLastMsg.user !== userId) {
+              // new message son
+              setIsNewMessages(true);
+            }
+          }
+        }
       }
     }
   }, [{messages}])
@@ -110,11 +129,10 @@ const Messages: React.FunctionComponent<{
     }
   }
 
-  const config = { mass: 5, tension: 2000, friction: 200 };
-
+  // prepare animation
   const messagesLength = messages ? messages.length : 0;
-  const [trail, set, stop] = useTrail(messagesLength, () => ({
-    config,
+  const [trail] = useTrail(messagesLength, () => ({
+    config: { mass: 5, tension: 2000, friction: 200 },
     to: { marginLeft: 0, opacity: 1 },
     from: { marginLeft: 20, opacity: 0 }
   }))
@@ -164,7 +182,6 @@ const Messages: React.FunctionComponent<{
             ref={scrollTarget => { this.scrollTarget = scrollTarget; }}
           />
           <Snackbar
-            variant="info"
             autoHideDuration={6000}
             className={classes.snack}
             anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
@@ -199,4 +216,4 @@ const Messages: React.FunctionComponent<{
   );
 };
 
-export default compose(withApollo, withTyping, withMessages)(Messages);
+export default compose(withStyles, withApollo, withTyping, withMessages)(Messages);

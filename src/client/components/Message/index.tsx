@@ -2,10 +2,9 @@ import * as React from 'react';
 import moment from "moment";
 
 import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 
-import useStyles from './styles';
+import withStyles from './styles';
 import Editor from '../Editor';
 
 const Message: React.FunctionComponent<{
@@ -16,8 +15,8 @@ const Message: React.FunctionComponent<{
   avatar: string;
   text: string;
   createdAt: string;
-}> = ({ index, user, userId, lastUser, avatar, text, createdAt }) => {
-  const classes = useStyles();
+  classes: any;
+}> = ({ index, user, userId, lastUser, avatar, text, createdAt, classes }) => {
 
   const isCurrentUser = user === userId;
 
@@ -37,9 +36,7 @@ const Message: React.FunctionComponent<{
       <Paper
         className={`${classes.message} ${isCurrentUser && classes.ownMessage}`}
       >
-        <Typography component="p">
-          <Editor readOnly text={text} />
-        </Typography>
+        <Editor readOnly text={text} />
       </Paper>
       <span className={classes.date}>
         {moment(parseInt(createdAt)).fromNow()}
@@ -48,4 +45,4 @@ const Message: React.FunctionComponent<{
   );
 };
 
-export default Message;
+export default withStyles(Message);

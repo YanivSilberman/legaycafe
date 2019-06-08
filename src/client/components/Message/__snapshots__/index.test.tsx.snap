@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Message component test component loads 1`] = `
+<Message
+  _id=""
+  avatar="123"
+  classes={
+    Object {
+      "avatar": "Message-avatar-3",
+      "avatarPlaceholder": "Message-avatarPlaceholder-4",
+      "message": "Message-message-1",
+      "ownMessage": "Message-ownMessage-2",
+    }
+  }
+  createdAt=""
+  index={1}
+  lastUser="345"
+  text=""
+  user=""
+  userId="123"
+/>
+`;

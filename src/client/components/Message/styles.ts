@@ -1,11 +1,11 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 
 import customTheme from '../../lib/theme';
 
-export default makeStyles(theme => ({
+export default comp => withStyles({
   message: {
     maxWidth: '70%',
-    padding: theme.spacing(1, 2),
+    padding: '1px 2px',
     textAlign: 'left',
     margin: '0 10px'
   },
@@ -20,4 +20,4 @@ export default makeStyles(theme => ({
   avatarPlaceholder: {
     width: 40
   },
-}));
+})(comp);

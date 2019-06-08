@@ -8,14 +8,27 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 import { withLoginUser } from '../../store/hoc/mutations';
-import useStyles from './styles';
+import withStyles from './styles';
 
-const AuthForm: React.FunctionComponent<> = ({
+interface AuthProps {
+  loginUserMutation: (values: object) => {
+    data: {
+      loginUser: any;
+    };
+  };
+  client: {
+    resetStore: () => Promise<void>
+  };
+  history: any;
+  classes: any;
+}
+
+const AuthForm: React.FunctionComponent<AuthProps> = ({
   loginUserMutation,
   client,
-  history
+  history,
+  classes
 }) => {
-  const classes = useStyles();
 
   const [values, setValues] = React.useState({
     email: '',
@@ -76,4 +89,4 @@ const AuthForm: React.FunctionComponent<> = ({
   );
 };
 
-export default compose(withRouter, withApollo, withLoginUser)(AuthForm);
+export default compose(withStyles, withRouter, withApollo, withLoginUser)(AuthForm);

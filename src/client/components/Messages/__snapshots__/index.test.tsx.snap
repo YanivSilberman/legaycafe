@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Messages component test component loads 1`] = `
+<withApollo(Apollo(Apollo(Messages)))
+  classes={
+    Object {
+      "date": "withApollo(Apollo(Apollo(Messages)))-date-5",
+      "isTyping": "withApollo(Apollo(Apollo(Messages)))-isTyping-4",
+      "messageContainer": "withApollo(Apollo(Apollo(Messages)))-messageContainer-2",
+      "messages": "withApollo(Apollo(Apollo(Messages)))-messages-1",
+      "ownMessageContainer": "withApollo(Apollo(Apollo(Messages)))-ownMessageContainer-3",
+      "progress": "withApollo(Apollo(Apollo(Messages)))-progress-9",
+      "skeletonMessage": "withApollo(Apollo(Apollo(Messages)))-skeletonMessage-7",
+      "snack": "withApollo(Apollo(Apollo(Messages)))-snack-8",
+      "top": "withApollo(Apollo(Apollo(Messages)))-top-6",
+    }
+  }
+  userId="123"
+  users={Object {}}
+  waitingOnMessage={false}
+/>
+`;

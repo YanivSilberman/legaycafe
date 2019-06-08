@@ -14,7 +14,12 @@ import theme from './lib/theme';
 import Chat from './containers/Chat';
 import Login from './containers/Login';
 
-const PrivateRoute = ({ User, Component, ...rest }) => (
+interface PrivateProps {
+  User?: object;
+  Component: function;
+}
+
+const PrivateRoute: React.FunctionComponent<PrivateProps> = ({ User, Component, ...rest }) => (
   <Route {...rest} render={(props) => {
     return (
       User !== null
@@ -37,10 +42,14 @@ const pages = {
   ),
 }
 
-const RouterApp = ({ User }) => {
-  const { location, history } = React.useContext(__RouterContext)
+interface RouterProps {
+  User?: object;
+}
 
-  const [index, set] = React.useState('chat')
+const RouterApp: React.FunctionComponent<RouterProps> = ({ User }) => {
+  const { location, history } = React.useContext(__RouterContext);
+
+  const [index, set] = React.useState('chat');
 
   React.useEffect(
     () => {
@@ -66,24 +75,22 @@ const RouterApp = ({ User }) => {
   )
 }
 
-const App = () => {
-  return (
-    <ApolloProvider client={client}>
-      <Query query={userGql}>
-        {({ data: { error, loading, User } }) => {
-          if (error) throw ('Initial user query error, fuck', error);
-          if (loading || User === undefined) return null;
+const App: React.FunctionComponent<> = () => (
+  <ApolloProvider client={client}>
+    <Query query={userGql}>
+      {({ data: { error, loading, User } }) => {
+        if (error) throw ('Initial user query error, fuck', error);
+        if (loading || User === undefined) return null;
 
-          return (
-            <BrowserRouter>
-              <RouterApp User={User} />
-            </BrowserRouter>
-          )
-        }}
-      </Query>
-    </ApolloProvider>
-  )
-}
+        return (
+          <BrowserRouter>
+            <RouterApp User={User} />
+          </BrowserRouter>
+        )
+      }}
+    </Query>
+  </ApolloProvider>
+)
 
 
 

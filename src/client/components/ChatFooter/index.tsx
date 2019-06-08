@@ -10,17 +10,33 @@ import Button from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
 
 import Editor from '../Editor';
-import useStyles from './styles';
+import withStyles from './styles';
 
 import { withCreateMessage, withToggleTyping } from '../../store/hoc/mutations';
 
-const ChatFooter: React.FunctionComponent<{
-  createMessageMutation: function;
-  toggleUserTypingMutation: function;
+interface FooterProps {
+  classes: any;
+  waitingOnMessage: boolean;
   userId: string;
-}> = ({ waitingOnMessage, userId, createMessageMutation, toggleUserTypingMutation, setIsWaitingOnMessage }) => {
-  const classes = useStyles();
+  createMessageMutation: (variables: {
+    text: string
+    userId: string
+  }, cb: any) => Promise<void>;
+  toggleUserTypingMutation: (variables: {
+    _id: string
+    isTyping: boolean
+  }) => Promise<void>;
+  setIsWaitingOnMessage: (isWaiting:boolean) => void;
+}
 
+const ChatFooter: React.FunctionComponent<FooterProps> = ({
+  waitingOnMessage,
+  userId,
+  createMessageMutation,
+  toggleUserTypingMutation,
+  setIsWaitingOnMessage,
+  classes
+}) => {
   const [ editorState, setEditorState ] = React.useState(EditorState.createEmpty());
 
   React.useEffect(() => {
@@ -69,4 +85,4 @@ const ChatFooter: React.FunctionComponent<{
 };
 
 
-export default compose(withCreateMessage, withToggleTyping)(ChatFooter);
+export default compose(withStyles, withCreateMessage, withToggleTyping)(ChatFooter);

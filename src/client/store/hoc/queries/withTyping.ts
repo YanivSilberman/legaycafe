@@ -4,7 +4,7 @@ import { userTypingSubscriptionGql } from '../../gql/subscriptions';
 
 export default graphql(usersTypingGql, {
   name: 'usersTyping',
-  props: ({ usersTyping: { error, loading, usersTyping, subscribeToMore } }) => {
+  props: ({ usersTyping: { error, loading, usersTyping, subscribeToMore } }: any) => {
     if (error) return null;
 
     return {

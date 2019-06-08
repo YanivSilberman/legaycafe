@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Drawer component test component loads 1`] = `
+<withApollo(ChatDrawer)
+  _id="id"
+  allUsers={Array []}
+  avatar=""
+  classes={
+    Object {
+      "avatars": "withApollo(ChatDrawer)-avatars-4",
+      "button": "withApollo(ChatDrawer)-button-6",
+      "buttonContainer": "withApollo(ChatDrawer)-buttonContainer-5",
+      "drawer": "withApollo(ChatDrawer)-drawer-1",
+      "drawerPaper": "withApollo(ChatDrawer)-drawerPaper-2",
+      "mainAvatar": "withApollo(ChatDrawer)-mainAvatar-3",
+    }
+  }
+  firstName=""
+  lastName=""
+/>
+`;

@@ -4,7 +4,7 @@ import { allUsersGql } from '../../gql/queries';
 
 export default graphql(allUsersGql, {
   name: 'users',
-  props: ({ users: { error, loading, users } }) => {
+  props: ({ users: { error, loading, users } }: any) => {
     if (error) throw(error);
 
     return {

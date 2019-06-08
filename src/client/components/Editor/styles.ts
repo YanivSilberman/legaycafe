@@ -1,7 +1,8 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 
+import customTheme from '../../lib/theme';
 
-export default makeStyles(theme => ({
+export default comp => withStyles({
   footerSubsection: {
     flex: 1,
   },
@@ -39,4 +40,4 @@ export default makeStyles(theme => ({
       background: 'transparent'
     }
   }
-}));
+})(comp);

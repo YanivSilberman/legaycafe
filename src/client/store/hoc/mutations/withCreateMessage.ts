@@ -3,9 +3,10 @@ import { createMessageGql } from '../../gql/mutations';
 
 export default graphql(createMessageGql, {
   name: "createMessage",
-  props: ({ createMessage }) => ({
-    createMessageMutation: (variables, cb) => createMessage({ variables }).then(() => {
-      cb();
+  props: ({ createMessage }:any) => ({
+    createMessageMutation: (variables:object, cb:any) =>
+      createMessage({ variables }).then(() => {
+        cb();
+      })
     })
-  })
 })
