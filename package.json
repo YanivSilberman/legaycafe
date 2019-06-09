@@ -9,7 +9,10 @@
     "start": "node 'dist/server/server.js'",
     "build": "tsc -p . && ncp src/server/schema dist/server/schema",
     "start:dev": "npm run build:dev",
-    "build:dev": "nodemon 'src/server/server.ts' --exec 'ts-node' src/server/server.ts -e ts,graphql"
+    "build:dev": "nodemon 'src/server/server.ts' --exec 'ts-node' src/server/server.ts -e ts,graphql",
+    "clear": "rm -rf node_modules; npm install",
+    "reset": "npm run clear; rm -rf .cache; rm -rf dist; npm run build",
+    "logs": "heroku logs --tail"
   },
   "jest": {
     "preset": "ts-jest"
