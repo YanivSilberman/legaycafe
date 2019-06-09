@@ -56,5 +56,5 @@ const httpServer = createServer(app);
 server.installSubscriptionHandlers(httpServer);
 
 httpServer.listen(
-  { port: 3000 },
-  (): void => console.log(`\n🚀      GraphQL is now running on http://localhost:3000/graphql`));
+  { port: process.env.PORT || 3000 },
+  (): void => console.log(`\n🚀      Legay.cafe is now running on ${process.env.FULL_URL}`));
