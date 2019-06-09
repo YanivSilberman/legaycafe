@@ -8,6 +8,7 @@
     "client": "parcel src/client/public/index.html",
     "start": "node 'dist/server/server.js'",
     "build": "tsc -p . && ncp src/server/schema dist/server/schema",
+    "heroku-postbuild": "npm run build",
     "start:dev": "npm run build:dev",
     "build:dev": "nodemon 'src/server/server.ts' --exec 'ts-node' src/server/server.ts -e ts,graphql",
     "clear": "rm -rf node_modules; npm install",
