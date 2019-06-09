@@ -14,7 +14,7 @@ export default comp => withStyles({
   button: {
     color: '#fff',
     margin: '2px 2px',
-    padding: '1px 4px',
+    padding: '0.5em 2em',
     background: customTheme.button
   }
 })(comp);

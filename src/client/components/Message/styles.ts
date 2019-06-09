@@ -5,7 +5,7 @@ import customTheme from '../../lib/theme';
 export default comp => withStyles({
   message: {
     maxWidth: '70%',
-    padding: '1px 2px',
+    padding: '0.7em 1em',
     textAlign: 'left',
     margin: '0 10px'
   },

@@ -6,7 +6,7 @@ export default comp => withStyles({
   messages: {
     width: '100%',
     flex: 1,
-    padding: '3px 5px',
+    padding: '1em 2em',
     display: 'flex',
     flexDirection: 'column',
     overflow: 'scroll'

@@ -6,7 +6,7 @@ export default comp => withStyles({
   chatHeader: {
     width: '100%',
     height: 70,
-    padding: '3px 5px',
+    padding: '1em 2em',
 
     display: 'flex',
     alignItems: 'center'

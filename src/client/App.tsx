@@ -16,7 +16,9 @@ import Login from './containers/Login';
 
 interface PrivateProps {
   User?: object;
-  Component: function;
+  Component: any;
+  path: string;
+  exact: boolean;
 }
 
 const PrivateRoute: React.FunctionComponent<PrivateProps> = ({ User, Component, ...rest }) => (
@@ -60,9 +62,9 @@ const RouterApp: React.FunctionComponent<RouterProps> = ({ User }) => {
   )
 
   const transitions = useTransition(index, p => p, {
-    from: { opacity: 0, transform: 'translate3d(100%,0,0)' },
-    enter: { opacity: 1, transform: 'translate3d(0%,0,0)' },
-    leave: { opacity: 0, transform: 'translate3d(-50%,0,0)' },
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
   })
 
   return (
@@ -75,11 +77,15 @@ const RouterApp: React.FunctionComponent<RouterProps> = ({ User }) => {
   )
 }
 
-const App: React.FunctionComponent<> = () => (
+const App: React.FunctionComponent = () => (
   <ApolloProvider client={client}>
     <Query query={userGql}>
       {({ data: { error, loading, User } }) => {
-        if (error) throw ('Initial user query error, fuck', error);
+        if (error) {
+          console.log(error);
+          return 'app error';
+        };
+
         if (loading || User === undefined) return null;
 
         return (

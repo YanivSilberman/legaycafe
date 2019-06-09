@@ -9,7 +9,7 @@ import { setContext } from 'apollo-link-context';
 
 // Create an http link:
 const httpLink = new HttpLink({
-  uri: 'http://localhost:3000/graphql',
+  uri: `${process.env.FULL_URL}/graphql`,
   credentials: 'same-origin'
 });
 
@@ -29,8 +29,7 @@ const authLink = setContext((_, { headers }) => {
 
 // Create a WebSocket link:
 const wsLink = new WebSocketLink({
-  uri: `ws://localhost:3000/graphql`,
-  credentials: 'same-origin',
+  uri: `ws://${process.env.URL}/graphql`,
   options: {
     reconnect: true
   }

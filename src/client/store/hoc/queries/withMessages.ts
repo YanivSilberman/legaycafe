@@ -6,7 +6,6 @@ import { NUM_MESSAGES } from '../../../../server/constants';
 export default graphql(messagesGql, {
   name: 'messages',
   options: (props:any) => ({
-    variables: { skip: true },
     fetchPolicy: 'no-cache'
   }),
   props: ({

@@ -6,7 +6,7 @@ export default comp => withStyles({
   chatFooter: {
     width: '100%',
     minHeight: 130,
-    padding: 3,
+    padding: '2em',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

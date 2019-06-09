@@ -11,7 +11,7 @@ export default comp => withStyles({
   },
   content: {
     flex: 1,
-    backgroundColor: '#eeeeee',
+    backgroundColor: '#ffffff',
     padding: 0,
     margin: 0,
     maxHeight: '100vh',

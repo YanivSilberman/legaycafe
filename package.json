@@ -14,6 +14,10 @@
   "jest": {
     "preset": "ts-jest"
   },
+  "engines": {
+    "node": "10.15.3",
+    "npm": "6.8.0"
+  },
   "author": "Yaniv Silberman",
   "license": "ISC",
   "devDependencies": {

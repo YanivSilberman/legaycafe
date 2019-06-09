@@ -17,9 +17,10 @@ import Spinner from '../../components/Spinner';
 import withStyles from './styles';
 
 interface ChatProps {
-  User: object;
+  User: User;
   UserLoading: boolean;
   users: object;
+  allUsers: User[];
   usersLoading: boolean;
   classes: any;
 }
