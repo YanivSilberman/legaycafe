@@ -7,12 +7,15 @@ import { getMainDefinition } from 'apollo-utilities';
 import { setContext } from 'apollo-link-context';
 
 
+const httpUri = `${process.env.FULL_URL}/graphql`;
+
 // Create an http link:
 const httpLink = new HttpLink({
-  uri: `${process.env.FULL_URL}/graphql`,
+  uri: httpUri,
   credentials: 'same-origin'
 });
 
+console.log('\n\n\n\n\n\n\n', { httpUri });
 
 // Authentication link:
 const authLink = setContext((_, { headers }) => {
@@ -27,9 +30,12 @@ const authLink = setContext((_, { headers }) => {
   }
 });
 
+const uri = `ws${process.env.NODE_ENV === "production" ? "s" : ""}://${process.env.URL}/graphql`;
+console.log('\n\n\n\n\n\n\n', { uri });
+
 // Create a WebSocket link:
 const wsLink = new WebSocketLink({
-  uri: `ws${process.env.NODE_ENV === "production" ? "s" : ""}://${process.env.URL}/graphql`,
+  uri,
   options: {
     reconnect: true
   }
