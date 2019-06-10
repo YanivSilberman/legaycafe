@@ -15,8 +15,6 @@ const httpLink = new HttpLink({
   credentials: 'same-origin'
 });
 
-console.log('\n\n\n\n\n\n\n', { httpUri });
-
 // Authentication link:
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
@@ -30,12 +28,9 @@ const authLink = setContext((_, { headers }) => {
   }
 });
 
-const uri = `ws${process.env.NODE_ENV === "production" ? "s" : ""}://${process.env.URL}/graphql`;
-console.log('\n\n\n\n\n\n\n', { uri });
-
 // Create a WebSocket link:
 const wsLink = new WebSocketLink({
-  uri,
+  uri: process.env.SUBSCRIPTION_URL,
   options: {
     reconnect: true
   }

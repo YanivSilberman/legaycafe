@@ -116,7 +116,7 @@ const Messages: React.FunctionComponent<MessagesProps> = ({
   }, [{isNewMessages}])
 
   const handleInfiniteScroll = e => {
-    if (e.target.scrollTop % 50 === 0) { //
+    if (e.target.scrollTop % 50 === 0) {
       if (e.target.scrollTop < scrollPosition) {
         // moving up
         if (e.target.scrollTop <= 400 && isMoreMessages && !fetchingMessages) {

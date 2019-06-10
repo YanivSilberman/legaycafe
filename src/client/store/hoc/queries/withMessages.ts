@@ -5,9 +5,6 @@ import { NUM_MESSAGES } from '../../../../server/constants';
 
 export default graphql(messagesGql, {
   name: 'messages',
-  options: (props:any) => ({
-    fetchPolicy: 'no-cache'
-  }),
   props: ({
     ownProps: { userId },
     messages: { error, loading, messages, messageCount, fetchMore, subscribeToMore }
@@ -36,6 +33,7 @@ export default graphql(messagesGql, {
         // variables: { chatId: Chat && Chat.id },
         updateQuery: (prev:any, { subscriptionData }: any) => {
           if (!subscriptionData.data) return prev;
+
           return Object.assign({}, prev, {
             messages: [ ...prev.messages, subscriptionData.data.messageCreated ]
           });
