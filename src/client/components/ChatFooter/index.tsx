@@ -58,7 +58,7 @@ const ChatFooter: React.FunctionComponent<FooterProps> = ({
   }, [{waitingOnMessage}]);
 
   const sendMessage = () => {
-    if (!waitingOnMessage) {
+    if (!waitingOnMessage && editorState.getCurrentContent().hasText()) {
       setIsWaitingOnMessage(true);
     }
   }

@@ -6,6 +6,7 @@ import Drawer from '@material-ui/core/Drawer';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import Hidden from '@material-ui/core/Hidden';
 
 import withUsers from '../../store/hoc/'
 import withStyles from './styles';
@@ -17,6 +18,8 @@ interface ChatDrawerProps {
   lastName: string;
   client: any;
   classes: any;
+  openMobile: boolean;
+  setOpenMobile: () => void;
 }
 
 const ChatDrawer: React.FunctionComponent<ChatDrawerProps> = ({
@@ -25,7 +28,9 @@ const ChatDrawer: React.FunctionComponent<ChatDrawerProps> = ({
   firstName,
   lastName,
   client,
-  classes
+  classes,
+  openMobile,
+  setOpenMobile
 }) => {
 
   const logout = () => {
@@ -33,15 +38,8 @@ const ChatDrawer: React.FunctionComponent<ChatDrawerProps> = ({
     client.resetStore();
   }
 
-  return (
-    <Drawer
-      className={classes.drawer}
-      variant="permanent"
-      classes={{
-        paper: classes.drawerPaper,
-      }}
-      anchor="left"
-    >
+  const content = () => (
+    <>
       <div className={classes.mainAvatar}>
         <Avatar alt={avatar} src={avatar} />
         <Typography component="h1">
@@ -59,7 +57,36 @@ const ChatDrawer: React.FunctionComponent<ChatDrawerProps> = ({
           <Avatar key={_id} alt={firstName} src={avatar} />
         ))}
       </div>
-    </Drawer>
+    </>
+  )
+
+  return (
+    <>
+      <Hidden smUp implementation="css">
+        <Drawer
+          className={classes.drawer}
+          variant="temporary"
+          anchor="left"
+          open={openMobile}
+          onClose={() => setOpenMobile()}
+          classes={{ paper: classes.drawerPaper }}
+          ModalProps={{ keepMounted: true }}
+        >
+          {content()}
+        </Drawer>
+      </Hidden>
+      <Hidden xsDown implementation="css">
+        <Drawer
+          className={classes.drawer}
+          variant="permanent"
+          classes={{ paper: classes.drawerPaper }}
+          anchor="left"
+          open
+        >
+          {content()}
+        </Drawer>
+      </Hidden>
+    </>
   );
 };
 

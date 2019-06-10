@@ -132,7 +132,7 @@ const Messages: React.FunctionComponent<MessagesProps> = ({
   // prepare animation
   const messagesLength = messages ? messages.length : 0;
   const [trail] = useTrail(messagesLength, () => ({
-    config: { mass: 5, tension: 2000, friction: 200 },
+    config: { mass: 1, tension: 5000, friction: 200 },
     to: { marginLeft: 0, opacity: 1 },
     from: { marginLeft: 20, opacity: 0 }
   }))

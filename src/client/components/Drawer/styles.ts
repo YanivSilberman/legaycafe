@@ -2,7 +2,7 @@ import { withStyles } from '@material-ui/styles';
 
 import customTheme from '../../lib/theme';
 
-const drawerWidth = 250;
+export const drawerWidth = 240;
 
 export default comp => withStyles({
   drawer: {

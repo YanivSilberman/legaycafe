@@ -32,19 +32,29 @@ const Chat: React.FunctionComponent<ChatProps> = ({
   usersLoading,
   classes
 }) => {
+
+  const [openMobile, setOpenMobile] = React.useState(false);
   const [state, setState] = React.useState({
     waitingOnMessage: false
   });
+
+
 
   if (usersLoading || !User) return <Spinner />;
 
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <ChatDrawer allUsers={allUsers} {...User} />
+      <ChatDrawer
+        allUsers={allUsers}
+        openMobile={openMobile}
+        setOpenMobile={setOpenMobile}
+        {...User}
+      />
       <Container className={classes.content} maxWidth="sm">
         <ChatHeader
           allUsers={allUsers}
+          setOpenMobile={setOpenMobile}
         />
         <Messages
           users={users}

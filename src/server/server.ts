@@ -35,7 +35,7 @@ const server = new ApolloServer({
 
 
 const corsOptions = {
-  origin: process.env.FULL_URL,
+  origin: 'http://localhost:1234',// process.env.FULL_URL,
   credentials: true,
 };
 
