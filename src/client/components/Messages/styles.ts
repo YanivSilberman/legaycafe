@@ -4,7 +4,7 @@ import customTheme from '../../lib/theme';
 
 export default comp => withStyles({
   messages: {
-    marginTop: 64,
+    // marginTop: 64,
     width: '100%',
     flex: 1,
     padding: '1em 2em',

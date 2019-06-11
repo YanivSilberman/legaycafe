@@ -24,6 +24,7 @@ export default graphql(messagesGql, {
 
     return {
       loading,
+      messages,
       isMoreMessages: messages && messageCount > messages.length || false,
       moreMessages: (skip:number, cb:any) => fetchMore({
         variables: { skip, chat },

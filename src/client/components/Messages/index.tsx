@@ -169,7 +169,7 @@ const Messages: React.FunctionComponent<MessagesProps> = ({
               <animated.div
                 key={msg._id}
                 className={`${classes.messageContainer} ${(msg.user === userId) && classes.ownMessageContainer}`}
-                style={{ ...rest }}
+                style={{ ...rest, marginTop: index === 0 && 100 }}
               >
                 <Message
                   index={index}

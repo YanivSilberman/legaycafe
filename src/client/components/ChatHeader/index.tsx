@@ -37,7 +37,7 @@ const ChatHeader: React.FunctionComponent<HeaderProps> = ({
 
   return (
     <AppBar position="fixed" className={classes.appBar}>
-      <Toolbar>
+      <Toolbar className={classes.toolbar}>
         <IconButton
           color="inherit"
           aria-label="Open drawer"

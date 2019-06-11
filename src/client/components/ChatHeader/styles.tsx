@@ -6,16 +6,22 @@ import { drawerWidth } from '../Drawer/styles';
 
 export default withStyles((theme:Theme) => ({
   appBar: {
-    background: '#fff',
+    paddingTop: 30,
+    background: 'transparent',
     boxShadow: theme.shadows[0],
     right: 0,
     [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
     },
   },
+  toolbar: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   avatar: {
     marginRight: 20,
-    display: 'inline-block'
+    display: 'flex'
   },
   placeholderAvatar: {
     marginRight: 20
