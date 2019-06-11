@@ -1,22 +1,30 @@
 import { graphql } from 'react-apollo';
 import { messagesGql } from '../../gql/queries';
-import { newMessageSubscriptionGql } from '../../gql/subscriptions';
+import { newChatMessageSubscriptionGql } from '../../gql/subscriptions';
 import { NUM_MESSAGES } from '../../../../server/constants';
 
 export default graphql(messagesGql, {
   name: 'messages',
+  options: ({ chat }) => ({
+    variables: { chat }
+  }),
   props: ({
-    ownProps: { userId },
+    ownProps: { userId, chat },
+    messages,
     messages: { error, loading, messages, messageCount, fetchMore, subscribeToMore }
   }:any) => {
-    if (error) return null;
+
+    if (error) {
+      console.log({error});
+      return null
+    };
 
     return {
       loading,
       messages,
       isMoreMessages: messages && messageCount > messages.length || false,
-      moreMessages: (skip:number, cb:any) => fetchMore({
-        variables: { skip },
+      moreMessages: (chat:string, skip:number, cb:any) => fetchMore({
+        variables: { skip, chat },
         updateQuery: (previousResult:any, { fetchMoreResult }: any) => {
           if (!fetchMoreResult) {
             return previousResult;
@@ -29,13 +37,13 @@ export default graphql(messagesGql, {
         }
       }),
       subscribeToNewMessages: () => subscribeToMore({
-        document: newMessageSubscriptionGql,
-        // variables: { chatId: Chat && Chat.id },
+        document: newChatMessageSubscriptionGql,
+        variables: { chat },
         updateQuery: (prev:any, { subscriptionData }: any) => {
           if (!subscriptionData.data) return prev;
 
           return Object.assign({}, prev, {
-            messages: [ ...prev.messages, subscriptionData.data.messageCreated ]
+            messages: [ ...prev.messages, subscriptionData.data.chatMessageCreated ]
           });
         }
       })

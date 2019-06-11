@@ -10,21 +10,27 @@ import Toolbar from '@material-ui/core/Toolbar';
 import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
 
+import DndBox from '../DndBox';
+
 import withStyles from './styles';
 
 interface HeaderProps {
-  allUsers: any[];
+  users: any;
+  selectUsers: any[];
   setOpenMobile: () => void;
+  setSelectUsers: (users: string[]) => void;
   classes: any;
 }
 
 const ChatHeader: React.FunctionComponent<HeaderProps> = ({
-  allUsers,
+  users,
+  selectUsers,
   setOpenMobile,
+  setSelectUsers,
   classes
 }) => {
 
-  const usersLength = allUsers ? allUsers.length : 0;
+  const usersLength = selectUsers ? selectUsers.length : 0;
   const [trail] = useTrail(usersLength, () => ({
     config: { mass: 5, tension: 2000, friction: 200 },
     to: { opacity: 1, height: 40 },
@@ -43,22 +49,32 @@ const ChatHeader: React.FunctionComponent<HeaderProps> = ({
         >
           <MenuIcon />
         </IconButton>
-        {trail.map((styleRest: any, index: number) => {
-          const { _id, firstName, avatar } = allUsers[index];
+        {usersLength > 0 ? trail.map((styleRest: any, index: number) => {
+          const { _id, firstName, avatar } = users[selectUsers[index]];
 
           return (
             <animated.div
               key={_id}
               className="trails-text"
-              style={{ ...styleRest }}>
-              <Avatar
-                className={classes.avatar}
-                alt={firstName}
-                src={avatar}
-              />
+              style={{ ...styleRest }}
+            >
+              <DndBox type="REMOVER" _id={_id} setSelectUsers={setSelectUsers}>
+                <Avatar
+                  className={classes.avatar}
+                  alt={firstName}
+                  src={avatar}
+                />
+              </DndBox>
             </animated.div>
           )
-        })}
+        }) : (
+          <>
+            <Avatar className={classes.placeholderAvatar} />
+            <Typography as="h6" className={classes.title}>
+              Drop User Avatars Here To Chat...
+            </Typography>
+          </>
+        )}
       </Toolbar>
     </AppBar>
   );

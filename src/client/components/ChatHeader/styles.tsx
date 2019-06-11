@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { withStyles, Theme } from '@material-ui/core/styles';
 
 import customTheme from '../../lib/theme';
 import { drawerWidth } from '../Drawer/styles';
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
+export default withStyles((theme:Theme) => ({
   appBar: {
     background: '#fff',
     boxShadow: theme.shadows[0],
@@ -17,16 +17,17 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     marginRight: 20,
     display: 'inline-block'
   },
+  placeholderAvatar: {
+    marginRight: 20
+  },
   menuButton: {
     color: '#bdbdbd',
     marginRight: theme.spacing(2),
     [theme.breakpoints.up('sm')]: {
       display: 'none',
     },
+  },
+  title: {
+    color: '#bdbdbd',
   }
-}));
-
-export default Comp => props => {
-  const classes = useStyles(props);
-  return <Comp classes={classes} {...props} />;
-}
+}))

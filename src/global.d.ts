@@ -11,3 +11,8 @@ interface Message {
   createdAt: string;
   user: string;
 }
+
+interface Chat {
+  _id: string;
+  users: string;
+}

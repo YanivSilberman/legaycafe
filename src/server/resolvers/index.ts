@@ -1,18 +1,49 @@
 import { IResolvers } from 'graphql-tools';
-import { PubSub } from 'apollo-server';
+import { PubSub, withFilter } from 'apollo-server';
 import uuid from 'uuid/v4';
 import jwt from 'jsonwebtoken';
-import { User, Message } from '../models';
+import { User, Message, Chat } from '../models';
 import { NUM_MESSAGES } from '../constants';
 
 const pubsub = new PubSub();
 
-const MESSAGE_CREATED = 'MESSAGE_CREATED', USER_TYPING = 'USER_TYPING';
+const
+  CHAT_MESSAGE_CREATED = 'CHAT_MESSAGE_CREATED',
+  MESSAGE_CREATED = 'MESSAGE_CREATED',
+  USER_TYPING = 'USER_TYPING';
 
 const resolvers: IResolvers = {
   Subscription: {
-    messageCreated: { subscribe: () => pubsub.asyncIterator([MESSAGE_CREATED]), },
-    userIsTyping: { subscribe: () => pubsub.asyncIterator([USER_TYPING]), }
+    messageCreated: {
+      subscribe: withFilter(
+        () => pubsub.asyncIterator(MESSAGE_CREATED),
+        async (payload, variables, context) => {
+          const found = await Chat.findOne({
+            users: { $regex : `.*${context.currentUser.sub}.*` },
+            _id: payload.messageCreated.chat.toString()
+          });
+
+          return !!found;
+        },
+      ),
+    },
+    chatMessageCreated: {
+      subscribe: withFilter(
+        () => pubsub.asyncIterator(CHAT_MESSAGE_CREATED),
+        (payload, variables) => {
+          const found = payload.chatMessageCreated.chat.toString() === variables.chat;
+          return found;
+        },
+      ),
+    },
+    userIsTyping: {
+      subscribe: withFilter(
+        () => pubsub.asyncIterator(USER_TYPING),
+        (payload, variables) => {
+          return payload.userIsTyping.chat.toString() === variables.chat;
+        },
+      ),
+    }
   },
   Mutation: {
     async loginUser(root: any, args: any, context: any) {
@@ -34,11 +65,11 @@ const resolvers: IResolvers = {
       return false;
     },
     async createMessage(root: any, args: any, context: any) {
-      const messageCreated = new Message({ ...args, user: args.userId });
-      console.log({ messageCreated });
-      await messageCreated.save((err) => err && console.log('Message create error', err));
-      pubsub.publish(MESSAGE_CREATED, { messageCreated });
-      return messageCreated;
+      const chatMessageCreated = new Message({ ...args, user: args.userId });
+      await chatMessageCreated.save((err) => err && console.log('Message create error', err));
+      pubsub.publish(CHAT_MESSAGE_CREATED, { chatMessageCreated });
+      // pubsub.publish(MESSAGE_CREATED, { messageCreated });
+      return chatMessageCreated;
     },
     toggleUserTyping(root: any, args: any, context: any) {
       const userIsTyping = args;
@@ -51,10 +82,26 @@ const resolvers: IResolvers = {
       return await Message.collection.count()
     },
 
+    async Chat(_: void, args: any, context: any) {
+      const { users } = args;
+      if (!users || users === context.currentUser.sub) return null;
+
+      // get or create chat with user list
+      const chat = await Chat.findOneAndUpdate({
+        users
+      }, {}, {upsert: true, 'new': true});
+
+      return chat;
+    },
+
     async messages(_: void, args: any) {
-      const messages = await Message.find().sort({ $natural: -1 })
+      const { chat } = args;
+
+      // get messages from chat
+      const messages = await Message.find({ chat }).sort({ $natural: -1 })
         .skip(args.skip || 0)
         .limit(NUM_MESSAGES);
+
       return messages.reverse();
     },
 
@@ -69,7 +116,11 @@ const resolvers: IResolvers = {
 
     async User(_: void, args: void, context: any) {
       if (context.currentUser) {
-        return await User.findOne({ _id: context.currentUser.sub });
+        const u = await User.findOne({ _id: context.currentUser.sub });
+        return {
+          ...u.toObject(),
+          chats: await Chat.find({ users: { $regex : `.*${context.currentUser.sub}.*` } })
+        };
       } else {
         return null
       }

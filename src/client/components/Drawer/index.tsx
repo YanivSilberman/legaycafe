@@ -8,6 +8,9 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Hidden from '@material-ui/core/Hidden';
 
+import DndBox from '../DndBox';
+import DndBin from '../DndBin';
+
 import withUsers from '../../store/hoc/'
 import withStyles from './styles';
 
@@ -20,6 +23,8 @@ interface ChatDrawerProps {
   classes: any;
   openMobile: boolean;
   setOpenMobile: () => void;
+  setSelectUsers: (users: string[]) => void;
+  onDrop: (item:any) => void;
 }
 
 const ChatDrawer: React.FunctionComponent<ChatDrawerProps> = ({
@@ -30,7 +35,9 @@ const ChatDrawer: React.FunctionComponent<ChatDrawerProps> = ({
   client,
   classes,
   openMobile,
-  setOpenMobile
+  setOpenMobile,
+  setSelectUsers,
+  onDrop
 }) => {
 
   const logout = () => {
@@ -52,11 +59,13 @@ const ChatDrawer: React.FunctionComponent<ChatDrawerProps> = ({
         </div>
       </div>
       <Divider />
-      <div className={classes.avatars}>
+      <DndBin accept="REMOVER" onDrop={onDrop} style={classes.avatars}>
         {allUsers.map(({ _id, firstName, avatar }: User) => (
-          <Avatar key={_id} alt={firstName} src={avatar} />
+          <DndBox type="ADDER" key={_id} _id={_id} setSelectUsers={setSelectUsers}>
+            <Avatar alt={firstName} src={avatar} />
+          </DndBox>
         ))}
-      </div>
+      </DndBin>
     </>
   )
 

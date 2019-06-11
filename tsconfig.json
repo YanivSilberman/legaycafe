@@ -1,4 +1,8 @@
 {
+  "exclude": [
+    "node_modules",
+    "client"
+  ],
   "compilerOptions": {
     /* Basic Options */
     // "incremental": true,                   /* Enable incremental compilation */

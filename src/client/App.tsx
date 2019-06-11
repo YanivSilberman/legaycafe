@@ -2,11 +2,14 @@ import * as React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter, Route, Switch, Redirect, __RouterContext } from "react-router-dom";
 
+import { DragDropContextProvider } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend'
 import { ApolloProvider, Query } from "react-apollo";
 import { ThemeProvider } from '@material-ui/styles';
 
 import {useTransition, animated} from 'react-spring';
 
+import { newMessageSubscriptionGql } from './store/gql/subscriptions';
 import { userGql } from './store/gql/queries';
 import client from './lib/apollo';
 import theme from './lib/theme';
@@ -79,22 +82,24 @@ const RouterApp: React.FunctionComponent<RouterProps> = ({ User }) => {
 
 const App: React.FunctionComponent = () => (
   <ApolloProvider client={client}>
-    <Query query={userGql}>
-      {({ data: { error, loading, User } }) => {
-        if (error) {
-          console.log(error);
-          return 'app error';
-        };
+    <DragDropContextProvider backend={HTML5Backend}>
+      <Query query={userGql}>
+        {({ data: { error, loading, User } }) => {
+          if (error) {
+            console.log(error);
+            return 'app error';
+          };
 
-        if (loading || User === undefined) return null;
+          if (loading || User === undefined) return null;
 
-        return (
-          <BrowserRouter>
-            <RouterApp User={User} />
-          </BrowserRouter>
-        )
-      }}
-    </Query>
+          return (
+            <BrowserRouter>
+              <RouterApp User={User} />
+            </BrowserRouter>
+          )
+        }}
+      </Query>
+    </DragDropContextProvider>
   </ApolloProvider>
 )
 

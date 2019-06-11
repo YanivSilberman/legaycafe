@@ -67,9 +67,16 @@ const MessageSchema = new Schema({
   id: ObjectId,
   text: String,
   user: { type: ObjectId, ref: 'User' },
-  createdAt: { type: Date, default: moment().toDate() }
+  createdAt: { type: Date, default: moment().toDate() },
+  chat: { type: ObjectId, ref: 'Chat' }
+});
+
+const ChatSchema = new Schema({
+  id: ObjectId,
+  users: String
 });
 
 
 export const User = Mongoose.model('User', UserSchema);
 export const Message = Mongoose.model('Message', MessageSchema);
+export const Chat = Mongoose.model('Chat', ChatSchema);

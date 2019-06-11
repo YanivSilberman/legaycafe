@@ -7,6 +7,9 @@ export default gql`
       firstName
       lastName
       avatar
+      chats {
+        _id
+      }
     }
   }
 `;

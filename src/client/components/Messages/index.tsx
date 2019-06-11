@@ -43,6 +43,7 @@ interface MessagesProps {
   client: any;
   users: any;
   classes: any;
+  chat: string;
 }
 
 const Messages: React.FunctionComponent<MessagesProps> = ({
@@ -57,16 +58,16 @@ const Messages: React.FunctionComponent<MessagesProps> = ({
   userId,
   client,
   users,
-  classes
+  classes,
+  chat
 }) => {
-
   const [fetchingMessages, setFetchingMessages] = React.useState(false);
   const [scrollPosition, setScrollPosition] = React.useState(0);
   const [isNewMessages, setIsNewMessages] = React.useState(false);
 
   // componentDidMount
   React.useEffect(() => {
-    subscribeToNewMessages();
+    this.subscription = subscribeToNewMessages();
     subscribeToUserTyping();
 
     scroller.scrollTo('scrollTarget', {
@@ -76,11 +77,19 @@ const Messages: React.FunctionComponent<MessagesProps> = ({
     })
   }, []);
 
+  React.useEffect(() => {
+    if (this.subscription) {
+      this.subscription();
+    }
+
+    this.subscription = subscribeToNewMessages();
+  }, [chat])
+
   // if fetching new messages
   React.useEffect(() => {
     if (fetchingMessages) {
       setTimeout(() => {
-        moreMessages(messages.length, () => {
+        moreMessages(chat, messages.length, () => {
           setFetchingMessages(false);
         });
       }, 1000);
@@ -97,9 +106,11 @@ const Messages: React.FunctionComponent<MessagesProps> = ({
             const prevLastMsg = prev && prev.messages[prev.messages.length - 1];
             const currLastMsg = messages[messages.length - 1];
 
-            if (prevLastMsg._id !== currLastMsg._id && currLastMsg.user !== userId) {
-              // new message son
-              setIsNewMessages(true);
+            if (currLastMsg) {
+              if (prevLastMsg._id !== currLastMsg._id && currLastMsg.user !== userId) {
+                // new message son
+                setIsNewMessages(true);
+              }
             }
           }
         }

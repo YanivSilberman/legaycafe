@@ -42,9 +42,10 @@ export default comp => withStyles({
     wrap: 'flex-wrap',
     alignItems: 'flex-start',
     justifyContent: 'center',
+    paddingBottom: 100
 
     '& div': {
-       margin: 10
+      margin: 5
     }
   },
   buttonContainer: {

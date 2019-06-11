@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export default gql`
-  query {
-    usersTyping {
+  query usersTyping($chat: ID!) {
+    usersTyping(chat: $chat) {
       _id
       isTyping
     }

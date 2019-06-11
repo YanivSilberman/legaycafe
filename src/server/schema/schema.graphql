@@ -1,28 +1,29 @@
 type Subscription {
+  chatMessageCreated(chat:ID!): Message
   messageCreated: Message
-  userIsTyping: User
+  userIsTyping(chat:ID!): User
 }
 
 type Mutation {
+  # auth
   createUser(email: String! password: String! firstName: String!, lastName: String!, avatar: String): String
   loginUser(email: String! password: String!): String
-  createMessage(text: String!, userId: ID!): Message
-  toggleUserTyping(_id: ID!, isTyping: Boolean!): Boolean
+  # create
+  createMessage(text: String!, userId: ID!, chat: ID!): Message
+  # utility mutations
+  toggleUserTyping(_id: ID!, isTyping: Boolean!, chat: ID!): Boolean
 }
 
 type Query {
-  users: [User!]!
-  messages(skip: Int): [Message!]!
+  # items
   User: User
-  usersTyping: [User!]
-  messageCount: Int!
-}
-
-type Message {
-  _id: ID!
-  text: String
-  user: ID!
-  createdAt: String!
+  Chat(users: String): Chat
+  # lists
+  users: [User!]
+  messages(skip: Int, chat: ID!): [Message!]!
+  # utility queries
+  usersTyping(chat: ID!): [User!]
+  messageCount(chat: ID!): Int!
 }
 
 type User {
@@ -34,4 +35,18 @@ type User {
   avatar: String
   messages: [ID!]
   isTyping: Boolean
+  chats: [Chat!]
+}
+
+type Message {
+  _id: ID!
+  text: String
+  user: ID!
+  createdAt: String!
+  chat: ID!
+}
+
+type Chat {
+  _id: ID!
+  users: String!
 }

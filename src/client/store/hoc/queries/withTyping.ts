@@ -4,7 +4,10 @@ import { userTypingSubscriptionGql } from '../../gql/subscriptions';
 
 export default graphql(usersTypingGql, {
   name: 'usersTyping',
-  props: ({ usersTyping: { error, loading, usersTyping, subscribeToMore } }: any) => {
+  options: ({ chat }) => ({
+    variables: { chat }
+  }),
+  props: ({ ownProps: { chat }, usersTyping: { error, loading, usersTyping, subscribeToMore } }: any) => {
     if (error) return null;
 
     return {
@@ -12,7 +15,7 @@ export default graphql(usersTypingGql, {
       usersTyping,
       subscribeToUserTyping: () => subscribeToMore({
         document: userTypingSubscriptionGql,
-        // variables: { chatId: Chat && Chat.id },
+        variables: { chat },
         updateQuery: (prev, { subscriptionData }) => {
           if (!subscriptionData.data) return prev;
 
