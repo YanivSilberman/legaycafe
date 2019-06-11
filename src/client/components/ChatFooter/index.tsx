@@ -24,7 +24,6 @@ interface FooterProps {
     userId: string
   }, cb: any) => Promise<void>;
   toggleUserTypingMutation: (variables: {
-    _id: string
     isTyping: boolean
   }) => Promise<void>;
   setIsWaitingOnMessage: (isWaiting:boolean) => void;
@@ -46,7 +45,7 @@ const ChatFooter: React.FunctionComponent<FooterProps> = ({
        // just sent message
        const text = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
 
-       createMessageMutation({ chat, text, userId }, () => {
+       createMessageMutation({ text, userId }, () => {
          setIsWaitingOnMessage(false);
          setEditorState(EditorState.createEmpty());
 
@@ -70,8 +69,8 @@ const ChatFooter: React.FunctionComponent<FooterProps> = ({
       <Editor
         editorState={editorState}
         setEditorState={setEditorState}
-        onFocus={() => toggleUserTypingMutation({chat, _id:userId, isTyping:true})}
-        onBlur={() => toggleUserTypingMutation({chat, _id:userId, isTyping:false})}
+        onFocus={() => toggleUserTypingMutation({isTyping:true})}
+        onBlur={() => toggleUserTypingMutation({isTyping:false})}
       />
       <Fab
         onClick={sendMessage}

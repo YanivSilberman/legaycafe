@@ -18,7 +18,6 @@ interface HeaderProps {
   users: any;
   selectUsers: any[];
   setOpenMobile: () => void;
-  setSelectUsers: (users: string[]) => void;
   classes: any;
 }
 
@@ -26,7 +25,6 @@ const ChatHeader: React.FunctionComponent<HeaderProps> = ({
   users,
   selectUsers,
   setOpenMobile,
-  setSelectUsers,
   classes
 }) => {
 
@@ -44,7 +42,7 @@ const ChatHeader: React.FunctionComponent<HeaderProps> = ({
           color="inherit"
           aria-label="Open drawer"
           edge="start"
-          onClick={setOpenMobile}
+          onClick={() => setOpenMobile()}
           className={classes.menuButton}
         >
           <MenuIcon />
@@ -58,7 +56,7 @@ const ChatHeader: React.FunctionComponent<HeaderProps> = ({
               className="trails-text"
               style={{ ...styleRest }}
             >
-              <DndBox type="REMOVER" _id={_id} setSelectUsers={setSelectUsers}>
+              <DndBox type="REMOVER" _id={_id}>
                 <Avatar
                   className={classes.avatar}
                   alt={firstName}
@@ -70,7 +68,7 @@ const ChatHeader: React.FunctionComponent<HeaderProps> = ({
         }) : (
           <>
             <Avatar className={classes.placeholderAvatar} />
-            <Typography as="h6" className={classes.title}>
+            <Typography component="h6" className={classes.title}>
               Drop User Avatars Here To Chat...
             </Typography>
           </>

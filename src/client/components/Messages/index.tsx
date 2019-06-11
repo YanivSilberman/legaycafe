@@ -89,7 +89,7 @@ const Messages: React.FunctionComponent<MessagesProps> = ({
   React.useEffect(() => {
     if (fetchingMessages) {
       setTimeout(() => {
-        moreMessages(chat, messages.length, () => {
+        moreMessages(messages.length, () => {
           setFetchingMessages(false);
         });
       }, 1000);

@@ -100,8 +100,7 @@ const Chat: React.FunctionComponent<ChatProps> = ({
                 <ChatHeader
                   users={users}
                   selectUsers={selectUsers}
-                  setOpenMobile={setOpenMobile}
-                  setSelectUsers={setSelectUsers}
+                  setOpenMobile={() => setOpenMobile(!openMobile)}
                 />
                 <Messages
                   selectUsers={selectUsers}
@@ -120,7 +119,7 @@ const Chat: React.FunctionComponent<ChatProps> = ({
             ) || (
               <div className="empty">
                 <Icon fontSize="large">add_circle</Icon>
-                <Typography as="h2">Drag avatar here to start chat</Typography>
+                <Typography component="h2">Drag avatar here to start chat</Typography>
               </div>
             )
           }}

@@ -3,9 +3,9 @@ import { createMessageGql } from '../../gql/mutations';
 
 export default graphql(createMessageGql, {
   name: "createMessage",
-  props: ({ createMessage }:any) => ({
+  props: ({ ownProps: { chat }, createMessage }:any) => ({
     createMessageMutation: (variables:object, cb:any) =>
-      createMessage({ variables }).then(() => {
+      createMessage({ variables: { ...variables, chat } }).then(() => {
         cb();
       })
     })

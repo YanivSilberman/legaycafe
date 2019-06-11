@@ -3,14 +3,17 @@ import { messagesGql } from '../../gql/queries';
 import { newChatMessageSubscriptionGql } from '../../gql/subscriptions';
 import { NUM_MESSAGES } from '../../../../server/constants';
 
+interface messagesProps {
+  chat: string;
+}
+
 export default graphql(messagesGql, {
   name: 'messages',
-  options: ({ chat }) => ({
+  options: ({ chat }:messagesProps) => ({
     variables: { chat }
   }),
   props: ({
     ownProps: { userId, chat },
-    messages,
     messages: { error, loading, messages, messageCount, fetchMore, subscribeToMore }
   }:any) => {
 
@@ -21,9 +24,8 @@ export default graphql(messagesGql, {
 
     return {
       loading,
-      messages,
       isMoreMessages: messages && messageCount > messages.length || false,
-      moreMessages: (chat:string, skip:number, cb:any) => fetchMore({
+      moreMessages: (skip:number, cb:any) => fetchMore({
         variables: { skip, chat },
         updateQuery: (previousResult:any, { fetchMoreResult }: any) => {
           if (!fetchMoreResult) {

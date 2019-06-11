@@ -23,7 +23,6 @@ interface ChatDrawerProps {
   classes: any;
   openMobile: boolean;
   setOpenMobile: () => void;
-  setSelectUsers: (users: string[]) => void;
   onDrop: (item:any) => void;
 }
 
@@ -36,7 +35,6 @@ const ChatDrawer: React.FunctionComponent<ChatDrawerProps> = ({
   classes,
   openMobile,
   setOpenMobile,
-  setSelectUsers,
   onDrop
 }) => {
 
@@ -61,7 +59,7 @@ const ChatDrawer: React.FunctionComponent<ChatDrawerProps> = ({
       <Divider />
       <DndBin accept="REMOVER" onDrop={onDrop} style={classes.avatars}>
         {allUsers.map(({ _id, firstName, avatar }: User) => (
-          <DndBox type="ADDER" key={_id} _id={_id} setSelectUsers={setSelectUsers}>
+          <DndBox type="ADDER" key={_id} _id={_id}>
             <Avatar alt={firstName} src={avatar} />
           </DndBox>
         ))}

@@ -8,7 +8,10 @@ describe('ChatHeader component test',() => {
 
     expect(renderer.render(
       <Component
-        allUsers={[]}
+        users={{}}
+        selectUsers={[]}
+        setOpenMobile={() => null}
+        classes={{}}
       />
     )).toMatchSnapshot()
   })
