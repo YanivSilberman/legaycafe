@@ -7,6 +7,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Hidden from '@material-ui/core/Hidden';
+import MenuIcon from '@material-ui/icons/Menu'
 
 import DndBox from '../DndBox';
 import DndBin from '../DndBin';
@@ -21,8 +22,6 @@ interface ChatDrawerProps {
   lastName: string;
   client: any;
   classes: any;
-  openMobile: boolean;
-  setOpenMobile: () => void;
   onDrop: (item:any) => void;
 }
 
@@ -33,8 +32,6 @@ const ChatDrawer: React.FunctionComponent<ChatDrawerProps> = ({
   lastName,
   client,
   classes,
-  openMobile,
-  setOpenMobile,
   onDrop
 }) => {
 
@@ -43,9 +40,9 @@ const ChatDrawer: React.FunctionComponent<ChatDrawerProps> = ({
     client.resetStore();
   }
 
-  const content = () => (
+  const content = ({ avatarsClass, mainAvatarClass }: any) => (
     <>
-      <div className={classes.mainAvatar}>
+      <div className={mainAvatarClass}>
         <Avatar alt={avatar} src={avatar} />
         <Typography component="h1">
           {firstName} {lastName}
@@ -57,7 +54,7 @@ const ChatDrawer: React.FunctionComponent<ChatDrawerProps> = ({
         </div>
       </div>
       <Divider />
-      <DndBin accept="REMOVER" onDrop={onDrop} style={classes.avatars}>
+      <DndBin accept="REMOVER" onDrop={onDrop} style={avatarsClass}>
         {allUsers.map(({ _id, firstName, avatar }: User) => (
           <DndBox type="ADDER" key={_id} _id={_id}>
             <Avatar alt={firstName} src={avatar} />
@@ -71,15 +68,16 @@ const ChatDrawer: React.FunctionComponent<ChatDrawerProps> = ({
     <>
       <Hidden smUp implementation="css">
         <Drawer
-          className={classes.drawer}
-          variant="temporary"
+          className={classes.mobileDrawer}
+          variant="permanent"
           anchor="left"
-          open={openMobile}
-          onClose={() => setOpenMobile()}
-          classes={{ paper: classes.drawerPaper }}
+          classes={{ paper: classes.mobilePaper }}
           ModalProps={{ keepMounted: true }}
         >
-          {content()}
+          {content({
+            avatarsClass: classes.mobileAvatars,
+            mainAvatarClass: classes.mobileMainAvatar
+          })}
         </Drawer>
       </Hidden>
       <Hidden xsDown implementation="css">
@@ -90,7 +88,10 @@ const ChatDrawer: React.FunctionComponent<ChatDrawerProps> = ({
           anchor="left"
           open
         >
-          {content()}
+          {content({
+            avatarsClass: classes.avatars,
+            mainAvatarClass: classes.mainAvatar
+          })}
         </Drawer>
       </Hidden>
     </>

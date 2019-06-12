@@ -4,38 +4,29 @@ import { compose, withApollo } from 'react-apollo';
 import { Events, Element, animateScroll as scroll, scroller } from 'react-scroll'
 import { Trail } from 'react-spring/renderprops'
 import {useTrail, animated} from 'react-spring'
+
 import Snackbar, { SnackbarOrigin } from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
 import LazyLoad from 'react-lazyload';
-
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Avatar from '@material-ui/core/Avatar';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-import { withMessages, withTyping } from '../../store/hoc/queries';
+import { withMessages } from '../../store/hoc/queries';
 
-import Editor from '../Editor';
+import ChatFooter from '../ChatFooter';
 import Message from '../Message';
 
 import withStyles from './styles';
-
-function usePrevious(value) {
-  const ref = React.useRef();
-  React.useEffect(() => {
-    ref.current = value;
-  });
-  return ref.current;
-}
+import { usePrevious, isPrev } from '../../lib/hooks';
 
 interface MessagesProps {
   messages: Message[];
-  waitingOnMessage: boolean;
   usersTyping: User[];
   subscribeToNewMessages: () => any;
-  subscribeToUserTyping: () => any;
   isMoreMessages: boolean;
   moreMessages: (length: number, cb: any) => any;
   loading: boolean;
@@ -44,14 +35,12 @@ interface MessagesProps {
   users: any;
   classes: any;
   chat: string;
+  subscribeToNewMessages: any;
 }
 
 const Messages: React.FunctionComponent<MessagesProps> = ({
   messages,
-  waitingOnMessage,
-  usersTyping,
-  subscribeToNewMessages,
-  subscribeToUserTyping,
+  subscribeToNewMessages
   isMoreMessages,
   moreMessages,
   loading,
@@ -63,12 +52,11 @@ const Messages: React.FunctionComponent<MessagesProps> = ({
 }) => {
   const [fetchingMessages, setFetchingMessages] = React.useState(false);
   const [scrollPosition, setScrollPosition] = React.useState(0);
-  const [isNewMessages, setIsNewMessages] = React.useState(false);
+  // const [isNewMessages, setIsNewMessages] = React.useState(false);
 
   // componentDidMount
   React.useEffect(() => {
     this.subscription = subscribeToNewMessages();
-    subscribeToUserTyping();
 
     scroller.scrollTo('scrollTarget', {
       duration: 5000,
@@ -96,35 +84,7 @@ const Messages: React.FunctionComponent<MessagesProps> = ({
     }
   }, [{fetchingMessages}]);
 
-  const prev = usePrevious({messages}) as any;
-
-  React.useEffect(() => {
-    if (messages) {
-      if (prev !== undefined) {
-        if (prev.messages) {
-          if (prev.messages.length > 0) {
-            const prevLastMsg = prev && prev.messages[prev.messages.length - 1];
-            const currLastMsg = messages[messages.length - 1];
-
-            if (currLastMsg) {
-              if (prevLastMsg._id !== currLastMsg._id && currLastMsg.user !== userId) {
-                // new message son
-                setIsNewMessages(true);
-              }
-            }
-          }
-        }
-      }
-    }
-  }, [{messages}])
-
-  React.useEffect(() => {
-    if (isNewMessages) {
-      setTimeout(() => {
-        setIsNewMessages(false);
-      }, 3000);
-    }
-  }, [{isNewMessages}])
+  const prev = usePrevious({ messages, chat }) as any;
 
   const handleInfiniteScroll = e => {
     if (e.target.scrollTop % 50 === 0) {
@@ -181,45 +141,13 @@ const Messages: React.FunctionComponent<MessagesProps> = ({
               </animated.div>
             )
           })}
-          {usersTyping && usersTyping.length > 0 && (
-            <Typography component="p" className={classes.isTyping}>
-              {usersTyping.map(u => users[u._id].firstName).join(", ")}
-              {usersTyping.length === 1 ? ` is ` : ` are `}
-              typing ...
-            </Typography>
-          ) || null}
+          <ChatFooter
+            userId={userId}
+            chat={chat}
+          />
           <Element
             name="scrollTarget"
             ref={scrollTarget => { this.scrollTarget = scrollTarget; }}
-          />
-          <Snackbar
-            autoHideDuration={6000}
-            className={classes.snack}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-            key={`${'bottom'},${'center'}`}
-            open={isNewMessages}
-            ContentProps={{
-              'aria-describedby': 'message-id',
-            }}
-            message={(
-              <span>New Message Below</span>
-            )}
-            action={[
-              (
-                <IconButton
-                  onClick={() => {
-                    setIsNewMessages(false);
-                    return scroller.scrollTo('scrollTarget', {
-                      duration: 1000,
-                      smooth: true,
-                      containerId: 'scrollContainer'
-                    })
-                  }}
-                >
-                  <Icon>vertical_align_bottom</Icon>
-                </IconButton>
-              )
-            ]}
           />
         </LazyLoad>
       )}
@@ -227,4 +155,60 @@ const Messages: React.FunctionComponent<MessagesProps> = ({
   );
 };
 
-export default compose(withStyles, withApollo, withTyping, withMessages)(Messages);
+/*
+React.useEffect(() => {
+
+  if (messages && chat) {
+    if (isPrev(prev)(['messages', 'chat'])) {
+      const prevLastMsg = prev && prev.messages[prev.messages.length - 1];
+      const currLastMsg = messages[messages.length - 1];
+      if (currLastMsg && prev.chat === chat) {
+        if (prevLastMsg._id !== currLastMsg._id && currLastMsg.user !== userId) {
+          console.log({ messages, chat, prev, currLastMsg , prevLastMsg})
+          // new message son
+          setIsNewMessages(true);
+        }
+      }
+    }
+  }
+}, [{messages}])
+
+React.useEffect(() => {
+  if (isNewMessages) {
+    setTimeout(() => {
+      setIsNewMessages(false);
+    }, 3000);
+  }
+}, [{isNewMessages}])
+<Snackbar
+  autoHideDuration={6000}
+  className={classes.snack}
+  anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+  key={`${'bottom'},${'center'}`}
+  open={isNewMessages}
+  ContentProps={{
+    'aria-describedby': 'message-id',
+  }}
+  message={(
+    <span>New Message Below</span>
+  )}
+  action={[
+    (
+      <IconButton
+        onClick={() => {
+          setIsNewMessages(false);
+          return scroller.scrollTo('scrollTarget', {
+            duration: 1000,
+            smooth: true,
+            containerId: 'scrollContainer'
+          })
+        }}
+      >
+        <Icon>vertical_align_bottom</Icon>
+      </IconButton>
+    )
+  ]}
+/>
+*/
+
+export default compose(withStyles, withApollo, withMessages)(Messages);

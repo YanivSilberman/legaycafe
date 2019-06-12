@@ -15,7 +15,7 @@ export default graphql(toggleUserTypingGql, {
     toggleUserTypingMutation: (variables:object) => toggleTyping({ variables: {
       ...variables,
       chat,
-      userId
+      _id: userId
     } })
   })
 })

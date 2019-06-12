@@ -2,6 +2,8 @@ import * as React from 'react';
 import Editor from 'draft-js-plugins-editor';
 import { EditorState, convertFromRaw, convertToRaw } from 'draft-js';
 
+import Paper from '@material-ui/core/Paper';
+
 import withStyles from './styles';
 import plugins, { emojiPlugin } from './plugins';
 
@@ -44,10 +46,7 @@ const LegayEditor: React.FunctionComponent<EditorProps> = ({
   return (
     <div className={classes.footerSubsection}>
       <div className={classes.container}>
-        <div className={classes.emojiSelect}>
-          <EmojiSelect />
-        </div>
-        <div className={classes.editorContainer} onClick={() => editorRef.current.focus()}>
+        <Paper className={classes.editorContainer} onClick={() => editorRef.current.focus()}>
           <Editor
             editorState={editorState}
             onChange={s => setEditorState(s)}
@@ -57,10 +56,7 @@ const LegayEditor: React.FunctionComponent<EditorProps> = ({
             onBlur={onBlur}
             ref={editorRef}
           />
-        </div>
-      </div>
-      <div className={classes.options}>
-        <EmojiSuggestions />
+        </Paper>
       </div>
     </div>
   );

@@ -82,7 +82,7 @@ const AuthForm: React.FunctionComponent<AuthProps> = ({
         value={values.password}
         onChange={handleChange('password')}
       />
-      <Button className={classes.button} onClick={handleSubmit}>
+      <Button className={classes.button} onClick={() => handleSubmit()}>
         Submit
       </Button>
     </Container>

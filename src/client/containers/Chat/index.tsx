@@ -10,7 +10,6 @@ import { withUsers } from '../../store/hoc/queries';
 
 import ChatDrawer from '../../components/Drawer';
 import ChatHeader from '../../components/ChatHeader';
-import ChatFooter from '../../components/ChatFooter';
 import Messages from '../../components/Messages';
 import AuthForm from '../../components/AuthForm';
 import Spinner from '../../components/Spinner';
@@ -36,20 +35,7 @@ const Chat: React.FunctionComponent<ChatProps> = ({
   usersLoading,
   classes
 }) => {
-
   const [selectUsers, setSelectUsers] = React.useState([]);
-  const [openMobile, setOpenMobile] = React.useState(false);
-  const [waitingOnMessage, setWaitingOnMessage] = React.useState(false);
-
-  /*
-  React.useEffect(() => {
-    if (this.subscription) {
-      console.log('subscription', this.subscription);
-      this.subscription.unsubscribe();
-    }
-    this.subscription = subscribeToNewMessages();
-  }, [allChats]);
-  */
 
   if (usersLoading || !User) return <Spinner />;
 
@@ -68,8 +54,6 @@ const Chat: React.FunctionComponent<ChatProps> = ({
       <CssBaseline />
       <ChatDrawer
         allUsers={drawerUsers}
-        openMobile={openMobile}
-        setOpenMobile={setOpenMobile}
         setSelectUsers={setSelectUsers}
         onDrop={handleDrop("REMOVER")}
         {...User}
@@ -98,22 +82,15 @@ const Chat: React.FunctionComponent<ChatProps> = ({
             return Chat && (
               <>
                 <ChatHeader
+                  chat={Chat._id}
                   users={users}
                   selectUsers={selectUsers}
-                  setOpenMobile={() => setOpenMobile(!openMobile)}
                 />
                 <Messages
                   selectUsers={selectUsers}
                   userId={User._id}
                   chat={Chat._id}
                   users={users}
-                  waitingOnMessage={waitingOnMessage}
-                />
-                <ChatFooter
-                  setIsWaitingOnMessage={setWaitingOnMessage}
-                  waitingOnMessage={waitingOnMessage}
-                  userId={User._id}
-                  chat={Chat._id}
                 />
               </>
             ) || (

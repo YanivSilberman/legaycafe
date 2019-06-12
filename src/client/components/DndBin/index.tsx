@@ -32,7 +32,7 @@ const Dustbin: React.FC<DustbinProps> = ({
   const isActive = canDrop && isOver;
   let backgroundColor = 'inherit';
   if (isActive) {
-    backgroundColor = '#bdbdbd';
+    backgroundColor = '#eeeeee';
   } else if (canDrop) {
     backgroundColor = '#bdbdbd';
   }

@@ -1,13 +1,13 @@
-import { withStyles } from '@material-ui/styles';
+import { withStyles, Theme } from '@material-ui/core/styles';
 
 import customTheme from '../../lib/theme';
 
-export default comp => withStyles({
+export default comp => withStyles((theme:Theme) => ({
   messages: {
     // marginTop: 64,
     width: '100%',
     flex: 1,
-    padding: '1em 2em',
+    padding: theme.spacing(2, 4),
     display: 'flex',
     flexDirection: 'column',
     overflow: 'scroll'
@@ -49,4 +49,4 @@ export default comp => withStyles({
       background: customTheme.button,
     }
   }
-})(comp);
+}))(comp);

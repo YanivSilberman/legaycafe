@@ -20,7 +20,7 @@ export default withStyles((theme:Theme) => ({
     justifyContent: 'center'
   },
   avatar: {
-    marginRight: 20,
+    margin: 10,
     display: 'flex'
   },
   placeholderAvatar: {
@@ -35,5 +35,12 @@ export default withStyles((theme:Theme) => ({
   },
   title: {
     color: '#bdbdbd',
+  },
+  typingIndicator: {
+    margin: '0 20px',
+    backgroundColor: 'transparent',
+    '& div': {
+      background: customTheme.button,
+    }
   }
 }))
