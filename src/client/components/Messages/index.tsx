@@ -35,12 +35,11 @@ interface MessagesProps {
   users: any;
   classes: any;
   chat: string;
-  subscribeToNewMessages: any;
 }
 
 const Messages: React.FunctionComponent<MessagesProps> = ({
   messages,
-  subscribeToNewMessages
+  subscribeToNewMessages,
   isMoreMessages,
   moreMessages,
   loading,
@@ -129,7 +128,7 @@ const Messages: React.FunctionComponent<MessagesProps> = ({
               <animated.div
                 key={msg._id}
                 className={`${classes.messageContainer} ${(msg.user === userId) && classes.ownMessageContainer}`}
-                style={{ ...rest, marginTop: index === 0 && 100 }}
+                style={{ ...rest, marginTop: index === 0 && 160 }}
               >
                 <Message
                   index={index}
@@ -144,6 +143,7 @@ const Messages: React.FunctionComponent<MessagesProps> = ({
           <ChatFooter
             userId={userId}
             chat={chat}
+            isEmpty={messagesLength === 0}
           />
           <Element
             name="scrollTarget"

@@ -1,4 +1,4 @@
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, Theme } from '@material-ui/core/styles';
 
 import customTheme from '../../lib/theme';
 
@@ -11,7 +11,7 @@ export default comp => withStyles((theme:Theme) => ({
     flex: 1,
     margin: '0 10px',
     maxWidth: '70%',
-    minWidth: 200,
+    minWidth: 100,
   },
   container: {
     display: 'flex',
@@ -21,20 +21,18 @@ export default comp => withStyles((theme:Theme) => ({
   },
   editorContainer: {
     flex: 1,
-    maxHeight: 300,
-    minWidth: 200,
+    minWidth: 100,
     minHeight: 50,
     padding: theme.spacing(0, 2),
     display: 'flex',
     alignItems: 'center',
-    overflow: "scroll",
     '& div': {
       '& div.public-DraftEditorPlaceholder-root': {
         color: "#bdbdbd",
         display: 'none',
         // position: 'absolute'
       }
-    }
+    },
   },
   emojiSelect: {
     display: 'flex',

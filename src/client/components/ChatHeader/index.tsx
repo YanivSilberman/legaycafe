@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useTrail, animated} from 'react-spring'
+import {useTrail, animated} from 'react-spring';
 
 import AppBar from '@material-ui/core/AppBar';
 import Container from '@material-ui/core/Container';

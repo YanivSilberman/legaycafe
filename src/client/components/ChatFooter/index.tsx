@@ -16,6 +16,7 @@ import { usePrevious } from '../../lib/hooks';
 import { withCreateMessage, withToggleTyping } from '../../store/hoc/mutations';
 
 interface FooterProps {
+  isEmpty: boolean;
   classes: any;
   userId: string;
   chat: string;
@@ -30,6 +31,7 @@ interface FooterProps {
 }
 
 const ChatFooter: React.FunctionComponent<FooterProps> = ({
+  isEmpty,
   userId,
   createMessageMutation,
   toggleUserTypingMutation,
@@ -71,7 +73,10 @@ const ChatFooter: React.FunctionComponent<FooterProps> = ({
   }
 
   return (
-    <Container className={classes.chatFooter}>
+    <Container
+      className={classes.chatFooter}
+      style={{ marginTop: isEmpty && 100 }}
+    >
       <Fab
         onClick={() => sendMessage()}
         color="primary"

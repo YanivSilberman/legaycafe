@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useTrail, animated } from 'react-spring';
 import { compose, withApollo } from 'react-apollo';
 
 import Divider from '@material-ui/core/Divider';
@@ -40,8 +41,15 @@ const ChatDrawer: React.FunctionComponent<ChatDrawerProps> = ({
     client.resetStore();
   }
 
+  const usersLength = allUsers ? allUsers.length : 0;
+  const [trail] = useTrail(usersLength, () => ({
+    config: { mass: 5, tension: 2000, friction: 200 },
+    to: { opacity: 1, height: 40 },
+    from: { opacity: 0, height: 0 },
+  }))
+
   const content = ({ avatarsClass, mainAvatarClass }: any) => (
-    <>
+    <DndBin accept="REMOVER" onDrop={onDrop} style={classes.bin}>
       <div className={mainAvatarClass}>
         <Avatar alt={avatar} src={avatar} />
         <Typography component="h1">
@@ -54,14 +62,14 @@ const ChatDrawer: React.FunctionComponent<ChatDrawerProps> = ({
         </div>
       </div>
       <Divider />
-      <DndBin accept="REMOVER" onDrop={onDrop} style={avatarsClass}>
+      <div className={avatarsClass}>
         {allUsers.map(({ _id, firstName, avatar }: User) => (
           <DndBox type="ADDER" key={_id} _id={_id}>
             <Avatar alt={firstName} src={avatar} />
           </DndBox>
         ))}
-      </DndBin>
-    </>
+      </div>
+    </DndBin>
   )
 
   return (

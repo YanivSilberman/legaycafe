@@ -1,35 +1,42 @@
-import { withStyles } from '@material-ui/styles';
+import { withStyles, Theme } from '@material-ui/core/styles';
 
 import customTheme from '../../lib/theme';
 
 export const drawerWidth = 240;
 export const mobileWidth = 80;
 
-export default comp => withStyles({
+export default comp => withStyles((theme:Theme) => ({
+  bin: {
+    padding: theme.spacing(3, 0),
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
   drawer: {
     width: drawerWidth,
     minWidth: drawerWidth,
     maxWidth: drawerWidth,
     height: '100vh',
     flex: 0,
+    boxShadow: theme.shadows[2],
   },
   mobileDrawer: {
     width: mobileWidth,
     maxWidth: mobileWidth,
     minWidth: mobileWidth,
     flexShrink: 0,
-    height: '100vh',
     whiteSpace: 'nowrap',
   },
   drawerPaper: {
+    padding: 0,
     width: drawerWidth,
-    height: '100vh',
-    padding: '24px 40px'
   },
   mobilePaper: {
+    padding: 0,
     width: mobileWidth,
     height: '100vh',
-    padding: '14px 14px'
   },
   mainAvatar: {
     width: '100%',
@@ -46,7 +53,9 @@ export default comp => withStyles({
     },
 
     '& h1': {
-      fontWeight: 600
+      fontWeight: 600,
+      fontSize: 20,
+      color: "#707070"
     }
   },
   mobileMainAvatar: {
@@ -71,10 +80,9 @@ export default comp => withStyles({
     marginTop: 20,
     width: '100%',
     display: 'flex',
-    wrap: 'flex-wrap',
+    flexWrap: 'wrap',
     alignItems: 'flex-start',
     justifyContent: 'center',
-    paddingBottom: 100,
 
     '& div': {
       margin: 5
@@ -85,6 +93,7 @@ export default comp => withStyles({
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
+    padding: theme.spacing(0, 1),
 
     '& div': {
       margin: 5
@@ -97,4 +106,4 @@ export default comp => withStyles({
   button: {
     color: customTheme.blue
   }
-})(comp);
+}))(comp);

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { withStyles, Theme } from '@material-ui/core/styles';
 
 import customTheme from '../../lib/theme';
-import { drawerWidth } from '../Drawer/styles';
+import { drawerWidth, mobileWidth } from '../Drawer/styles';
 
 export default withStyles((theme:Theme) => ({
   appBar: {
@@ -10,6 +10,7 @@ export default withStyles((theme:Theme) => ({
     background: 'transparent',
     boxShadow: theme.shadows[0],
     right: 0,
+    width: `calc(100% - ${mobileWidth}px)`,
     [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
     },
