@@ -15,5 +15,8 @@ module.exports = {
       "node",
       "css"
   ],
+  "setupFilesAfterEnv": [
+    "./src/setupTests.ts"
+  ],
   "testEnvironment": "node",
 }

@@ -1,22 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Messages component test component loads 1`] = `
-<withApollo(Apollo(Apollo(Messages)))
+<withApollo(Apollo(Messages))
+  chat="chat"
   classes={
     Object {
-      "date": "withApollo(Apollo(Apollo(Messages)))-date-5",
-      "isTyping": "withApollo(Apollo(Apollo(Messages)))-isTyping-4",
-      "messageContainer": "withApollo(Apollo(Apollo(Messages)))-messageContainer-2",
-      "messages": "withApollo(Apollo(Apollo(Messages)))-messages-1",
-      "ownMessageContainer": "withApollo(Apollo(Apollo(Messages)))-ownMessageContainer-3",
-      "progress": "withApollo(Apollo(Apollo(Messages)))-progress-9",
-      "skeletonMessage": "withApollo(Apollo(Apollo(Messages)))-skeletonMessage-7",
-      "snack": "withApollo(Apollo(Apollo(Messages)))-snack-8",
-      "top": "withApollo(Apollo(Apollo(Messages)))-top-6",
+      "date": "withApollo(Apollo(Messages))-date-5",
+      "isTyping": "withApollo(Apollo(Messages))-isTyping-4",
+      "messageContainer": "withApollo(Apollo(Messages))-messageContainer-2",
+      "messages": "withApollo(Apollo(Messages))-messages-1",
+      "ownMessageContainer": "withApollo(Apollo(Messages))-ownMessageContainer-3",
+      "progress": "withApollo(Apollo(Messages))-progress-9",
+      "skeletonMessage": "withApollo(Apollo(Messages))-skeletonMessage-7",
+      "snack": "withApollo(Apollo(Messages))-snack-8",
+      "top": "withApollo(Apollo(Messages))-top-6",
     }
   }
-  userId="123"
+  client={Object {}}
+  isMoreMessages={false}
+  loading={false}
+  messages={Array []}
+  moreMessages={[Function]}
+  subscribeToNewMessages={[Function]}
+  userId="test"
   users={Object {}}
-  waitingOnMessage={false}
+  usersTyping={Array []}
 />
 `;

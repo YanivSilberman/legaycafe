@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Switch, Redirect, __RouterContext } from "react-r
 import { DragDropContextProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend'
 import { ApolloProvider, Query } from "react-apollo";
+import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
 import { ThemeProvider } from '@material-ui/styles';
 
 import {useTransition, animated} from 'react-spring';
@@ -82,24 +83,26 @@ const RouterApp: React.FunctionComponent<RouterProps> = ({ User }) => {
 
 const App: React.FunctionComponent = () => (
   <ApolloProvider client={client}>
-    <DragDropContextProvider backend={HTML5Backend}>
-      <Query query={userGql}>
-        {({ data: { error, loading, User } }) => {
-          if (error) {
-            console.log(error);
-            return 'app error';
-          };
+    <ApolloHooksProvider client={client}>
+      <DragDropContextProvider backend={HTML5Backend}>
+        <Query query={userGql}>
+          {({ data: { error, loading, User } }) => {
+            if (error) {
+              console.log(error);
+              return 'app error';
+            };
 
-          if (loading || User === undefined) return null;
+            if (loading || User === undefined) return null;
 
-          return (
-            <BrowserRouter>
-              <RouterApp User={User} />
-            </BrowserRouter>
-          )
-        }}
-      </Query>
-    </DragDropContextProvider>
+            return (
+              <BrowserRouter>
+                <RouterApp User={User} />
+              </BrowserRouter>
+            )
+          }}
+        </Query>
+      </DragDropContextProvider>
+    </ApolloHooksProvider>
   </ApolloProvider>
 )
 

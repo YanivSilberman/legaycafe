@@ -7,7 +7,14 @@ describe('AuthForm component test',() => {
     const renderer = ReactShallowRenderer.createRenderer();
 
     expect(renderer.render(
-      <Component />
+      <Component
+        loginUserMutation={() => ({
+          data: { loginUser: null }
+        })}
+        client={{ resetStore: () => null }}
+        history={{}}
+        classes={{}}
+      />
     )).toMatchSnapshot()
   })
 });

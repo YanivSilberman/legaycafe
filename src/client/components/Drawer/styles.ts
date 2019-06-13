@@ -7,7 +7,7 @@ export const mobileWidth = 80;
 
 export default comp => withStyles((theme:Theme) => ({
   bin: {
-    padding: theme.spacing(3, 0),
+    padding: theme.spacing(3, 2),
     height: '100vh',
     display: 'flex',
     flexDirection: 'column',
@@ -20,7 +20,6 @@ export default comp => withStyles((theme:Theme) => ({
     maxWidth: drawerWidth,
     height: '100vh',
     flex: 0,
-    boxShadow: theme.shadows[2],
   },
   mobileDrawer: {
     width: mobileWidth,
@@ -32,6 +31,7 @@ export default comp => withStyles((theme:Theme) => ({
   drawerPaper: {
     padding: 0,
     width: drawerWidth,
+    border: 'none',
   },
   mobilePaper: {
     padding: 0,

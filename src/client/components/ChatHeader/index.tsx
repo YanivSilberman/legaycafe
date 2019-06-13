@@ -9,13 +9,13 @@ import Toolbar from '@material-ui/core/Toolbar';
 
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-
 import DndBox from '../DndBox';
 
 import withStyles from './styles';
 import { withTyping } from '../../store/hoc/queries';
 
 interface HeaderProps {
+  loading: boolean;
   users: any;
   selectUsers: any[];
   classes: any;
@@ -25,6 +25,7 @@ interface HeaderProps {
 }
 
 const ChatHeader: React.FunctionComponent<HeaderProps> = ({
+  loading,
   users,
   selectUsers,
   classes,
@@ -70,7 +71,7 @@ const ChatHeader: React.FunctionComponent<HeaderProps> = ({
                     src={avatar}
                   />
                 </DndBox>
-                {usersTyping && usersTyping.find(i => i._id === _id) && (
+                {(!loading && usersTyping) && usersTyping.find(i => i._id === _id) && (
                   <LinearProgress
                     className={classes.typingIndicator}
                   />
@@ -78,14 +79,7 @@ const ChatHeader: React.FunctionComponent<HeaderProps> = ({
               </animated.div>
             )
           })
-         : (
-          <>
-            <Avatar className={classes.placeholderAvatar} />
-            <Typography component="h6" className={classes.title}>
-              Drop User Avatars Here To Chat...
-            </Typography>
-          </>
-        )}
+         : null}
       </Toolbar>
     </AppBar>
   );

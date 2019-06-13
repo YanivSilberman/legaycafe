@@ -16,6 +16,9 @@ describe('Drawer component test',() => {
     expect(renderer.render(
       <Component
         allUsers={[]}
+        client={{}}
+        classes={{}}
+        onDrop={() => null}
         {...User}
       />
     )).toMatchSnapshot()

@@ -1,24 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ChatFooter component test component loads 1`] = `
-<ChatHeader
-  allUsers={Array []}
-  classes={
-    Object {
-      "avatar": "ChatHeader-avatar-2",
-      "chatHeader": "ChatHeader-chatHeader-1",
-    }
-  }
-/>
-`;
-
 exports[`ChatHeader component test component loads 1`] = `
-<ChatHeader
-  allUsers={Array []}
+<Apollo(ChatHeader)
+  chat="chat"
   classes={
     Object {
-      "avatar": "ChatHeader-avatar-2",
-      "chatHeader": "ChatHeader-chatHeader-1",
+      "appBar": "Apollo(ChatHeader)-appBar-1",
+      "avatar": "Apollo(ChatHeader)-avatar-3",
+      "menuButton": "Apollo(ChatHeader)-menuButton-5",
+      "placeholderAvatar": "Apollo(ChatHeader)-placeholderAvatar-4",
+      "title": "Apollo(ChatHeader)-title-6",
+      "toolbar": "Apollo(ChatHeader)-toolbar-2",
+      "typingIndicator": "Apollo(ChatHeader)-typingIndicator-7",
     }
   }
 />

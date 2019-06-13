@@ -7,15 +7,22 @@ exports[`Drawer component test component loads 1`] = `
   avatar=""
   classes={
     Object {
-      "avatars": "withApollo(ChatDrawer)-avatars-4",
-      "button": "withApollo(ChatDrawer)-button-6",
-      "buttonContainer": "withApollo(ChatDrawer)-buttonContainer-5",
-      "drawer": "withApollo(ChatDrawer)-drawer-1",
-      "drawerPaper": "withApollo(ChatDrawer)-drawerPaper-2",
-      "mainAvatar": "withApollo(ChatDrawer)-mainAvatar-3",
+      "avatars": "withApollo(ChatDrawer)-avatars-8",
+      "bin": "withApollo(ChatDrawer)-bin-1",
+      "button": "withApollo(ChatDrawer)-button-11",
+      "buttonContainer": "withApollo(ChatDrawer)-buttonContainer-10",
+      "drawer": "withApollo(ChatDrawer)-drawer-2",
+      "drawerPaper": "withApollo(ChatDrawer)-drawerPaper-4",
+      "mainAvatar": "withApollo(ChatDrawer)-mainAvatar-6",
+      "mobileAvatars": "withApollo(ChatDrawer)-mobileAvatars-9",
+      "mobileDrawer": "withApollo(ChatDrawer)-mobileDrawer-3",
+      "mobileMainAvatar": "withApollo(ChatDrawer)-mobileMainAvatar-7",
+      "mobilePaper": "withApollo(ChatDrawer)-mobilePaper-5",
     }
   }
+  client={Object {}}
   firstName=""
   lastName=""
+  onDrop={[Function]}
 />
 `;

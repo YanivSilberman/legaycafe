@@ -1,14 +1,14 @@
 // All used plugins
-import createLinkifyPlugin from 'draft-js-linkify-plugin';
+// import createLinkifyPlugin from 'draft-js-linkify-plugin';
 import createEmojiPlugin from 'draft-js-emoji-plugin';
 
-import 'draft-js-linkify-plugin/lib/plugin.css';
-import 'draft-js-emoji-plugin/lib/plugin.css';
+// import 'draft-js-linkify-plugin/lib/plugin.css';
+// import 'draft-js-emoji-plugin/lib/plugin.css';
 
-export const linkifyPlugin = createLinkifyPlugin();
+// export const linkifyPlugin = createLinkifyPlugin();
 export const emojiPlugin = createEmojiPlugin();
 
 export default [
-  linkifyPlugin,
+  // linkifyPlugin,
   emojiPlugin
 ];

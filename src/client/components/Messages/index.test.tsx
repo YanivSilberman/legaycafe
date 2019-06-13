@@ -8,9 +8,17 @@ describe('Messages component test',() => {
   it('component loads', () => {
     expect(renderer.render(
       <Component
+        messages={[]}
+        usersTyping={[]}
+        subscribeToNewMessages={() => null}
+        isMoreMessages={false}
+        moreMessages={() => null}
+        loading={false}
+        userId="test"
+        client={{}}
         users={{}}
-        userId="123"
-        waitingOnMessage={false}
+        classes={{}}
+        chat="chat"
       />
     )).toMatchSnapshot()
   })

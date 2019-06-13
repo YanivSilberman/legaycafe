@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ChatFooter component test component loads 1`] = `
+<Apollo(ChatFooter)
+  chat="chat123"
+  classes={
+    Object {
+      "button": "Apollo(ChatFooter)-button-2",
+      "chatFooter": "Apollo(ChatFooter)-chatFooter-1",
+      "rightIcon": "Apollo(ChatFooter)-rightIcon-3",
+    }
+  }
+  isEmpty={false}
+  toggleUserTypingMutation={[Function]}
+  userId="userid"
+/>
+`;

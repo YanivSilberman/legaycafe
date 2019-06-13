@@ -9,5 +9,12 @@ exports[`AuthForm component test component loads 1`] = `
       "textField": "withRouter(withApollo(Apollo(AuthForm)))-textField-2",
     }
   }
+  client={
+    Object {
+      "resetStore": [Function],
+    }
+  }
+  history={Object {}}
+  loginUserMutation={[Function]}
 />
 `;

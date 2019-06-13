@@ -8,11 +8,12 @@ export default comp => withStyles((theme:Theme) => ({
     display: 'flex',
     minHeight: 100,
     maxHeight: 100,
-    width: '100%'
+    width: '100%',
+    backgroundColor: '#fff',
   },
   content: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#fff',
     padding: 0,
     margin: 0,
     maxHeight: '100vh',

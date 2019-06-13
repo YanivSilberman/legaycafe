@@ -19,6 +19,7 @@ describe('Message component test',() => {
         userId="123"
         lastUser="345"
         avatar="123"
+        classes={{}}
         {...msg}
       />
     )).toMatchSnapshot()

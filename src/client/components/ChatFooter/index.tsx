@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { EditorState, convertFromRaw, convertToRaw } from 'draft-js';
+import { Mutation } from 'react-apollo';
 
 import { compose } from 'react-apollo';
 import { scroller } from 'react-scroll'
@@ -14,16 +15,13 @@ import withStyles from './styles';
 
 import { usePrevious } from '../../lib/hooks';
 import { withCreateMessage, withToggleTyping } from '../../store/hoc/mutations';
+import { createMessageGql, toggleUserTypingGql } from '../../store/gql/mutations';
 
 interface FooterProps {
   isEmpty: boolean;
   classes: any;
   userId: string;
   chat: string;
-  createMessageMutation: (variables: {
-    text: string
-    userId: string
-  }, cb: any) => Promise<void>;
   toggleUserTypingMutation: (variables: {
     isTyping: boolean
   }) => Promise<void>;
@@ -33,7 +31,6 @@ interface FooterProps {
 const ChatFooter: React.FunctionComponent<FooterProps> = ({
   isEmpty,
   userId,
-  createMessageMutation,
   toggleUserTypingMutation,
   classes,
   chat
@@ -41,51 +38,43 @@ const ChatFooter: React.FunctionComponent<FooterProps> = ({
   const [ waitingOnMessage, setWaitingOnMessage ] = React.useState(false);
   const [ editorState, setEditorState ] = React.useState(EditorState.createEmpty());
 
-  const prev = usePrevious({waitingOnMessage}) as any;
-
-  React.useEffect(() => {
-    if (waitingOnMessage) {
-      if (prev) {
-        if (!prev.waitingOnMessage) {
-          // just sent message
-          const text = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
-            setTimeout(() => {
-             createMessageMutation({ text, userId }, () => {
-               setWaitingOnMessage(false);
-               setEditorState(EditorState.createEmpty());
-
-               scroller.scrollTo('scrollTarget', {
-                 duration: 1000,
-                 smooth: true,
-                 containerId: 'scrollContainer'
-               })
-             })
-          }, 1000);
-        }
-      }
-    }
-  }, [{waitingOnMessage}]);
-
-  const sendMessage = () => {
-    if (!waitingOnMessage && editorState.getCurrentContent().hasText()) {
-      setWaitingOnMessage(true);
-    }
-  }
-
   return (
     <Container
       className={classes.chatFooter}
       style={{ marginTop: isEmpty && 100 }}
     >
-      <Fab
-        onClick={() => sendMessage()}
-        color="primary"
-        aria-label="Add"
-        className={classes.button}
-        disabled={waitingOnMessage}
-      >
-        <Icon className={classes.rightIcon}>add</Icon>
-      </Fab>
+      <Mutation mutation={createMessageGql}>
+        {(createMessage, { loading, error }) => {
+          if (error) {
+            console.log('Fab Mutation Error', error);
+            return null;
+          }
+
+          return (
+            <Fab
+              onClick={() => createMessage({ variables: {
+                  chat,
+                  userId,
+                  text: JSON.stringify(convertToRaw(editorState.getCurrentContent()))
+                }}).then(() => {
+                  setEditorState(EditorState.createEmpty());
+
+                  scroller.scrollTo('scrollTarget', {
+                    duration: 1000,
+                    smooth: true,
+                    containerId: 'scrollContainer'
+                  })
+              })}
+              color="primary"
+              aria-label="Add"
+              className={classes.button}
+              disabled={loading || !editorState.getCurrentContent().hasText()}
+            >
+              <Icon className={classes.rightIcon}>add</Icon>
+            </Fab>
+          )
+        }}
+      </Mutation>
       <Editor
         editorState={editorState}
         setEditorState={setEditorState}
@@ -96,5 +85,4 @@ const ChatFooter: React.FunctionComponent<FooterProps> = ({
   );
 };
 
-
-export default compose(withStyles, withCreateMessage, withToggleTyping)(ChatFooter);
+export default compose(withStyles, withToggleTyping)(ChatFooter);
