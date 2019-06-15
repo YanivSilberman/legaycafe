@@ -1,11 +1,15 @@
-<h1 align="center">Welcome to legaycafe 👋</h1>
+<h1 align="center">legay.cafe 👋</h1>
 <p>
   <img src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />
 </p>
 
-> Typescript, Socket.io, Graphql chat app for my roomates and I
+## React Hooks + Typescript + Graphql + Apollo + MongoDB + Material UI
+
+legay.cafe is a chat app concept built for my portfolio and not for commercial use. It is my first typescript project, using Express.js, Apollo Server, and MongoDB on the backend. As well as React Hooks, React DnD, and Material UI on the front end.
 
 ### 🏠 [Homepage](legay.cafe)
+email: yaniv@odyss.io
+password: yaniv
 
 ## Prerequisites
 
@@ -29,6 +33,26 @@ npm run start
 ```sh
 npm run test
 ```
+
+### Features
++ Group Chats
++ Authentication
++ Reverse Infinite Scroll
++ General Messaging
+
+### Upcoming Features
++ Emojis, Gifs, Mentions through Draft.js
++ Create account
++ Previous Chats
++ Notifications
+
+### Issues and To Do List
+- [ ] Unit test Apollo client methods
+- [ ] Functional test React components
+- [ ] Unit test MongoDB methods
+- [ ] Integration test Graphql API
+- [ ] Optimize client side animations
+- [ ] Make friend list async, don't query all friends
 
 ## Author
 
