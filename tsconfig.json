@@ -1,7 +1,6 @@
 {
   "exclude": [
-    "node_modules",
-    "src/client"
+    "node_modules"
   ],
   "compilerOptions": {
     /* Basic Options */

@@ -2,13 +2,6 @@ import * as React from 'react';
 import * as ReactShallowRenderer from 'react-test-renderer/shallow'
 import Component from './index';
 
-/*
-selectUsers={[]}
-classes={{}}
-usersTyping={[]}
-subscribeToUserTyping={() => null}
-*/
-
 describe('ChatHeader component test',() => {
   it('component loads', () => {
     const renderer = ReactShallowRenderer.createRenderer();
@@ -16,6 +9,10 @@ describe('ChatHeader component test',() => {
     expect(renderer.render(
       <Component
         chat="chat"
+        selectUsers={[]}
+        classes={{}}
+        usersTyping={[]}
+        subscribeToUserTyping={() => null}
       />
     )).toMatchSnapshot()
   })

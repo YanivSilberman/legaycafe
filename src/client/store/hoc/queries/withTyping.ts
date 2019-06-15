@@ -2,13 +2,9 @@ import { graphql } from 'react-apollo';
 import { usersTypingGql } from '../../gql/queries';
 import { userTypingSubscriptionGql } from '../../gql/subscriptions';
 
-interface usersTypingProps {
-  chat: string;
-}
-
 export default graphql(usersTypingGql, {
   name: 'usersTyping',
-  options: ({ chat }: usersTypingProps) => ({
+  options: ({ chat }: any) => ({
     variables: { chat }
   }),
   props: ({ ownProps: { chat }, usersTyping: { error, loading, usersTyping, subscribeToMore } }: any) => {
