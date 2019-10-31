@@ -94,7 +94,7 @@
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^2.2.0",
     "moment": "^2.24.0",
-    "mongoose": "^5.5.12",
+    "mongoose": "^5.7.5",
     "ncp": "^2.0.0",
     "react": "^16.8.6",
     "react-addons-test-utils": "^15.6.2",
