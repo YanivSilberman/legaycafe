@@ -84,7 +84,7 @@
     "draft-js-plugins-editor": "^2.1.1",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "faker": "^4.1.0",
     "graphql": "^14.3.1",
     "graphql-tools": "^4.0.4",
